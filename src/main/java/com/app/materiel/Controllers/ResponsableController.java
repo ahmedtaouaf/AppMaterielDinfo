@@ -1,8 +1,6 @@
 package com.app.materiel.Controllers;
 
-import com.app.materiel.Entity.Article;
 import com.app.materiel.Entity.Responsable;
-import com.app.materiel.Service.ArticleService;
 import com.app.materiel.Service.ResponsableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

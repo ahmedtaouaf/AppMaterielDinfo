@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Components / Accordion - NiceAdmin Bootstrap Template</title>
+    <title>Liste Des Positions - Application Materiel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -53,24 +53,64 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Acceuil</li>
-                <li class="breadcrumb-item active">Nouveau Article</li>
+                <li class="breadcrumb-item active">Liste Des Positions</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-4">
                 <!-- Check if successMessage exists and display the alert -->
-                <div th:if="${articleajouter}" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-1"></i>
-                    <span th:text="${articleajouter}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Nouveau Article</h5>
+                        <h5 class="card-title">Liste Des Positions</h5>
+
+                        <!-- Table with stripped rows -->
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="position : ${positions}">
+                                <th scope="row" th:text="${position.id}"></th>
+                                <td th:text="${position.libelle}"> </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-8">
+                <div th:if="${positionajouter}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-1"></i>
+                    <span th:text="${positionajouter}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Nouveau Position</h5>
+
+                        <form th:action="@{/addposition}" th:method="post">
+                            <div class="row mb-3">
+                                <label  class="col-sm-2 col-form-label">Nom Position</label>
+                                <div class="col-sm-10">
+                                    <input type="text" th:field="*{position.libelle}" class="form-control" >
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </form><!-- End Horizontal Form -->
 
                     </div>
                 </div>

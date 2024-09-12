@@ -1,8 +1,6 @@
 package com.app.materiel.Service;
 
-import com.app.materiel.Entity.Article;
 import com.app.materiel.Entity.Responsable;
-import com.app.materiel.Repository.ArticleReposirtory;
 import com.app.materiel.Repository.ResponsableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -9,10 +9,12 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class EtatMouvement {
+public class Type {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String libelle;
+
 }

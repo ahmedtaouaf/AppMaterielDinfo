@@ -5,46 +5,64 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="/">
+                <a class="nav-link" th:classappend="${#httpServletRequest.getRequestURI() == '/'} ? 'active'" href="/">
                     <i class="bi bi-grid"></i>
                     <span>Tableau de bord</span>
                 </a>
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-box-seam-fill"></i><span>Articles</span><i class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/article')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-box-seam-fill"></i><span>Stock</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="components-nav" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/article')} ? 'show'" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/article/new">
+                        <a href="/article/new" th:classappend="${#request.requestURI == '/article/new'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Nouveau Article</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/article/list">
-                            <i class="bi bi-circle"></i><span>Liste Des Articles</span>
                         </a>
                     </li>
                 </ul>
             </li>
+
+
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-na" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-nae" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/position')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-geo-alt-fill"></i><span>Positions</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nae" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/position')} ? 'show'" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/position/list" th:classappend="${#request.requestURI == '/position/list'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Liste Des Positions</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-na" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/responsable')} ? ' ' : 'collapsed'" href="#">
                     <i class="bi bi-people-fill"></i><span>Responsables</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-na" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="components-na" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/responsable')} ? 'show'" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/responsable/new">
+                        <a href="/responsable/new" th:classappend="${#request.requestURI == '/responsable/new'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Nouveau Responsable</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/responsable/list">
+                        <a href="/responsable/list" th:classappend="${#request.requestURI == '/responsable/list'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Liste Des Responsables</span>
                         </a>
                     </li>
                 </ul>
             </li>
+
+
+
 
         </ul>
 

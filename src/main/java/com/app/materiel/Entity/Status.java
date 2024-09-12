@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Article {
+public class Status {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,4 @@ public class Article {
 
     private String libelle;
 
-    private String nserie;
-
-    private Integer quantite;
 }
