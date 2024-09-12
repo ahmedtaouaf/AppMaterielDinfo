@@ -8,6 +8,10 @@ import com.app.materiel.Repository.StockRepository;
 import com.app.materiel.Repository.TypeRepository;
 import com.app.materiel.Dto.StockDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -54,6 +58,14 @@ public class StockService {
                 stockRepository.save(stock);
             }
         }
+    }
+
+    public Page<Stock> findAllStocks(String searchTerm, int page) {
+        Pageable pageable = PageRequest.of(page, 10); // Show 5 entries per page
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return stockRepository.findAll(pageable); // Return all if no search term
+        }
+        return stockRepository.findAllBySearchTerm(searchTerm, pageable); // Search with term
     }
 }
 

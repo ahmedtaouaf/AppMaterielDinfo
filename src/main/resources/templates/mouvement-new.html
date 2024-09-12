@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New Mouvement</title>
+</head>
+<body>
+<h1>New Mouvement</h1>
+<form th:action="@{/addMouvement}" th:object="${mouvement}" method="post">
+
+    <!-- Stock Selection -->
+    <div class="form-group">
+        <label for="stock">Stock:</label>
+        <select id="stock" th:field="*{stockId}" class="form-control" required>
+            <option th:each="stock : ${stocks}" th:value="${stock.id}" th:text="${stock.designation}+ ' <'+${stock.nserie}+'>'"></option>
+        </select>
+    </div>
+
+    <!-- Position Selection -->
+    <div class="form-group">
+        <label for="position">Position:</label>
+        <select id="position" th:field="*{positionId}" class="form-control" required>
+            <option th:each="position : ${positions}" th:value="${position.id}" th:text="${position.libelle}"></option>
+        </select>
+    </div>
+
+    <!-- Status Selection -->
+    <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status" th:field="*{statusId}" class="form-control" required>
+            <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.libelle}"></option>
+        </select>
+    </div>
+
+    <!-- Observation -->
+    <div class="form-group">
+        <label for="observation">Observation:</label>
+        <textarea id="observation" th:field="*{observation}" class="form-control"></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>
