@@ -6,7 +6,7 @@ import com.app.materiel.Entity.Type;
 import com.app.materiel.Repository.StatusRepository;
 import com.app.materiel.Repository.StockRepository;
 import com.app.materiel.Repository.TypeRepository;
-import com.app.materiel.StockDto;
+import com.app.materiel.Dto.StockDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +25,14 @@ public class StockService {
     private StatusRepository statusRepository;
 
     public void saveStock(StockDto stockDto) {
+
         Type type = typeRepository.findById(stockDto.getTypeId()).orElseThrow();
-        Status status = statusRepository.findById(stockDto.getStatusId()).orElseThrow();
+
+
+        Status status = statusRepository.findById(1L).orElseThrow();
 
         if (stockDto.isWithSerialNumber()) {
-            // Save single stock item with serial number
+
             Stock stock = new Stock();
             stock.setDesignation(stockDto.getDesignation());
             stock.setNserie(stockDto.getNserie());
@@ -39,10 +42,11 @@ public class StockService {
             stock.setStatus(status);
             stockRepository.save(stock);
         } else {
-            // Save multiple stock items without serial numbers
+
             for (int i = 0; i < stockDto.getQuantity(); i++) {
                 Stock stock = new Stock();
                 stock.setDesignation(stockDto.getDesignation());
+                stock.setNserie("Sans");
                 stock.setObservation(stockDto.getObservation());
                 stock.setDatee(new Date());
                 stock.setType(type);
@@ -52,3 +56,4 @@ public class StockService {
         }
     }
 }
+

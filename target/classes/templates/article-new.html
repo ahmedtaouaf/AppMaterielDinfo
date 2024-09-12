@@ -29,13 +29,15 @@
     <!-- Template Main CSS File -->
     <link href="/assets/css/style.css" rel="stylesheet">
 
-    <!-- =======================================================
-    * Template Name: NiceAdmin
-    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-    * Updated: Apr 20 2024 with Bootstrap v5.3.3
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
+    <script>
+        function toggleSerialNumber() {
+            const withSerial = document.getElementById('withSerialNumber').checked;
+            document.getElementById('nserieField').style.display = withSerial ? 'block' : 'none';
+            document.getElementById('quantityField').style.display = withSerial ? 'none' : 'block';
+            document.getElementById('quantity').disabled = withSerial;
+        }
+    </script>
+
 </head>
 
 <body>
@@ -61,17 +63,87 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-                <!-- Check if successMessage exists and display the alert -->
-                <div th:if="${articleajouter}" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-1"></i>
-                    <span th:text="${articleajouter}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Nouveau Article</h5>
+                        <form th:action="@{/addStock}" th:object="${stock}" method="post">
 
+
+
+
+                            <fieldset class="row mb-3">
+                                <legend class="col-form-label col-sm-2 pt-0">Avec ou sans numéro de serie</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="withSerialNumber" name="withSerialNumber" th:field="*{withSerialNumber}" value="true"
+                                               onclick="toggleSerialNumber()" required>
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Avec N°Serie
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="withoutSerialNumber" name="withSerialNumber" th:field="*{withSerialNumber}" value="false"
+                                               onclick="toggleSerialNumber()" required>
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Sans N°Serie
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                            <div class="row mb-3">
+                                <label for="designation" class="col-sm-2 col-form-label">Designation:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" th:field="*{designation}" required class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Type</label>
+                                <div class="col-sm-10">
+                                    <select th:field="*{typeId}"  class="form-select" aria-label="Default select example" required>
+                                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.libelle}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--<div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-sm-10">
+                                    <select th:field="*{statusId}"  class="form-select" aria-label="Default select example" required>
+                                        <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.libelle}"></option>
+                                    </select>
+                                </div>
+                            </div>-->
+
+                            <div class="row mb-3">
+                                <label for="Observation" class="col-sm-2 col-form-label">Observation:</label>
+                                <div class="col-sm-10">
+                                    <textarea th:field="*{observation}" class="form-control" style="height: 100px"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div id="quantityField" class="row mb-3" style="display:none;">
+                                <label for="quantity" class="col-sm-2 col-form-label">Quantité:</label>
+                                <div class="col-sm-10">
+                                    <input type="number" id="quantity" th:field="*{quantity}" min="1" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div id="nserieField" class="row mb-3" style="display:none;">
+                                <label for="nserie" class="col-sm-2 col-form-label">N°Serie:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" th:field="*{nserie}" id="nserie" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                <button type="reset" class="btn btn-secondary">Réinitialiser</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -88,6 +160,9 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
+<script>
+    toggleSerialNumber();
+</script>
 <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/vendor/chart.js/chart.umd.js"></script>

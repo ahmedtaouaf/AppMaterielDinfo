@@ -1,4 +1,4 @@
-package com.app.materiel;
+package com.app.materiel.Dto;
 
 import lombok.Data;
 
@@ -8,7 +8,6 @@ public class StockDto {
     private String nserie;
     private String observation;
     private Long typeId;
-    private Long statusId;
     private boolean withSerialNumber;
     private int quantity;
 }
