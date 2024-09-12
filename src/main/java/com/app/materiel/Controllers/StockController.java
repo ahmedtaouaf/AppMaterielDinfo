@@ -38,9 +38,9 @@ public class StockController {
         stockService.saveStock(stockDto);
 
 
-        redirectAttributes.addFlashAttribute("successMessage", "Stock item(s) added successfully!");
+        redirectAttributes.addFlashAttribute("successMessage", "Article ajouté au stock avec succès !");
 
-        return "redirect:/stocks";
+        return "redirect:/article/new";
     }
 
 }
