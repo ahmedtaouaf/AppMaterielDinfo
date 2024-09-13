@@ -86,6 +86,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Designation</th>
+                                    <th scope="col">Type</th>
                                     <th scope="col">N°Serie</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Status</th>
@@ -94,9 +95,11 @@
                                 <tbody>
                                 <tr th:each="stock : ${stockPage.content}">
                                     <td th:text="${stock.designation}"></td>
+                                    <td th:text="${stock.type.libelle}"></td>
                                     <td th:text="${stock.nserie}"></td>
                                     <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
-                                    <td th:text="${stock.status.libelle}"></td>
+                                    <td th:if="${stock.status.libelle=='DISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-success"></span></td>
+                                    <td th:if="${stock.status.libelle=='INDISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-danger"></span></td>
                                 </tr>
                                 </tbody>
                             </table>

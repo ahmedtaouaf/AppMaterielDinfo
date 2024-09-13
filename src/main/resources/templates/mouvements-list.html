@@ -68,7 +68,7 @@
                         <h5 class="card-title">Liste Des Articles</h5>
                         <div class="container">
 
-                            <form th:action="@{/article/liste}" method="get">
+                            <form th:action="@{/mouvements/liste}" method="get">
                                 <div class="row mb-3 justify-content-end align-items-center">
                                     <div class="col-auto">
                                         <input name="search" th:value="${searchTerm}" type="text" class="form-control" placeholder="Recherche par N°Serie, Désignation">
@@ -85,21 +85,20 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Designation</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">N°Serie</th>
+                                    <th scope="col">Article</th>
+                                    <th scope="col">Position</th>
                                     <th scope="col">Date</th>
+                                    <th scope="col">Obs</th>
                                     <th scope="col">Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="stock : ${stockPage.content}">
-                                    <td th:text="${stock.designation}"></td>
-                                    <td th:text="${stock.type.libelle}"></td>
-                                    <td th:text="${stock.nserie}"></td>
+                                    <td th:text="${stock.stock.designation}"></td>
+                                    <td th:text="${stock.position.libelle}"></td>
                                     <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
-                                    <td th:if="${stock.status.libelle=='DISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-success"></span></td>
-                                    <td th:if="${stock.status.libelle=='INDISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-danger"></span></td>
+                                    <td th:text="${stock.observation}"></td>
+                                    <td th:if="${stock.status.libelle=='MISSION'}"><span th:text="${stock.status.libelle}" class="badge bg-warning"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -108,14 +107,14 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     <li class="page-item disabled" th:classappend="${stockPage.hasPrevious() ? '' : 'disabled'}">
-                                        <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number - 1}, search=${searchTerm})}" tabindex="-1" aria-disabled="true">Précédent</a>
+                                        <a class="page-link" th:href="@{/mouvements/liste(size=${stockPage.size}, page=${stockPage.number - 1}, search=${searchTerm})}" tabindex="-1" aria-disabled="true">Précédent</a>
                                     </li>
                                     <li class="page-item" th:each="i : ${#numbers.sequence(0, stockPage.totalPages - 1)}"
                                         th:classappend="${i == stockPage.number} ? 'active'">
-                                        <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${i}, search=${searchTerm})}"
+                                        <a class="page-link" th:href="@{/mouvements/liste(size=${stockPage.size}, page=${i}, search=${searchTerm})}"
                                            th:text="${i + 1}"></a></li>
                                     <li class="page-item" th:classappend="${stockPage.hasNext() ? '' : 'disabled'}">
-                                        <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number + 1}, search=${searchTerm})}">Suivant</a>
+                                        <a class="page-link" th:href="@{/mouvements/liste(size=${stockPage.size}, page=${stockPage.number + 1}, search=${searchTerm})}">Suivant</a>
                                     </li>
                                 </ul>
                             </nav><!-- End Centered Pagination -->

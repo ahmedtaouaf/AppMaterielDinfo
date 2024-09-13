@@ -14,6 +14,8 @@ public class Mouvement {
 
     private Date datee;
 
+    private Date dateentree;
+
     private String observation;
 
     @ManyToOne

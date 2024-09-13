@@ -10,6 +10,9 @@ import com.app.materiel.Repository.PositionRepository;
 import com.app.materiel.Repository.StatusRepository;
 import com.app.materiel.Repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -29,12 +32,12 @@ public class MouvementService {
     private PositionRepository positionRepository;
 
     public void saveMouvement(MouvementDto mouvementDto) {
-        // Retrieve the stock, position, and status entities
+
         Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
         Status status = statusRepository.findById(mouvementDto.getStatusId()).orElseThrow();
         Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();
 
-        // Create and save the Mouvement
+
         Mouvement mouvement = new Mouvement();
         mouvement.setDatee(new Date());
         mouvement.setObservation(mouvementDto.getObservation());
@@ -43,9 +46,52 @@ public class MouvementService {
         mouvement.setPosition(position);
         mouvementRepository.save(mouvement);
 
-        // Update the stock status to "Indisponible"
+
         stock.setStatus(statusRepository.findByLibelle("INDISPONIBLE"));
         stockRepository.save(stock);
     }
+
+    public Page<Mouvement> findAllmouvements(String searchTerm, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return mouvementRepository.findAllmvns(pageable);
+        }
+        return mouvementRepository.findAllBySearchTerm(searchTerm, pageable);
+    }
+
+
+    public Page<Mouvement> findAllmouvementsEntree(String searchTerm, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return mouvementRepository.findAllmvnsEntree(pageable);
+        }
+        return mouvementRepository.findAllBySearchTermEntree(searchTerm, pageable);
+    }
+
+
+    public void saveEntreeMouvement(MouvementDto mouvementDto) {
+
+        Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
+        Mouvement lastMouvement = mouvementRepository.findTopByStockOrderByDateeDesc(stock);
+        Status disponibleStatus = statusRepository.findByLibelle("ENTREE AU STOCK");
+
+
+        Mouvement mouvement = new Mouvement();
+
+        mouvement.setDateentree(new Date());
+        mouvement.setDatee(lastMouvement.getDatee());
+        mouvement.setObservation(mouvementDto.getObservation());
+        mouvement.setStock(stock);
+        mouvement.setStatus(disponibleStatus);
+        mouvement.setPosition(lastMouvement.getPosition());
+
+        mouvementRepository.save(mouvement);
+
+        stock.setStatus(disponibleStatus);
+        stockRepository.save(stock);
+    }
+
+
+
 }
 

@@ -61,11 +61,11 @@ public class StockService {
     }
 
     public Page<Stock> findAllStocks(String searchTerm, int page) {
-        Pageable pageable = PageRequest.of(page, 10); // Show 5 entries per page
+        Pageable pageable = PageRequest.of(page, 10);
         if (searchTerm == null || searchTerm.isEmpty()) {
-            return stockRepository.findAll(pageable); // Return all if no search term
+            return stockRepository.findAll(pageable);
         }
-        return stockRepository.findAllBySearchTerm(searchTerm, pageable); // Search with term
+        return stockRepository.findAllBySearchTerm(searchTerm, pageable);
     }
 }
 
