@@ -4,18 +4,17 @@ import com.app.materiel.Dto.MouvementDto;
 import com.app.materiel.Entity.Mouvement;
 import com.app.materiel.Entity.Status;
 import com.app.materiel.Entity.Stock;
+import com.app.materiel.Entity.Type;
 import com.app.materiel.Repository.PositionRepository;
 import com.app.materiel.Repository.StatusRepository;
 import com.app.materiel.Repository.StockRepository;
+import com.app.materiel.Repository.TypeRepository;
 import com.app.materiel.Service.MouvementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -32,25 +31,32 @@ public class MouvementController {
 
     @Autowired
     private StatusRepository statusRepository;
-
+    @Autowired
+    private TypeRepository typeRepository;
     @Autowired
     private PositionRepository positionRepository;
 
     @GetMapping("/mouvements/new")
     public String showMouvementForm(Model model) {
         model.addAttribute("mouvement", new MouvementDto());
-        model.addAttribute("stocks", stockRepository.findByStatusLibelle("Disponible"));
         model.addAttribute("positions", positionRepository.findAll());
 
+        // Fetch and filter the statuses
         List<Status> allStatuses = statusRepository.findAll();
         List<Status> filteredStatuses = allStatuses.stream()
                 .filter(status -> !status.getLibelle().equals("DISPONIBLE") &&
-                        !status.getLibelle().equals("INDISPONIBLE"))
+                        !status.getLibelle().equals("INDISPONIBLE") &&
+                        !status.getLibelle().equals("ENTREE AU STOCK"))
                 .collect(Collectors.toList());
         model.addAttribute("statuses", filteredStatuses);
 
+        // Fetch all types to populate the type dropdown
+        List<Type> types = typeRepository.findAll();
+        model.addAttribute("types", types);
+
         return "mouvement-new";
     }
+
 
     @PostMapping("/addMouvement")
     public String addMouvement(@ModelAttribute("mouvement") MouvementDto mouvementDto, RedirectAttributes redirectAttributes) {
@@ -101,5 +107,12 @@ public class MouvementController {
 
         return "mouvement-listentree";
     }
+
+    @GetMapping("/stocks")
+    @ResponseBody
+    public List<Stock> getStocksByType(@RequestParam Long typeId) {
+        return stockRepository.findByTypeId(typeId);
+    }
+
 
 }

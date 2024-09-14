@@ -1,6 +1,8 @@
 package com.app.materiel.Controllers;
 
+import com.app.materiel.Entity.Status;
 import com.app.materiel.Entity.Stock;
+import com.app.materiel.Entity.Type;
 import com.app.materiel.Service.StatusService;
 import com.app.materiel.Service.StockService;
 import com.app.materiel.Service.TypeService;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StockController {
@@ -60,6 +65,15 @@ public class StockController {
 
         return "article-list";
     }
+
+    @GetMapping("/global-stock-etat")
+    public String getGlobalStockEtat(Model model) {
+        Map<Type, Map<Status, Map<Stock, Long>>> stockSummary = stockService.getStockStatusSummary();
+        model.addAttribute("stockSummary", stockSummary);
+        return "global-stock-etat";
+    }
+
+
 
 }
 

@@ -15,6 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class StockService {
@@ -66,6 +69,25 @@ public class StockService {
             return stockRepository.findAll(pageable);
         }
         return stockRepository.findAllBySearchTerm(searchTerm, pageable);
+    }
+
+    public Map<Type, Map<Status, Map<Stock, Long>>> getStockStatusSummary() {
+        List<Stock> stocks = stockRepository.findAll();
+
+        // Group stocks by Type, then by Status, and then by Stock item
+        Map<Type, Map<Status, Map<Stock, Long>>> summary = new HashMap<>();
+        for (Stock stock : stocks) {
+            Type type = stock.getType();
+            Status status = stock.getStatus();
+
+            summary.putIfAbsent(type, new HashMap<>());
+            Map<Status, Map<Stock, Long>> statusMap = summary.get(type);
+            statusMap.putIfAbsent(status, new HashMap<>());
+            Map<Stock, Long> stockMap = statusMap.get(status);
+            stockMap.put(stock, stockMap.getOrDefault(stock, 0L) + 1);
+        }
+
+        return summary;
     }
 }
 

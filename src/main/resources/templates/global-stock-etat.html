@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Global Stock Etat</title>
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<h1>Global Stock Etat</h1>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Item</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="typeEntry : ${stockSummary}">
+            <td rowspan="${typeEntry.value.values().stream().flatMap(statusMap -> statusMap.keySet().stream()).distinct().size()}"
+                th:text="${typeEntry.key.libelle}"></td>
+            <td th:each="statusEntry, iterStat : ${typeEntry.value}">
+                <table class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="stockEntry : ${statusEntry.value}">
+                        <td th:text="${statusEntry.key.libelle}"></td>
+                        <td th:text="${stockEntry.key.designation} + ' <' + ${stockEntry.key.nserie} + '>'"></td>
+                        <td th:text="${stockEntry.value}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

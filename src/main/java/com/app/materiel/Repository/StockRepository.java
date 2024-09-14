@@ -16,7 +16,14 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Query("SELECT s FROM Stock s WHERE (:searchTerm IS NULL OR :searchTerm = '' OR s.nserie LIKE %:searchTerm% OR s.designation LIKE %:searchTerm%) ORDER BY s.datee DESC")
     Page<Stock> findAllBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 
+    List<Stock> findByTypeId(Long typeId);
+
     List<Stock> findByStatusLibelle(String libelle);
+
+    List<Stock> findAll();
+
+
+
 
 
 }

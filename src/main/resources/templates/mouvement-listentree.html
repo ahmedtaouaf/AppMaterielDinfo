@@ -83,8 +83,10 @@
                 <thead>
                 <tr>
                   <th scope="col">Article</th>
+                  <th scope="col">Type</th>
                   <th scope="col">Position</th>
-                  <th scope="col">Date</th>
+                  <th scope="col">Date Sortie</th>
+                  <th scope="col">Date Entree</th>
                   <th scope="col">Obs</th>
                   <th scope="col">Status</th>
                 </tr>
@@ -92,8 +94,10 @@
                 <tbody>
                 <tr th:each="stock : ${stockPage.content}">
                   <td th:text="${stock.stock.designation}"></td>
+                  <td th:text="${stock.stock.type.libelle}"></td>
                   <td th:text="${stock.position.libelle}"></td>
                   <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
+                  <td th:text="${stock.dateentree}"></td>
                   <td th:text="${stock.observation}"></td>
                   <td th:if="${stock.status.libelle=='ENTREE AU STOCK'}"><span th:text="${stock.status.libelle}" class="badge bg-success"></span></td>
                 </tr>

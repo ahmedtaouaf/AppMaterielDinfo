@@ -30,12 +30,15 @@
                 </ul>
             </li>
 
+            <!-- Mouvements De Sortie -->
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-mvns" data-bs-toggle="collapse"
-                   th:classappend="${#request.requestURI.startsWith('/mouvements')} ? ' ' : 'collapsed'" href="#">
-                    <i class="bi bi-arrow-left-right"></i></i><span>Mouvements De Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
+                   th:classappend="${#request.requestURI.startsWith('/mouvements') and not #request.requestURI.startsWith('/mouvements/entree') and not #request.requestURI.startsWith('/mouvements/listeentree')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-arrow-right-circle-fill"></i><span>Mouvements De Sortie</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-mvns" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/mouvements')} ? 'show'" data-bs-parent="#sidebar-nav">
+                <ul id="components-mvns" class="nav-content collapse"
+                    th:classappend="${#request.requestURI.startsWith('/mouvements') and not #request.requestURI.startsWith('/mouvements/entree') and not #request.requestURI.startsWith('/mouvements/listeentree')} ? 'show'"
+                    data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/mouvements/new" th:classappend="${#request.requestURI == '/mouvements/new'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Nouvelle Mouvement</span>
@@ -49,12 +52,15 @@
                 </ul>
             </li>
 
+            <!-- Mouvements D'entrées -->
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-mvne" data-bs-toggle="collapse"
-                   th:classappend="${#request.requestURI.startsWith('/mouvementsentrees')} ? ' ' : 'collapsed'" href="#">
-                    <i class="bi bi-arrow-left-right"></i></i><span>Mouvements D'entrées</span><i class="bi bi-chevron-down ms-auto"></i>
+                   th:classappend="${#request.requestURI.startsWith('/mouvements/entree') or #request.requestURI.startsWith('/mouvements/listeentree')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-arrow-left-circle-fill"></i><span>Mouvements D'entrées</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-mvne" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/mouvementsentrees')} ? 'show'" data-bs-parent="#sidebar-nav">
+                <ul id="components-mvne" class="nav-content collapse"
+                    th:classappend="${#request.requestURI.startsWith('/mouvements/entree') or #request.requestURI.startsWith('/mouvements/listeentree')} ? 'show'"
+                    data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/mouvements/entree" th:classappend="${#request.requestURI == '/mouvements/entree'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Nouvelle Mouvement</span>
@@ -67,6 +73,7 @@
                     </li>
                 </ul>
             </li>
+
 
 
             <li class="nav-item">

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
 
-    @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.status.libelle LIKE %:searchTerm%) AND m.status.libelle <> 'DISPONIBLE' ORDER BY m.datee DESC")
+    @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.status.libelle LIKE %:searchTerm%) AND m.status.libelle = 'MISSION' ORDER BY m.datee DESC")
     Page<Mouvement> findAllBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle <> 'DISPONIBLE' ORDER BY m.datee DESC")
+    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle = 'MISSION' ORDER BY m.datee DESC")
     Page<Mouvement> findAllmvns(Pageable pageable);
 
     @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.status.libelle LIKE %:searchTerm%) AND m.status.libelle = 'ENTREE AU STOCK' ORDER BY m.datee DESC")

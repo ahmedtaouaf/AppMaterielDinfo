@@ -73,7 +73,7 @@ public class MouvementService {
 
         Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
         Mouvement lastMouvement = mouvementRepository.findTopByStockOrderByDateeDesc(stock);
-        Status disponibleStatus = statusRepository.findByLibelle("ENTREE AU STOCK");
+        Status disponibleStatus = statusRepository.findByLibelle("DISPONIBLE");
 
 
         Mouvement mouvement = new Mouvement();
