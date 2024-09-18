@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
 
@@ -25,6 +27,12 @@ public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
     Page<Mouvement> findAllmvnsEntree(Pageable pageable);
 
     Mouvement findTopByStockOrderByDateeDesc(Stock stock);
+
+    List<Mouvement> findByStockOrderByDateeDescDateentreeDesc(Stock stock);
+
+    Page<Mouvement> findByStockOrderByDateeDescDateentreeDesc(Stock stock, Pageable pageable);
+
+
 
 
 }

@@ -90,6 +90,7 @@
                                     <th scope="col">N°Serie</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Status</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -100,9 +101,13 @@
                                     <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
                                     <td th:if="${stock.status.libelle=='DISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-success"></span></td>
                                     <td th:if="${stock.status.libelle=='INDISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-danger"></span></td>
+                                    <td>
+                                        <a th:href="@{/article/{id}/mouvements(id=${stock.id})}" class="btn btn-info">Details</a> <!-- New Details button -->
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
+
 
 
                             <nav aria-label="Page navigation example">

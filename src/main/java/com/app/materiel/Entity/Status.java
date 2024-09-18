@@ -17,4 +17,5 @@ public class Status {
 
     private String libelle;
 
+
 }

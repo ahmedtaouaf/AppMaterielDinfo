@@ -1,8 +1,9 @@
 package com.app.materiel.Controllers;
 
-import com.app.materiel.Entity.Status;
+import com.app.materiel.Dto.TypeSummaryDto;
+import com.app.materiel.Entity.Mouvement;
 import com.app.materiel.Entity.Stock;
-import com.app.materiel.Entity.Type;
+import com.app.materiel.Service.MouvementService;
 import com.app.materiel.Service.StatusService;
 import com.app.materiel.Service.StockService;
 import com.app.materiel.Service.TypeService;
@@ -11,14 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class StockController {
@@ -31,6 +28,9 @@ public class StockController {
 
     @Autowired
     private StatusService statusService;
+
+    @Autowired
+    private MouvementService mouvementService;
 
     @GetMapping("/article/new")
     public String showAddStockForm(Model model) {
@@ -68,10 +68,30 @@ public class StockController {
 
     @GetMapping("/global-stock-etat")
     public String getGlobalStockEtat(Model model) {
-        Map<Type, Map<Status, Map<Stock, Long>>> stockSummary = stockService.getStockStatusSummary();
-        model.addAttribute("stockSummary", stockSummary);
+        List<TypeSummaryDto> typeSummary = stockService.getTypeSummary();
+        model.addAttribute("typeSummary", typeSummary);
         return "global-stock-etat";
     }
+
+    @GetMapping("/article/{id}/mouvements")
+    public String listMouvements(@PathVariable("id") Long stockId,
+                                 @RequestParam(value = "page", defaultValue = "0") int page,
+                                 @RequestParam(value = "size", defaultValue = "5") int size,
+                                 Model model) {
+
+        Stock stock = stockService.findStockById(stockId);
+        Page<Mouvement> mouvementPage = mouvementService.findMovementsByStockOrderByDateDesc(stock, page, size);
+
+        model.addAttribute("mouvementPage", mouvementPage);
+        model.addAttribute("stock", stock);
+
+        return "mouvement-history";
+    }
+
+
+
+
+
 
 
 

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MouvementService {
@@ -89,6 +90,14 @@ public class MouvementService {
 
         stock.setStatus(disponibleStatus);
         stockRepository.save(stock);
+    }
+
+    public List<Mouvement> findMovementsByStockOrderByDateDesc(Stock stock) {
+        return mouvementRepository.findByStockOrderByDateeDescDateentreeDesc(stock);
+    }
+    public Page<Mouvement> findMovementsByStockOrderByDateDesc(Stock stock, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return mouvementRepository.findByStockOrderByDateeDescDateentreeDesc(stock, pageable);
     }
 
 

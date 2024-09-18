@@ -1,5 +1,6 @@
 package com.app.materiel.Service;
 
+import com.app.materiel.Dto.TypeSummaryDto;
 import com.app.materiel.Entity.Status;
 import com.app.materiel.Entity.Stock;
 import com.app.materiel.Entity.Type;
@@ -11,13 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StockService {
@@ -71,23 +68,36 @@ public class StockService {
         return stockRepository.findAllBySearchTerm(searchTerm, pageable);
     }
 
-    public Map<Type, Map<Status, Map<Stock, Long>>> getStockStatusSummary() {
+    public List<TypeSummaryDto> getTypeSummary() {
         List<Stock> stocks = stockRepository.findAll();
 
-        // Group stocks by Type, then by Status, and then by Stock item
-        Map<Type, Map<Status, Map<Stock, Long>>> summary = new HashMap<>();
-        for (Stock stock : stocks) {
-            Type type = stock.getType();
-            Status status = stock.getStatus();
+        // Create a map to hold the summary information per Type
+        Map<String, TypeSummaryDto> summaryMap = new HashMap<>();
 
-            summary.putIfAbsent(type, new HashMap<>());
-            Map<Status, Map<Stock, Long>> statusMap = summary.get(type);
-            statusMap.putIfAbsent(status, new HashMap<>());
-            Map<Stock, Long> stockMap = statusMap.get(status);
-            stockMap.put(stock, stockMap.getOrDefault(stock, 0L) + 1);
+        for (Stock stock : stocks) {
+            String type = stock.getType().getLibelle();
+
+            summaryMap.putIfAbsent(type, new TypeSummaryDto(type, 0L, 0L, 0L));
+            TypeSummaryDto summary = summaryMap.get(type);
+
+            // Increment the total quantity for this type
+            summary.setQuantity(summary.getQuantity() + 1);
+
+            // Increment the counts based on status
+            if (stock.getStatus().getLibelle().equalsIgnoreCase("DISPONIBLE")) {
+                summary.setDisponibleCount(summary.getDisponibleCount() + 1);
+            } else if (stock.getStatus().getLibelle().equalsIgnoreCase("INDISPONIBLE")) {
+                summary.setIndisponibleCount(summary.getIndisponibleCount() + 1);
+            }
         }
 
-        return summary;
+        return new ArrayList<>(summaryMap.values());
     }
+
+    public Stock findStockById(Long id) {
+        return stockRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Stock not found for id: " + id));
+    }
+
 }
 

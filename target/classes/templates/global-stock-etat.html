@@ -1,49 +1,117 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
-    <title>Global Stock Etat</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Liste Des Responsables - Application Materiel</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/assets/img/favicon.png" rel="icon">
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Updated: Apr 20 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
 </head>
+
 <body>
-<h1>Global Stock Etat</h1>
 
-<div class="container">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Item</th>
-            <th>Quantity</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="typeEntry : ${stockSummary}">
-            <td rowspan="${typeEntry.value.values().stream().flatMap(statusMap -> statusMap.keySet().stream()).distinct().size()}"
-                th:text="${typeEntry.key.libelle}"></td>
-            <td th:each="statusEntry, iterStat : ${typeEntry.value}">
-                <table class="table table-sm">
-                    <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="stockEntry : ${statusEntry.value}">
-                        <td th:text="${statusEntry.key.libelle}"></td>
-                        <td th:text="${stockEntry.key.designation} + ' <' + ${stockEntry.key.nserie} + '>'"></td>
-                        <td th:text="${stockEntry.value}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<!-- ======= Header ======= -->
+<div th:replace="shared/header :: header"></div>
 
+<!-- ======= Sidebar ======= -->
+<div th:replace="shared/sidebar :: sidebar"></div>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Article</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Acceuil</li>
+                <li class="breadcrumb-item active">Liste Des Responsables</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Liste Des Responsables</h5>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>Count of Disponible</th>
+                                <th>Count of Indisponible</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="summary : ${typeSummary}">
+                                <td th:text="${summary.type}"></td>
+                                <td th:text="${summary.quantity}"></td>
+                                <td th:text="${summary.disponibleCount}"></td>
+                                <td th:text="${summary.indisponibleCount}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<div th:replace="shared/footer :: footer"></div>
+<!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/assets/vendor/quill/quill.js"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/assets/js/main.js"></script>
+
 </body>
+
 </html>
