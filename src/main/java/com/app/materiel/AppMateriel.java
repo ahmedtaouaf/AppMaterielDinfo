@@ -14,6 +14,4 @@ public class AppMateriel {
         SpringApplication.run(AppMateriel.class, args);
     }
 
-
-
 }

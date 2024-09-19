@@ -153,21 +153,28 @@
         typeSelect.addEventListener('change', function () {
             const selectedTypeId = typeSelect.value;
 
-            // Fetch stocks based on selected type
             fetch(`/stocks?typeId=${selectedTypeId}`)
                 .then(response => response.json())
                 .then(data => {
-                    stockSelect.innerHTML = ''; // Clear previous options
+                    stockSelect.innerHTML = ''; // Clear current options
 
-                    data.forEach(stock => {
+                    if (data.length > 0) {
+                        data.forEach(stock => {
+                            const option = document.createElement('option');
+                            option.value = stock.id;
+                            option.textContent = `${stock.designation} <${stock.nserie}>`;
+                            stockSelect.appendChild(option);
+                        });
+                    } else {
                         const option = document.createElement('option');
-                        option.value = stock.id;
-                        option.textContent = `${stock.designation} <${stock.nserie}>`;
+                        option.value = '';
+                        option.textContent = 'Aucun Article Disponible';
                         stockSelect.appendChild(option);
-                    });
+                    }
                 });
         });
     });
+
 </script>
 </body>
 

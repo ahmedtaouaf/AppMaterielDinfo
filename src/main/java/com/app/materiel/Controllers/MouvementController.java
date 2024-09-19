@@ -110,9 +110,11 @@ public class MouvementController {
 
     @GetMapping("/stocks")
     @ResponseBody
-    public List<Stock> getStocksByType(@RequestParam Long typeId) {
-        return stockRepository.findByTypeId(typeId);
+    public List<Stock> getStocksByTypeAndDisponibleStatus(@RequestParam Long typeId) {
+        String statusDisponible = "DISPONIBLE"; // Assuming "DISPONIBLE" is the status name for available items.
+        return stockRepository.findByTypeIdAndStatusLibelle(typeId, statusDisponible);
     }
+
 
 
 }

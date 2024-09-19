@@ -28,14 +28,9 @@
 
     <!-- Template Main CSS File -->
     <link href="/assets/css/style.css" rel="stylesheet">
-
-    <!-- =======================================================
-    * Template Name: NiceAdmin
-    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-    * Updated: Apr 20 2024 with Bootstrap v5.3.3
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 </head>
 
 <body>
@@ -66,7 +61,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Liste Des Articles</h5>
-                        <div class="container">
+
 
                             <form th:action="@{/article/liste}" method="get">
                                 <div class="row mb-3 justify-content-end align-items-center">
@@ -78,8 +73,6 @@
                                     </div>
                                 </div>
                             </form>
-
-
 
 
                             <table class="table table-striped">
@@ -102,7 +95,7 @@
                                     <td th:if="${stock.status.libelle=='DISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-success"></span></td>
                                     <td th:if="${stock.status.libelle=='INDISPONIBLE'}"><span th:text="${stock.status.libelle}" class="badge bg-danger"></span></td>
                                     <td>
-                                        <a th:href="@{/article/{id}/mouvements(id=${stock.id})}" class="btn btn-info">Details</a> <!-- New Details button -->
+                                        <a th:href="@{/article/{id}/mouvements(id=${stock.id})}" class="btn btn-info">Details</a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -125,7 +118,7 @@
                                 </ul>
                             </nav><!-- End Centered Pagination -->
 
-                        </div>
+
 
                     </div>
                 </div>

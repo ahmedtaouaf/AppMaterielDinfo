@@ -18,6 +18,8 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     List<Stock> findByTypeId(Long typeId);
 
+    List<Stock> findByTypeIdAndStatusLibelle(Long typeId, String statusLibelle);
+
     List<Stock> findByStatusLibelle(String libelle);
 
     List<Stock> findAll();
