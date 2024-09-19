@@ -22,6 +22,9 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     List<Stock> findAll();
 
+    List<Stock> findByTypeLibelleAndStatusLibelle(String type, String status);
+
+
 
 
 

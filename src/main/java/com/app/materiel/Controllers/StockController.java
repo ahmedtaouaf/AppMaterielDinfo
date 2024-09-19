@@ -66,17 +66,36 @@ public class StockController {
         return "article-list";
     }
 
-    @GetMapping("/global-stock-etat")
+    @GetMapping("/etat-stock-global")
     public String getGlobalStockEtat(Model model) {
         List<TypeSummaryDto> typeSummary = stockService.getTypeSummary();
         model.addAttribute("typeSummary", typeSummary);
         return "global-stock-etat";
     }
 
+    @GetMapping("/stocks/etat")
+    public String getStockItemsByTypeAndStatus(
+            @RequestParam("type") String type,
+            @RequestParam("status") String status,
+            Model model) {
+
+        // Fetch stock items by type and status
+        List<Stock> stockItems = stockService.findStocksByTypeAndStatus(type, status);
+
+        // Add stock items to the model
+        model.addAttribute("stockItems", stockItems);
+        model.addAttribute("type", type);
+        model.addAttribute("status", status);
+
+        return "stock-items-list";
+    }
+
+
+
     @GetMapping("/article/{id}/mouvements")
     public String listMouvements(@PathVariable("id") Long stockId,
                                  @RequestParam(value = "page", defaultValue = "0") int page,
-                                 @RequestParam(value = "size", defaultValue = "5") int size,
+                                 @RequestParam(value = "size", defaultValue = "10") int size,
                                  Model model) {
 
         Stock stock = stockService.findStockById(stockId);

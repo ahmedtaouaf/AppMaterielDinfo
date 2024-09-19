@@ -99,5 +99,10 @@ public class StockService {
                 .orElseThrow(() -> new IllegalArgumentException("Stock not found for id: " + id));
     }
 
+    public List<Stock> findStocksByTypeAndStatus(String type, String status) {
+        return stockRepository.findByTypeLibelleAndStatusLibelle(type, status);
+    }
+
+
 }
 

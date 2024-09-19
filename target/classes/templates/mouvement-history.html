@@ -90,29 +90,31 @@
                             </table>
 
 
-
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                    <!-- Previous Page Link -->
+                                    <!-- Previous button -->
                                     <li class="page-item" th:classappend="${mouvementPage.hasPrevious()} ? '' : 'disabled'">
-                                        <a class="page-link" th:href="@{/article/{id}/mouvements(size=${mouvementPage.size}, page=${mouvementPage.number - 1})}"
-                                           th:utext="'Précédent'" th:replace="{'id=' + ${stock.id}}"></a>
+                                        <a class="page-link"
+                                           th:href="@{/article/{id}/mouvements(size=${mouvementPage.size}, page=${mouvementPage.number - 1}, id=${stock.id})}"
+                                           tabindex="-1" aria-disabled="true">Précédent</a>
                                     </li>
 
-                                    <!-- Page Numbers -->
+                                    <!-- Page number links -->
                                     <li class="page-item" th:each="i : ${#numbers.sequence(0, mouvementPage.totalPages - 1)}"
                                         th:classappend="${i == mouvementPage.number} ? 'active'">
-                                        <a class="page-link" th:href="@{/article/{id}/mouvements(size=${mouvementPage.size}, page=${i})}"
-                                           th:text="${i + 1}" th:replace="{'id=' + ${stock.id}}"></a>
+                                        <a class="page-link"
+                                           th:href="@{/article/{id}/mouvements(size=${mouvementPage.size}, page=${i}, id=${stock.id})}"
+                                           th:text="${i + 1}"></a>
                                     </li>
 
-                                    <!-- Next Page Link -->
+                                    <!-- Next button -->
                                     <li class="page-item" th:classappend="${mouvementPage.hasNext()} ? '' : 'disabled'">
-                                        <a class="page-link" th:href="@{/article/{id}/mouvements(size=${mouvementPage.size}, page=${mouvementPage.number + 1})}"
-                                           th:utext="'Suivant'" th:replace="{'id=' + ${stock.id}}"></a>
+                                        <a class="page-link"
+                                           th:href="@{/article/{id}/mouvements(size=${mouvementPage.size}, page=${mouvementPage.number + 1}, id=${stock.id})}">Suivant</a>
                                     </li>
                                 </ul>
                             </nav>
+
 
                         </div>
 

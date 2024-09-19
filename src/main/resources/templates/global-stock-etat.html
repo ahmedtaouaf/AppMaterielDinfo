@@ -68,24 +68,30 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Type</th>
-                                <th>Quantity</th>
-                                <th>Count of Disponible</th>
-                                <th>Count of Indisponible</th>
+                                <th class="text-center">Type Materiel</th>
+                                <th class="text-center">Quantité Total</th>
+                                <th class="text-center">Qté Disponible</th>
+                                <th class="text-center">Qté Indisponible</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="summary : ${typeSummary}">
-                                <td th:text="${summary.type}"></td>
-                                <td th:text="${summary.quantity}"></td>
-                                <td th:text="${summary.disponibleCount}"></td>
-                                <td th:text="${summary.indisponibleCount}"></td>
+                                <td class="text-center" th:text="${summary.type}" ></td>
+                                <td class="text-center" th:text="${summary.quantity}"></td>
+                                <td class="text-center">
+                                    <!-- Link for Disponible items -->
+                                    <a th:href="@{/stocks/etat(type=${summary.type},status='DISPONIBLE')}" th:text="${summary.disponibleCount}"></a>
+                                </td>
+                                <td class="text-center">
+                                    <!-- Link for Indisponible items -->
+                                    <a th:href="@{/stocks/etat(type=${summary.type},status='INDISPONIBLE')}" th:text="${summary.indisponibleCount}"></a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
+
 
             </div>
         </div>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Liste Des Responsables - Application Materiel</title>
+    <title>Liste Des Articles - Application Materiel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -29,13 +29,6 @@
     <!-- Template Main CSS File -->
     <link href="/assets/css/style.css" rel="stylesheet">
 
-    <!-- =======================================================
-    * Template Name: NiceAdmin
-    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-    * Updated: Apr 20 2024 with Bootstrap v5.3.3
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
 </head>
 
 <body>
@@ -52,8 +45,8 @@
         <h1>Article</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Acceuil</li>
-                <li class="breadcrumb-item active">Liste Des Responsables</li>
+                <li class="breadcrumb-item">Article</li>
+                <li class="breadcrumb-item active">Historique</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -64,34 +57,32 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Liste Des Responsables</h5>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th class="text-center">Type Materiel</th>
-                                <th class="text-center">Quantité Total</th>
-                                <th class="text-center">Qté Disponible</th>
-                                <th class="text-center">Qté Indisponible</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="summary : ${typeSummary}">
-                                <td class="text-center" th:text="${summary.type}" ></td>
-                                <td class="text-center" th:text="${summary.quantity}"></td>
-                                <td class="text-center">
-                                    <!-- Link for Disponible items -->
-                                    <a th:href="@{/stocks/etat(type=${summary.type},status='DISPONIBLE')}" th:text="${summary.disponibleCount}"></a>
-                                </td>
-                                <td class="text-center">
-                                    <!-- Link for Indisponible items -->
-                                    <a th:href="@{/stocks/etat(type=${summary.type},status='INDISPONIBLE')}" th:text="${summary.indisponibleCount}"></a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <h5 class="card-title text-center">Type: [[${type}]], Status: [[${status}]]</h5>
+                        <div class="container">
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Article</th>
+                                    <th class="text-center">N°Serie</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="stock : ${stockItems}">
+                                    <td class="text-center" th:text="${stock.designation}"></td>
+                                    <td class="text-center" th:text="${stock.nserie}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+
+
+
+
+                        </div>
+
                     </div>
                 </div>
-
 
             </div>
         </div>

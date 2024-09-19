@@ -44,11 +44,11 @@
                             <i class="bi bi-circle"></i><span>Nouvelle Mouvement</span>
                         </a>
                     </li>
-                    <li>
+                    <!--<li>
                         <a href="/mouvements/liste" th:classappend="${#request.requestURI == '/mouvements/liste'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Liste Mouvements</span>
                         </a>
-                    </li>
+                    </li>-->
                 </ul>
             </li>
 
@@ -66,11 +66,11 @@
                             <i class="bi bi-circle"></i><span>Nouvelle Mouvement</span>
                         </a>
                     </li>
-                    <li>
+                    <!--<li>
                         <a href="/mouvements/listeentree" th:classappend="${#request.requestURI == '/mouvements/listeentree'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Liste Mouvements</span>
                         </a>
-                    </li>
+                    </li>-->
                 </ul>
             </li>
 
@@ -106,6 +106,20 @@
                     <li>
                         <a href="/responsable/list" th:classappend="${#request.requestURI == '/responsable/list'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Liste Des Responsables</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-et" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/etat')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-people-fill"></i><span>Etat De Stock</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-et" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/etat')} ? 'show'" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/etat-stock-global" th:classappend="${#request.requestURI == '/etat-stock-global'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Etat Global</span>
                         </a>
                     </li>
                 </ul>
