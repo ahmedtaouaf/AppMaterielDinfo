@@ -8,13 +8,23 @@ import com.app.materiel.Service.StatusService;
 import com.app.materiel.Service.StockService;
 import com.app.materiel.Service.TypeService;
 import com.app.materiel.Dto.StockDto;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -107,12 +117,77 @@ public class StockController {
         return "mouvement-history";
     }
 
+    @GetMapping("/article/export")
+    public ResponseEntity<byte[]> exportToExcel() throws IOException {
+        List<Stock> stockList = stockService.findAllStocks(); // Fetch all stocks
 
 
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Stock Data");
 
 
+        Font boldFont = workbook.createFont();
+        boldFont.setBold(true);
+
+        CellStyle titleStyle = workbook.createCellStyle();
+        titleStyle.setFont(boldFont);
+        titleStyle.setAlignment(HorizontalAlignment.CENTER); // Center the title horizontally
 
 
+        Row titleRow = sheet.createRow(0);
+        Cell titleCell = titleRow.createCell(0);
+        titleCell.setCellValue("État Global Du Stock");
+        titleCell.setCellStyle(titleStyle);
+
+
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4)); // Merged across first 5 columns
+
+
+        Row headerRow = sheet.createRow(1);
+        String[] headers = {"Designation", "Type", "N°Serie", "Date", "Status"};
+
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(titleStyle);
+        }
+
+
+        int rowNum = 2;
+        for (Stock stock : stockList) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(stock.getDesignation());
+            row.createCell(1).setCellValue(stock.getType().getLibelle());
+            row.createCell(2).setCellValue(stock.getNserie());
+            row.createCell(3).setCellValue(stock.getDatee().toString()); // Adjust date format as needed
+            row.createCell(4).setCellValue(stock.getStatus().getLibelle());
+        }
+
+
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+
+
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = today.format(formatter);
+
+
+        String fileName = "etat_stock_" + formattedDate + ".xlsx";
+
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(outputStream.toByteArray());
+    }
 
 }
 

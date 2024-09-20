@@ -103,6 +103,15 @@ public class StockService {
         return stockRepository.findByTypeLibelleAndStatusLibelle(type, status);
     }
 
+    public List<Stock> findAllStocks() {
+        return stockRepository.findAll();
+    }
+
+    public Integer totalStock() {
+
+        return stockRepository.totalStock();
+    }
+
 
 }
 

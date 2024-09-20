@@ -32,6 +32,14 @@ public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
 
     Page<Mouvement> findByStockOrderByDateeDescDateentreeDesc(Stock stock, Pageable pageable);
 
+    List<Mouvement> findTop6ByOrderByDateeDesc();
+
+    @Query("select count (m) from Mouvement m")
+    int totalMvn();
+
+
+
+
 
 
 

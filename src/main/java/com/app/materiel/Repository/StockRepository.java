@@ -27,6 +27,13 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Stock> findByTypeLibelleAndStatusLibelle(String type, String status);
 
 
+    @Query("SELECT s.type.libelle, COUNT(s) FROM Stock s GROUP BY s.type")
+    List<Object[]> countStocksByType();
+
+    @Query("select count (s) from Stock s")
+    int totalStock();
+
+
 
 
 

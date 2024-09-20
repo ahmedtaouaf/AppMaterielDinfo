@@ -100,6 +100,15 @@ public class MouvementService {
         return mouvementRepository.findByStockOrderByDateeDescDateentreeDesc(stock, pageable);
     }
 
+    public List<Mouvement> findLastSixMouvements() {
+        return mouvementRepository.findTop6ByOrderByDateeDesc();
+    }
+
+    public Integer totalMvn() {
+
+        return mouvementRepository.totalMvn();
+    }
+
 
 
 }

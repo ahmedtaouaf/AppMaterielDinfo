@@ -65,12 +65,16 @@
                                 <tr>
                                     <th class="text-center">Article</th>
                                     <th class="text-center">N°Serie</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="stock : ${stockItems}">
                                     <td class="text-center" th:text="${stock.designation}"></td>
                                     <td class="text-center" th:text="${stock.nserie}"></td>
+                                    <td class="text-center">
+                                        <a th:href="@{/article/{id}/mouvements(id=${stock.id})}" class="btn btn-warning">Historiques</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

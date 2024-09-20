@@ -61,7 +61,7 @@ public class MouvementController {
     @PostMapping("/addMouvement")
     public String addMouvement(@ModelAttribute("mouvement") MouvementDto mouvementDto, RedirectAttributes redirectAttributes) {
 
-        redirectAttributes.addFlashAttribute("successMessage", "Mouvement est très bien enregistrer !");
+        redirectAttributes.addFlashAttribute("successMessage", "Mouvement Est Très Bien Enregistrer !");
         mouvementService.saveMouvement(mouvementDto);
         return "redirect:/mouvements/new";
     }
@@ -90,6 +90,7 @@ public class MouvementController {
 
     @PostMapping("/addEntreeMouvement")
     public String addEntreeMouvement(@ModelAttribute("mouvement") MouvementDto mouvementDto, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("successMessage", "Mouvement Est Très Bien Enregistrer !");
         mouvementService.saveEntreeMouvement(mouvementDto);
         return "redirect:/mouvements/entree";
     }

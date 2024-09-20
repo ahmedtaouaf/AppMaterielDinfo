@@ -16,4 +16,8 @@ public class TypeService {
     public List<Type> findtypes(){
         return typeRepository.findAll();
     }
+    public Integer totalType() {
+
+        return typeRepository.totalType();
+    }
 }
