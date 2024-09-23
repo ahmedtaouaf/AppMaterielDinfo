@@ -12,6 +12,8 @@ import com.app.materiel.Repository.TypeRepository;
 import com.app.materiel.Service.MouvementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,10 @@ public class MouvementController {
 
     @GetMapping("/mouvements/new")
     public String showMouvementForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
         model.addAttribute("mouvement", new MouvementDto());
         model.addAttribute("positions", positionRepository.findAll());
 
@@ -72,6 +78,10 @@ public class MouvementController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
         Page<Mouvement> stockPage = mouvementService.findAllmouvements(searchTerm, page);
 
         model.addAttribute("stockPage", stockPage);
@@ -82,6 +92,10 @@ public class MouvementController {
 
     @GetMapping("/mouvements/entree")
     public String showEntreeMouvementForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
         model.addAttribute("mouvement", new MouvementDto());
         model.addAttribute("stocks", stockRepository.findByStatusLibelle("Indisponible"));
         model.addAttribute("statuses", statusRepository.findAll());
@@ -100,7 +114,9 @@ public class MouvementController {
             @RequestParam(value = "search", required = false) String searchTerm,
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         Page<Mouvement> stockPage = mouvementService.findAllmouvementsEntree(searchTerm, page);
 
         model.addAttribute("stockPage", stockPage);
@@ -112,7 +128,7 @@ public class MouvementController {
     @GetMapping("/stocks")
     @ResponseBody
     public List<Stock> getStocksByTypeAndDisponibleStatus(@RequestParam Long typeId) {
-        String statusDisponible = "DISPONIBLE"; // Assuming "DISPONIBLE" is the status name for available items.
+        String statusDisponible = "DISPONIBLE";
         return stockRepository.findByTypeIdAndStatusLibelle(typeId, statusDisponible);
     }
 

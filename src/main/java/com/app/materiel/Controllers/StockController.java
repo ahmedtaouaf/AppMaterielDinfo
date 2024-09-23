@@ -3,6 +3,9 @@ package com.app.materiel.Controllers;
 import com.app.materiel.Dto.TypeSummaryDto;
 import com.app.materiel.Entity.Mouvement;
 import com.app.materiel.Entity.Stock;
+import com.app.materiel.Entity.Type;
+import com.app.materiel.Repository.StockRepository;
+import com.app.materiel.Repository.TypeRepository;
 import com.app.materiel.Service.MouvementService;
 import com.app.materiel.Service.StatusService;
 import com.app.materiel.Service.StockService;
@@ -16,6 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +30,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StockController {
@@ -41,9 +49,17 @@ public class StockController {
 
     @Autowired
     private MouvementService mouvementService;
+    @Autowired
+    private StockRepository stockRepository;
+    @Autowired
+    private TypeRepository typeRepository;
 
     @GetMapping("/article/new")
     public String showAddStockForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
         model.addAttribute("stock", new StockDto());
         model.addAttribute("types", typeService.findtypes());
         model.addAttribute("statuses", statusService.findstatus());
@@ -68,6 +84,10 @@ public class StockController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
         Page<Stock> stockPage = stockService.findAllStocks(searchTerm, page);
 
         model.addAttribute("stockPage", stockPage);
@@ -78,6 +98,10 @@ public class StockController {
 
     @GetMapping("/etat-stock-global")
     public String getGlobalStockEtat(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
         List<TypeSummaryDto> typeSummary = stockService.getTypeSummary();
         model.addAttribute("typeSummary", typeSummary);
         return "global-stock-etat";
@@ -88,6 +112,10 @@ public class StockController {
             @RequestParam("type") String type,
             @RequestParam("status") String status,
             Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
 
         // Fetch stock items by type and status
         List<Stock> stockItems = stockService.findStocksByTypeAndStatus(type, status);
@@ -108,6 +136,10 @@ public class StockController {
                                  @RequestParam(value = "size", defaultValue = "10") int size,
                                  Model model) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
         Stock stock = stockService.findStockById(stockId);
         Page<Mouvement> mouvementPage = mouvementService.findMovementsByStockOrderByDateDesc(stock, page, size);
 
@@ -119,6 +151,9 @@ public class StockController {
 
     @GetMapping("/article/export")
     public ResponseEntity<byte[]> exportToExcel() throws IOException {
+
+
+
         List<Stock> stockList = stockService.findAllStocks(); // Fetch all stocks
 
 
@@ -188,6 +223,49 @@ public class StockController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(outputStream.toByteArray());
     }
+
+    @GetMapping("/stock/tree")
+    public String showTree(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+
+        return "stock-tree";
+    }
+
+
+    @GetMapping("/api/stock/tree")
+    public ResponseEntity<List<Map<String, Object>>> getStockTree() {
+        List<Type> types = typeRepository.findAll();
+        List<Map<String, Object>> treeData = new ArrayList<>();
+
+        Map<String, Object> stockNode = new HashMap<>();
+        stockNode.put("name", "Stock");
+        List<Map<String, Object>> children = new ArrayList<>();
+
+        for (Type type : types) {
+            Map<String, Object> typeNode = new HashMap<>();
+            typeNode.put("name", type.getLibelle());
+
+            List<Stock> stocks = stockRepository.findByType(type);
+            List<Map<String, Object>> stockItems = new ArrayList<>();
+
+            for (Stock stock : stocks) {
+                Map<String, Object> stockItem = new HashMap<>();
+                stockItem.put("name", stock.getDesignation() + " (N°Serie: " + stock.getNserie() + ")");
+                stockItems.add(stockItem);
+            }
+
+            typeNode.put("children", stockItems);
+            children.add(typeNode);
+        }
+
+        stockNode.put("children", children);
+        treeData.add(stockNode);
+
+        return ResponseEntity.ok(treeData);
+    }
+
 
 }
 

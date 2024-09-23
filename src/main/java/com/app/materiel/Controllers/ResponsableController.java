@@ -3,6 +3,8 @@ package com.app.materiel.Controllers;
 import com.app.materiel.Entity.Responsable;
 import com.app.materiel.Service.ResponsableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +25,18 @@ public class ResponsableController {
 
     @GetMapping("/responsable/new")
     public String pagenewresponsable(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         model.addAttribute("responsable", new Responsable());
         return "responsable-new";
     }
 
     @GetMapping("/responsable/list")
     public String pagelistresponsable(Model model){
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         List<Responsable> responsables = responsableService.findResponsable();
         model.addAttribute("responsables", responsables);
 

@@ -37,6 +37,13 @@ public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
     @Query("select count (m) from Mouvement m")
     int totalMvn();
 
+    @Query("SELECT m.stock.type.libelle, COUNT(m) FROM Mouvement m GROUP BY m.stock.type.libelle")
+    List<Object[]> countMouvementsByType();
+
+    @Query("SELECT FUNCTION('DAYNAME', m.datee), COUNT(m) FROM Mouvement m WHERE m.datee IS NOT NULL GROUP BY FUNCTION('DAYNAME', m.datee)")
+    List<Object[]> countMouvementByDay();
+
+
 
 
 

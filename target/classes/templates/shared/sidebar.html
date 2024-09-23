@@ -125,6 +125,20 @@
                 </ul>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-ett" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/stock/tree')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-diagram-3-fill"></i><span>Schéma Stock</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-ett" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/stock/tree')} ? 'show'" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/stock/tree" th:classappend="${#request.requestURI == '/stock/tree'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Schéma Stock</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
 
 
 

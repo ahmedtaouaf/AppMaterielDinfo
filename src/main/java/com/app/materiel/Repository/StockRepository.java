@@ -1,6 +1,7 @@
 package com.app.materiel.Repository;
 
 import com.app.materiel.Entity.Stock;
+import com.app.materiel.Entity.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,6 +33,9 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     @Query("select count (s) from Stock s")
     int totalStock();
+
+    List<Stock> findByType(Type type);
+
 
 
 
