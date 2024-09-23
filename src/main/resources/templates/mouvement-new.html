@@ -67,63 +67,65 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Nouvelle Mouvement Sortie</h5>
-                        <form th:action="@{/addMouvement}" th:object="${mouvement}" method="post">
-                            <!-- Type Selection -->
-                            <div class="row mb-3">
-                                <label for="type" class="col-sm-2 col-form-label">Type</label>
-                                <div class="col-sm-10">
-                                    <select id="type" class="form-select" aria-label="Default select example">
-                                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.libelle}"></option>
-                                    </select>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <form th:action="@{/addMouvement}" th:object="${mouvement}" method="post" style="width: 100%; max-width: 600px;">
+                                <!-- Type Selection -->
+                                <div class="row mb-3">
+                                    <label for="type" class="col-sm-3 col-form-label text-end">Type</label>
+                                    <div class="col-sm-9">
+                                        <select id="type" class="js-example-basic-single form-control" aria-label="Default select example" required>
+                                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.libelle}"></option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Stock Selection -->
-                            <div class="row mb-3">
-                                <label for="stock" class="col-sm-2 col-form-label">Article</label>
-                                <div class="col-sm-10">
-                                    <select id="stock" th:field="*{stockId}" class="form-select" aria-label="Default select example" required>
-                                        <option th:each="stock : ${stocks}" th:value="${stock.id}" th:text="${stock.designation} + ' <' + ${stock.nserie} + '>'"></option>
-                                    </select>
+                                <!-- Stock Selection -->
+                                <div class="row mb-3">
+                                    <label for="stock" class="col-sm-3 col-form-label text-end">Article</label>
+                                    <div class="col-sm-9">
+                                        <select id="stock" th:field="*{stockId}" class="js-example-basic-single form-control" aria-label="Default select example" required>
+                                            <option th:each="stock : ${stocks}" th:value="${stock.id}" th:text="${stock.designation} + ' <' + ${stock.nserie} + '>'"></option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Position Selection -->
-                            <div class="row mb-3">
-                                <label for="position" class="col-sm-2 col-form-label">Position</label>
-                                <div class="col-sm-10">
-                                    <select id="position" th:field="*{positionId}" class="form-select" aria-label="Default select example" required>
-                                        <option th:each="position : ${positions}" th:value="${position.id}" th:text="${position.libelle}"></option>
-                                    </select>
+                                <!-- Position Selection -->
+                                <div class="row mb-3">
+                                    <label for="position" class="col-sm-3 col-form-label text-end">Position</label>
+                                    <div class="col-sm-9">
+                                        <select id="position" th:field="*{positionId}" class="js-example-basic-single form-control" aria-label="Default select example" required>
+                                            <option th:each="position : ${positions}" th:value="${position.id}" th:text="${position.libelle}"></option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Status Selection -->
-                            <div class="row mb-3">
-                                <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
-                                    <select id="status" th:field="*{statusId}" class="form-select" aria-label="Default select example" required>
-                                        <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.libelle}"></option>
-                                    </select>
+                                <!-- Status Selection -->
+                                <div class="row mb-3">
+                                    <label for="status" class="col-sm-3 col-form-label text-end">Status</label>
+                                    <div class="col-sm-9">
+                                        <select id="status" th:field="*{statusId}" class="js-example-basic-single form-control" aria-label="Default select example" required>
+                                            <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.libelle}"></option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Observation -->
-                            <div class="row mb-3">
-                                <label for="observation" class="col-sm-2 col-form-label">Observation</label>
-                                <div class="col-sm-10">
-                                    <textarea id="observation" th:field="*{observation}" class="form-control" style="height: 100px"></textarea>
+                                <!-- Observation -->
+                                <div class="row mb-3">
+                                    <label for="observation" class="col-sm-3 col-form-label text-end">Observation</label>
+                                    <div class="col-sm-9">
+                                        <textarea id="observation" th:field="*{observation}" class="form-control" style="height: 100px;"></textarea>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Submit Button -->
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                <button type="reset" class="btn btn-secondary">Réinitialiser</button>
-                            </div>
-                        </form>
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -151,34 +153,48 @@
 <script src="/assets/js/main.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const typeSelect = document.getElementById('type');
-        const stockSelect = document.getElementById('stock');
+        const stockSelect = $('#stock'); // Use jQuery to work with Select2
 
-        typeSelect.addEventListener('change', function () {
-            const selectedTypeId = typeSelect.value;
+        // Initialize Select2 for all dropdowns
+        $('.js-example-basic-single').select2();
 
-            fetch(`/stocks?typeId=${selectedTypeId}`)
-                .then(response => response.json())
-                .then(data => {
-                    stockSelect.innerHTML = ''; // Clear current options
+        // Ensure that the change event is correctly bound to the Select2 type dropdown
+        $('#type').on('change', function () {
+            const selectedTypeId = $(this).val();  // Get the selected value
 
-                    if (data.length > 0) {
-                        data.forEach(stock => {
-                            const option = document.createElement('option');
-                            option.value = stock.id;
-                            option.textContent = `${stock.designation} <${stock.nserie}>`;
-                            stockSelect.appendChild(option);
-                        });
-                    } else {
-                        const option = document.createElement('option');
-                        option.value = '';
-                        option.textContent = 'Aucun Article Disponible';
-                        stockSelect.appendChild(option);
-                    }
-                });
+            if (selectedTypeId) {
+                // Send request to get stocks based on selected type
+                fetch(`/stocks?typeId=${selectedTypeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        stockSelect.empty(); // Clear current options
+
+                        if (data.length > 0) {
+                            data.forEach(stock => {
+                                const option = new Option(`${stock.designation} <${stock.nserie}>`, stock.id, false, false);
+                                stockSelect.append(option);
+                            });
+                        } else {
+                            const option = new Option('Aucun Article Disponible', '', false, false);
+                            stockSelect.append(option);
+                        }
+
+                        // Notify Select2 to refresh options
+                        stockSelect.trigger('change');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching stocks:', error);  // Debugging output
+                    });
+            }
         });
     });
 
+</script>
+<script>
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
 </script>
 </body>
 
