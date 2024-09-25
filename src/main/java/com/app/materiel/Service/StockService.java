@@ -56,6 +56,9 @@ public class StockService {
                 stock.setType(type);
                 stock.setStatus(status);
                 stockRepository.save(stock);
+
+                stock.setNserie("SN_" + stock.getId());
+                stockRepository.save(stock);
             }
         }
     }
