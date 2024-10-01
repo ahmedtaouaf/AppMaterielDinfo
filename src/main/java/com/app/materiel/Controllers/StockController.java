@@ -92,7 +92,7 @@ public class StockController {
 
         model.addAttribute("stockPage", stockPage);
         model.addAttribute("searchTerm", searchTerm);
-
+        model.addAttribute("types", typeService.findtypes());
         return "article-list";
     }
 
@@ -265,6 +265,22 @@ public class StockController {
 
         return ResponseEntity.ok(treeData);
     }
+
+    @PostMapping("/stock/update")
+    public String updateStock(@RequestParam Long id, @RequestParam String designation, @RequestParam("typeId") Long typeId, RedirectAttributes redirectAttributes) {
+
+        Stock stock = stockRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid stock ID"));
+        stock.setDesignation(designation);
+        Type selectedType = typeRepository.findById(typeId).orElseThrow(() -> new IllegalArgumentException("Invalid type ID"));
+        stock.setType(selectedType);
+
+        stockRepository.save(stock);
+        redirectAttributes.addFlashAttribute("successMessage", "Article modifier avec succès !");
+        return "redirect:/article/liste";
+    }
+
+
+
 
 
 }
