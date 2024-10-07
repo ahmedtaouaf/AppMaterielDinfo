@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +43,10 @@ public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
 
     @Query("SELECT FUNCTION('DAYNAME', m.datee), COUNT(m) FROM Mouvement m WHERE m.datee IS NOT NULL GROUP BY FUNCTION('DAYNAME', m.datee)")
     List<Object[]> countMouvementByDay();
+
+
+    @Transactional
+    void deleteByStockId(Long stockId);
 
 
 

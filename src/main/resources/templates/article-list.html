@@ -115,7 +115,11 @@
                                     </a>
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
                                             th:attr="data-id=${stock.id}, data-designation=${stock.designation}, data-type=${stock.type.id}">
-                                        <i class="bi bi-pencil-fill"></i> Edit
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            th:attr="data-id=${stock.id}, data-designation=${stock.designation}">
+                                        <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -127,7 +131,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Edit Stock Item</h5>
+                                        <h5 class="modal-title" id="editModalLabel">Modifier Article</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -171,6 +175,30 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Supprimer Article</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div  class="modal-body">
+                                        <p>Êtes-vous sûr de vouloir supprimer l'article <strong id="deleteDesignation"></strong>?</p>
+                                        <p class="alert alert-danger">Cela supprimera également tous les mouvements associés.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form th:action="@{/stock/delete}" method="post">
+                                            <input type="hidden" id="deleteStockId" name="id" />
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            <button type="submit" class="btn btn-danger">Confirmer</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
 
 
@@ -235,6 +263,21 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const stockId = button.getAttribute('data-id');
+            const designation = button.getAttribute('data-designation');
+
+            // Set the stock ID and designation in the modal
+            document.getElementById('deleteStockId').value = stockId;
+            document.getElementById('deleteDesignation').textContent = designation;
+        });
+    });
+</script>
+
 
 </body>
 

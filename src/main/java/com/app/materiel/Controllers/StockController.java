@@ -4,6 +4,7 @@ import com.app.materiel.Dto.TypeSummaryDto;
 import com.app.materiel.Entity.Mouvement;
 import com.app.materiel.Entity.Stock;
 import com.app.materiel.Entity.Type;
+import com.app.materiel.Repository.MouvementRepository;
 import com.app.materiel.Repository.StockRepository;
 import com.app.materiel.Repository.TypeRepository;
 import com.app.materiel.Service.MouvementService;
@@ -51,6 +52,8 @@ public class StockController {
     private MouvementService mouvementService;
     @Autowired
     private StockRepository stockRepository;
+    @Autowired
+    private MouvementRepository mouvementRepository;
     @Autowired
     private TypeRepository typeRepository;
 
@@ -278,6 +281,20 @@ public class StockController {
         redirectAttributes.addFlashAttribute("successMessage", "Article modifier avec succès !");
         return "redirect:/article/liste";
     }
+
+    @PostMapping("/stock/delete")
+    public String deleteStock(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+
+        Stock stock = stockRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid stock ID"));
+
+        mouvementRepository.deleteByStockId(stock.getId());
+
+        stockRepository.delete(stock);
+        redirectAttributes.addFlashAttribute("successMessage", "Article supprimé avec succés!");
+        return "redirect:/article/liste";
+    }
+
 
 
 
