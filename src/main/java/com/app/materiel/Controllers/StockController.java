@@ -120,10 +120,8 @@ public class StockController {
         String username = authentication.getName();
         model.addAttribute("username", username);
 
-        // Fetch stock items by type and status
         List<Stock> stockItems = stockService.findStocksByTypeAndStatus(type, status);
 
-        // Add stock items to the model
         model.addAttribute("stockItems", stockItems);
         model.addAttribute("type", type);
         model.addAttribute("status", status);
@@ -294,6 +292,13 @@ public class StockController {
         redirectAttributes.addFlashAttribute("successMessage", "Article supprimé avec succés!");
         return "redirect:/article/liste";
     }
+
+    @GetMapping("/checkNserie")
+    @ResponseBody
+    public boolean checkNserieExists(@RequestParam("nserie") String nserie) {
+        return stockService.existsByNserie(nserie);
+    }
+
 
 
 

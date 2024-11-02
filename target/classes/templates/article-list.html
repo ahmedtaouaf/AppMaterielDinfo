@@ -72,7 +72,7 @@
                                 </button>
                             </div>
                             <div class="col-auto">
-                            <form th:action="@{/article/liste}" method="get">
+                            <!--<form th:action="@{/article/liste}" method="get">
                                 <div class="row mb-3 justify-content-end align-items-center">
                                     <div class="col-auto">
                                         <input name="search" th:value="${searchTerm}" type="text" class="form-control" placeholder="Recherche par N°Serie, Désignation">
@@ -81,12 +81,12 @@
                                         <button class="btn btn-primary" type="submit">Recherche</button>
                                     </div>
                                 </div>
-                            </form>
+                            </form>-->
                             </div>
                         </div>
 
 
-                        <table class="table table-striped">
+                        <table class="table datatable">
                             <thead>
                             <tr>
                                 <th scope="col">Designation</th>
@@ -185,7 +185,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div  class="modal-body">
-                                        <p>Êtes-vous sûr de vouloir supprimer l'article en stock<strong id="deleteDesignation"></strong>?</p>
+                                        <p>Êtes-vous sûr de vouloir supprimer l'article <strong id="deleteDesignation"></strong>?</p>
                                         <p class="alert alert-danger">Cela supprimera également tous les mouvements associés.</p>
                                     </div>
                                     <div class="modal-footer">
@@ -203,7 +203,7 @@
 
 
 
-                        <nav aria-label="Page navigation example">
+                        <!--<nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     <li class="page-item disabled" th:classappend="${stockPage.hasPrevious() ? '' : 'disabled'}">
                                         <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number - 1}, search=${searchTerm})}" tabindex="-1" aria-disabled="true">Précédent</a>
@@ -216,7 +216,7 @@
                                         <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number + 1}, search=${searchTerm})}">Suivant</a>
                                     </li>
                                 </ul>
-                            </nav><!-- End Centered Pagination -->
+                            </nav>&lt;!&ndash; End Centered Pagination &ndash;&gt;-->
 
 
 

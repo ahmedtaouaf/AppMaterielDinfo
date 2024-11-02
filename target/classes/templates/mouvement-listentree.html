@@ -99,7 +99,7 @@
                   <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
                   <td th:text="${stock.dateentree}"></td>
                   <td th:text="${stock.observation}"></td>
-                  <td th:if="${stock.status.libelle=='ENTREE AU STOCK'}"><span th:text="${stock.status.libelle}" class="badge bg-success"></span></td>
+                  <td> <span th:text="${stock.status.libelle}" class="badge bg-success"></span></td>
                 </tr>
                 </tbody>
               </table>

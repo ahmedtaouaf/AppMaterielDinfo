@@ -49,11 +49,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Article</h1>
+        <h1>Mouvement</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Acceuil</li>
-                <li class="breadcrumb-item active">Liste Des Articles</li>
+                <li class="breadcrumb-item active">Liste Des Mouvements Sortie</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -89,7 +89,8 @@
                                     <th scope="col">Type</th>
                                     <th scope="col">Position</th>
                                     <th scope="col">Date Sortie</th>
-                                    <th scope="col">Obs</th>
+                                    <th scope="col">N°serie</th>
+                                    <th scope="col">Observation</th>
                                     <th scope="col">Status</th>
                                 </tr>
                                 </thead>
@@ -99,8 +100,9 @@
                                     <td th:text="${stock.stock.type.libelle}"></td>
                                     <td th:text="${stock.position.libelle}"></td>
                                     <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
-                                    <td th:text="${stock.observation}"></td>
-                                    <td th:if="${stock.status.libelle=='MISSION'}"><span th:text="${stock.status.libelle}" class="badge bg-warning"></span></td>
+                                    <td th:text="${stock.stock.nserie}"></td>
+                                    <td th:text="${stock.stock.observation}"></td>
+                                    <td> <span th:text="${stock.status.libelle}" class="badge bg-warning"></span></td>
                                 </tr>
                                 </tbody>
                             </table>

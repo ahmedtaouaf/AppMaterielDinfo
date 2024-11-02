@@ -10,21 +10,22 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
 
-    @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.status.libelle LIKE %:searchTerm%) AND m.status.libelle = 'MISSION' ORDER BY m.datee DESC")
+    @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.stock.type.libelle LIKE %:searchTerm% OR m.stock.designation LIKE %:searchTerm% OR m.stock.nserie LIKE %:searchTerm%) AND m.status.libelle NOT IN ('DISPONIBLE', 'INDISPONIBLE') and m.dateentree is null ORDER BY m.datee DESC")
     Page<Mouvement> findAllBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle = 'MISSION' ORDER BY m.datee DESC")
+    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle NOT IN ('DISPONIBLE', 'INDISPONIBLE') and m.dateentree is null ORDER BY m.datee DESC")
     Page<Mouvement> findAllmvns(Pageable pageable);
 
     @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.status.libelle LIKE %:searchTerm%) AND m.status.libelle = 'ENTREE AU STOCK' ORDER BY m.datee DESC")
     Page<Mouvement> findAllBySearchTermEntree(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle = 'ENTREE AU STOCK' ORDER BY m.datee DESC")
+    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle NOT IN ('DISPONIBLE', 'INDISPONIBLE') and m.dateentree is null ORDER BY m.datee DESC")
     Page<Mouvement> findAllmvnsEntree(Pageable pageable);
 
     Mouvement findTopByStockOrderByDateeDesc(Stock stock);
@@ -47,6 +48,7 @@ public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
 
     @Transactional
     void deleteByStockId(Long stockId);
+    List<Mouvement> findByDateeBetweenOrDateentreeBetween(Date startDate, Date endDate, Date startDateEntree, Date endDateEntree);
 
 
 

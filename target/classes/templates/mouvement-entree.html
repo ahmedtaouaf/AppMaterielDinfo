@@ -47,7 +47,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Article</h1>
+    <h1>Mouvement D'entrée</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">Acceuil</li>
@@ -71,7 +71,7 @@
             <form th:action="@{/addEntreeMouvement}" th:object="${mouvement}" method="post" style="width: 100%; max-width: 600px;">
 
               <div class="row mb-3">
-                <label for="stock" class="col-sm-2 col-form-label">Article</label>
+                <label for="stock" class="col-sm-2 col-form-label">Article:</label>
                 <div class="col-sm-10">
                   <select id="stock" th:field="*{stockId}"  class="js-example-basic-single" aria-label="Default select example" style="width: 100%" required>
                     <option th:each="stock : ${stocks}" th:value="${stock.id}" th:text="${stock.designation}+ ' <'+${stock.nserie}+'>'"></option>
@@ -83,6 +83,13 @@
                 <label for="observation" class="col-sm-2 col-form-label">Observation:</label>
                 <div class="col-sm-10">
                   <textarea id="observation" th:field="*{observation}" class="form-control" style="height: 100px"></textarea>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="observation" class="col-sm-2 col-form-label">Date Entree:</label>
+                <div class="col-sm-10">
+                  <input type="date" th:field="*{dateentre}" name="datee" required class="form-control">
                 </div>
               </div>
 

@@ -12,6 +12,7 @@ import com.app.materiel.Repository.TypeRepository;
 import com.app.materiel.Service.MouvementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +49,7 @@ public class MouvementController {
         model.addAttribute("mouvement", new MouvementDto());
         model.addAttribute("positions", positionRepository.findAll());
 
-        // Fetch and filter the statuses
+
         List<Status> allStatuses = statusRepository.findAll();
         List<Status> filteredStatuses = allStatuses.stream()
                 .filter(status -> !status.getLibelle().equals("DISPONIBLE") &&
@@ -56,7 +58,7 @@ public class MouvementController {
                 .collect(Collectors.toList());
         model.addAttribute("statuses", filteredStatuses);
 
-        // Fetch all types to populate the type dropdown
+
         List<Type> types = typeRepository.findAll();
         model.addAttribute("types", types);
 
@@ -130,6 +132,27 @@ public class MouvementController {
     public List<Stock> getStocksByTypeAndDisponibleStatus(@RequestParam Long typeId) {
         String statusDisponible = "DISPONIBLE";
         return stockRepository.findByTypeIdAndStatusLibelle(typeId, statusDisponible);
+    }
+
+    @GetMapping("/mouvement/search")
+    public String showSearchForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+        return "mouvement-search";
+    }
+
+    @PostMapping("/mouvement/search")
+    public String searchMouvements(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+        List<Mouvement> mouvements = mouvementService.findMouvementsByDateRange(startDate, endDate);
+        model.addAttribute("mouvements", mouvements);
+        return "mouvement-search";
     }
 
 

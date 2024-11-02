@@ -36,6 +36,9 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     List<Stock> findByType(Type type);
 
+    boolean existsByNserie(String nserie);
+
+
 
 
 

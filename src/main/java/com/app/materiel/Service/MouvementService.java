@@ -15,6 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,27 +36,32 @@ public class MouvementService {
     private PositionRepository positionRepository;
 
     public void saveMouvement(MouvementDto mouvementDto) {
-
         Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
         Status status = statusRepository.findById(mouvementDto.getStatusId()).orElseThrow();
         Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();
 
-
         Mouvement mouvement = new Mouvement();
-        mouvement.setDatee(new Date());
+
+
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            mouvement.setDatee(formatter.parse(mouvementDto.getDatee()));
+        } catch (ParseException e) {
+            throw new RuntimeException("Invalid date format for datee", e);
+        }
+
         mouvement.setObservation(mouvementDto.getObservation());
         mouvement.setStock(stock);
         mouvement.setStatus(status);
         mouvement.setPosition(position);
         mouvementRepository.save(mouvement);
 
-
         stock.setStatus(statusRepository.findByLibelle("INDISPONIBLE"));
         stockRepository.save(stock);
     }
 
     public Page<Mouvement> findAllmouvements(String searchTerm, int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 25);
         if (searchTerm == null || searchTerm.isEmpty()) {
             return mouvementRepository.findAllmvns(pageable);
         }
@@ -62,7 +70,7 @@ public class MouvementService {
 
 
     public Page<Mouvement> findAllmouvementsEntree(String searchTerm, int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 25);
         if (searchTerm == null || searchTerm.isEmpty()) {
             return mouvementRepository.findAllmvnsEntree(pageable);
         }
@@ -79,7 +87,12 @@ public class MouvementService {
 
         Mouvement mouvement = new Mouvement();
 
-        mouvement.setDateentree(new Date());
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            mouvement.setDateentree(formatter.parse(mouvementDto.getDateentre()));
+        } catch (ParseException e) {
+            throw new RuntimeException("Invalid date format for datee", e);
+        }
         mouvement.setDatee(lastMouvement.getDatee());
         mouvement.setObservation(mouvementDto.getObservation());
         mouvement.setStock(stock);
@@ -107,6 +120,18 @@ public class MouvementService {
     public Integer totalMvn() {
 
         return mouvementRepository.totalMvn();
+    }
+
+    public List<Mouvement> findMouvementsByDateRange(Date startDate, Date endDate) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(endDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        Date adjustedEndDate = calendar.getTime();
+
+        return mouvementRepository.findByDateeBetweenOrDateentreeBetween(startDate, adjustedEndDate, startDate, adjustedEndDate);
     }
 
 

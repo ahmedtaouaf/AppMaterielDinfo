@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Components / Accordion - NiceAdmin Bootstrap Template</title>
+    <title>Nouvel Article - Application Materiel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -179,6 +179,34 @@
         $('.js-example-basic-single').select2();
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const nserieField = document.getElementById("nserie");
+        const nserieWarning = document.createElement("small");
+        nserieWarning.style.color = "red";
+        nserieField.parentNode.appendChild(nserieWarning);
+
+        nserieField.addEventListener("input", function() {
+            const nserie = nserieField.value;
+
+            if (nserie) {
+                fetch(`/checkNserie?nserie=${nserie}`)
+                    .then(response => response.json())
+                    .then(exists => {
+                        if (exists) {
+                            nserieWarning.textContent = "Le numéro de série existe déjà.";
+                        } else {
+                            nserieWarning.textContent = "";
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            } else {
+                nserieWarning.textContent = "";
+            }
+        });
+    });
+</script>
+
 </body>
 
 </html>

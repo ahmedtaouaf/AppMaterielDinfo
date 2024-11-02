@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Components / Accordion - NiceAdmin Bootstrap Template</title>
+    <title>Nouvelle Mouvement - Application Materiel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -47,7 +47,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Article</h1>
+        <h1>Mouvement Sortie</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Acceuil</li>
@@ -114,6 +114,12 @@
                                     <label for="observation" class="col-sm-3 col-form-label text-end">Observation</label>
                                     <div class="col-sm-9">
                                         <textarea id="observation" th:field="*{observation}" class="form-control" style="height: 100px;"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="observation" class="col-sm-3 col-form-label text-end">Date Sortie</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" th:field="*{datee}" name="datee" required class="form-control">
                                     </div>
                                 </div>
 

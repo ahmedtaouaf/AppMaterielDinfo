@@ -64,7 +64,7 @@ public class StockService {
     }
 
     public Page<Stock> findAllStocks(String searchTerm, int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 35);
         if (searchTerm == null || searchTerm.isEmpty()) {
             return stockRepository.findAll(pageable);
         }
@@ -114,6 +114,10 @@ public class StockService {
 
         return stockRepository.totalStock();
     }
+    public boolean existsByNserie(String nserie) {
+        return stockRepository.existsByNserie(nserie);
+    }
+
 
 
 }
