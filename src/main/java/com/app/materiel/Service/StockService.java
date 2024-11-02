@@ -64,7 +64,7 @@ public class StockService {
     }
 
     public Page<Stock> findAllStocks(String searchTerm, int page) {
-        Pageable pageable = PageRequest.of(page, 35);
+        Pageable pageable = PageRequest.of(page, 25);
         if (searchTerm == null || searchTerm.isEmpty()) {
             return stockRepository.findAll(pageable);
         }
@@ -117,6 +117,22 @@ public class StockService {
     public boolean existsByNserie(String nserie) {
         return stockRepository.existsByNserie(nserie);
     }
+    public Page<Stock> findStocksByTypeAndSearchTerm(Long typeId, String searchTerm, int page) {
+        if (typeId != null) {
+            return stockRepository.findByTypeIdAndDesignationContainingIgnoreCase(typeId, searchTerm, PageRequest.of(page, 10));
+        } else {
+            return stockRepository.findByDesignationContainingIgnoreCase(searchTerm, PageRequest.of(page, 10));
+        }
+    }
+
+    public Page<Stock> findStocksByType(Long typeId, String searchTerm, int page) {
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            return stockRepository.findByTypeIdAndDesignationContainingIgnoreCase(typeId, searchTerm, PageRequest.of(page, 25));
+        }
+        return stockRepository.findByTypeId(typeId, PageRequest.of(page, 25));
+    }
+
+
 
 
 

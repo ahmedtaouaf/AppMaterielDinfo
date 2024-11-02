@@ -17,7 +17,8 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Query("SELECT s FROM Stock s WHERE (:searchTerm IS NULL OR :searchTerm = '' OR s.nserie LIKE %:searchTerm% OR s.designation LIKE %:searchTerm%) ORDER BY s.datee DESC")
     Page<Stock> findAllBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    List<Stock> findByTypeId(Long typeId);
+    Page<Stock> findByTypeId(Long typeId, Pageable pageable);
+
 
     List<Stock> findByTypeIdAndStatusLibelle(Long typeId, String statusLibelle);
 
@@ -37,6 +38,10 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Stock> findByType(Type type);
 
     boolean existsByNserie(String nserie);
+
+    Page<Stock> findByTypeIdAndDesignationContainingIgnoreCase(Long typeId, String designation, Pageable pageable);
+    Page<Stock> findByDesignationContainingIgnoreCase(String designation, Pageable pageable);
+
 
 
 

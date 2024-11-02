@@ -83,6 +83,7 @@ public class StockController {
 
     @GetMapping("/article/liste")
     public String listStocks(
+            @RequestParam(value = "typeId", required = false) Long typeId,
             @RequestParam(value = "search", required = false) String searchTerm,
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
@@ -91,13 +92,23 @@ public class StockController {
         String username = authentication.getName();
         model.addAttribute("username", username);
 
-        Page<Stock> stockPage = stockService.findAllStocks(searchTerm, page);
+        Page<Stock> stockPage;
+        if (typeId == null) {
+
+            stockPage = stockService.findAllStocks(searchTerm, page);
+        } else {
+            stockPage = stockService.findStocksByType(typeId, searchTerm, page);
+        }
 
         model.addAttribute("stockPage", stockPage);
-        model.addAttribute("searchTerm", searchTerm);
         model.addAttribute("types", typeService.findtypes());
+        model.addAttribute("typeId", typeId);
+        model.addAttribute("searchTerm", searchTerm);
+
         return "article-list";
     }
+
+
 
     @GetMapping("/etat-stock-global")
     public String getGlobalStockEtat(Model model) {

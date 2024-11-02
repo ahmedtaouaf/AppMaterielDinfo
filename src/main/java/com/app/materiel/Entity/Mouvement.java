@@ -27,4 +27,7 @@ public class Mouvement {
     @ManyToOne
     @JoinColumn(name = "position_id", nullable = false)
     private Position position;
+    @ManyToOne
+    @JoinColumn(name = "responsable_id", nullable = false)
+    private Responsable responsable;
 }

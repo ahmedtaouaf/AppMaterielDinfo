@@ -65,28 +65,40 @@
                     <div class="card-body">
                         <h5 class="card-title">Liste Des Articles</h5>
 
-                        <div class="row mb-3 justify-content-between align-items-center">
-                            <div class="col-auto">
+
+
+                        <div class="row mb-3">
+
+                            <div class="col-md-2 d-flex align-items-center">
                                 <button type="button" class="btn btn-success" onclick="window.location.href='/article/export'">
                                     <i class="bi bi-file-earmark-excel-fill"></i> Exporter Excel
                                 </button>
                             </div>
-                            <div class="col-auto">
-                            <!--<form th:action="@{/article/liste}" method="get">
-                                <div class="row mb-3 justify-content-end align-items-center">
-                                    <div class="col-auto">
-                                        <input name="search" th:value="${searchTerm}" type="text" class="form-control" placeholder="Recherche par N°Serie, Désignation">
-                                    </div>
-                                    <div class="col-auto">
-                                        <button class="btn btn-primary" type="submit">Recherche</button>
-                                    </div>
-                                </div>
-                            </form>-->
+
+
+                            <div class="col-md-10">
+                                <form th:action="@{/article/liste}" method="get" class="d-flex justify-content-end align-items-center">
+
+                                    <input type="text" th:name="search" th:value="${searchTerm}" placeholder="Recherche par désignation"
+                                           class="form-control me-2" style="width: 200px;">
+
+
+                                    <select th:name="typeId" class="form-select me-2" style="width: 150px;">
+                                        <option value="" th:text="'Tous types'"></option>
+                                        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.libelle}"
+                                                th:selected="${type.id == typeId}"></option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary">Filtre</button>
+                                </form>
                             </div>
                         </div>
 
 
-                        <table class="table datatable">
+
+
+
+
+                        <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th scope="col">Designation</th>
@@ -125,6 +137,7 @@
                             </tr>
                             </tbody>
                         </table>
+
 
                         <!-- Edit Modal -->
                         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -203,20 +216,32 @@
 
 
 
-                        <!--<nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled" th:classappend="${stockPage.hasPrevious() ? '' : 'disabled'}">
-                                        <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number - 1}, search=${searchTerm})}" tabindex="-1" aria-disabled="true">Précédent</a>
-                                    </li>
-                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, stockPage.totalPages - 1)}"
-                                        th:classappend="${i == stockPage.number} ? 'active'">
-                                        <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${i}, search=${searchTerm})}"
-                                           th:text="${i + 1}"></a></li>
-                                    <li class="page-item" th:classappend="${stockPage.hasNext() ? '' : 'disabled'}">
-                                        <a class="page-link" th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number + 1}, search=${searchTerm})}">Suivant</a>
-                                    </li>
-                                </ul>
-                            </nav>&lt;!&ndash; End Centered Pagination &ndash;&gt;-->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <!-- Previous Page Link -->
+                                <li class="page-item" th:classappend="${stockPage.hasPrevious()} ? '' : 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number - 1}, search=${searchTerm}, typeId=${typeId})}"
+                                       tabindex="-1" aria-disabled="true">Précédent</a>
+                                </li>
+
+                                <!-- Page Number Links -->
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, stockPage.totalPages - 1)}"
+                                    th:classappend="${i == stockPage.number} ? 'active'">
+                                    <a class="page-link"
+                                       th:href="@{/article/liste(size=${stockPage.size}, page=${i}, search=${searchTerm}, typeId=${typeId})}"
+                                       th:text="${i + 1}"></a>
+                                </li>
+
+                                <!-- Next Page Link -->
+                                <li class="page-item" th:classappend="${stockPage.hasNext()} ? '' : 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/article/liste(size=${stockPage.size}, page=${stockPage.number + 1}, search=${searchTerm}, typeId=${typeId})}">
+                                        Suivant</a>
+                                </li>
+                            </ul>
+                        </nav>
+
 
 
 

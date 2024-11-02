@@ -1,14 +1,8 @@
 package com.app.materiel.Controllers;
 
 import com.app.materiel.Dto.MouvementDto;
-import com.app.materiel.Entity.Mouvement;
-import com.app.materiel.Entity.Status;
-import com.app.materiel.Entity.Stock;
-import com.app.materiel.Entity.Type;
-import com.app.materiel.Repository.PositionRepository;
-import com.app.materiel.Repository.StatusRepository;
-import com.app.materiel.Repository.StockRepository;
-import com.app.materiel.Repository.TypeRepository;
+import com.app.materiel.Entity.*;
+import com.app.materiel.Repository.*;
 import com.app.materiel.Service.MouvementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,16 +33,14 @@ public class MouvementController {
     private TypeRepository typeRepository;
     @Autowired
     private PositionRepository positionRepository;
+    @Autowired
+    private ResponsableRepository responsableRepository;
 
     @GetMapping("/mouvements/new")
     public String showMouvementForm(Model model) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        model.addAttribute("username", username);
-
-        model.addAttribute("mouvement", new MouvementDto());
-        model.addAttribute("positions", positionRepository.findAll());
-
 
         List<Status> allStatuses = statusRepository.findAll();
         List<Status> filteredStatuses = allStatuses.stream()
@@ -56,11 +48,17 @@ public class MouvementController {
                         !status.getLibelle().equals("INDISPONIBLE") &&
                         !status.getLibelle().equals("ENTREE AU STOCK"))
                 .collect(Collectors.toList());
-        model.addAttribute("statuses", filteredStatuses);
-
 
         List<Type> types = typeRepository.findAll();
+
+        List<Responsable> responsables= responsableRepository.findAll();
+
+        model.addAttribute("username", username);
+        model.addAttribute("statuses", filteredStatuses);
         model.addAttribute("types", types);
+        model.addAttribute("responsables", responsables);
+        model.addAttribute("mouvement", new MouvementDto());
+        model.addAttribute("positions", positionRepository.findAll());
 
         return "mouvement-new";
     }
@@ -154,7 +152,5 @@ public class MouvementController {
         model.addAttribute("mouvements", mouvements);
         return "mouvement-search";
     }
-
-
 
 }

@@ -1,14 +1,8 @@
 package com.app.materiel.Service;
 
 import com.app.materiel.Dto.MouvementDto;
-import com.app.materiel.Entity.Mouvement;
-import com.app.materiel.Entity.Position;
-import com.app.materiel.Entity.Status;
-import com.app.materiel.Entity.Stock;
-import com.app.materiel.Repository.MouvementRepository;
-import com.app.materiel.Repository.PositionRepository;
-import com.app.materiel.Repository.StatusRepository;
-import com.app.materiel.Repository.StockRepository;
+import com.app.materiel.Entity.*;
+import com.app.materiel.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,11 +28,14 @@ public class MouvementService {
     private StatusRepository statusRepository;
     @Autowired
     private PositionRepository positionRepository;
+    @Autowired
+    private ResponsableRepository responsableRepository;
 
     public void saveMouvement(MouvementDto mouvementDto) {
         Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
         Status status = statusRepository.findById(mouvementDto.getStatusId()).orElseThrow();
         Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();
+        Responsable responsable = responsableRepository.findById(mouvementDto.getResponsableId()).orElseThrow();
 
         Mouvement mouvement = new Mouvement();
 
@@ -54,6 +51,7 @@ public class MouvementService {
         mouvement.setStock(stock);
         mouvement.setStatus(status);
         mouvement.setPosition(position);
+        mouvement.setResponsable(responsable);
         mouvementRepository.save(mouvement);
 
         stock.setStatus(statusRepository.findByLibelle("INDISPONIBLE"));
@@ -98,6 +96,7 @@ public class MouvementService {
         mouvement.setStock(stock);
         mouvement.setStatus(disponibleStatus);
         mouvement.setPosition(lastMouvement.getPosition());
+        mouvement.setResponsable(lastMouvement.getResponsable());
 
         mouvementRepository.save(mouvement);
 
