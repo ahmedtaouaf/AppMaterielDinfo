@@ -29,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/css/**", "/js/**", "/vendor/**","/assets/**").permitAll()
+                .antMatchers("/login", "/css/**", "/js/**", "/vendor/**", "/assets/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN") // Restrict /admin URLs to ADMIN role
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -44,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .permitAll();
-
     }
 
     @Bean
@@ -52,4 +52,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 }
+
 

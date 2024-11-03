@@ -66,9 +66,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Liste Des Articles</h5>
-                        <div class="container">
 
-                            <form th:action="@{/mouvements/liste}" method="get">
+                            <!--<form th:action="@{/mouvements/liste}" method="get">
                                 <div class="row mb-3 justify-content-end align-items-center">
                                     <div class="col-auto">
                                         <input name="search" th:value="${searchTerm}" type="text" class="form-control" placeholder="Recherche par N°Serie, Désignation">
@@ -77,38 +76,41 @@
                                         <button class="btn btn-primary" type="submit">Recherche</button>
                                     </div>
                                 </div>
-                            </form>
+                            </form>-->
 
 
 
 
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Article</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Position</th>
-                                    <th scope="col">Date Sortie</th>
-                                    <th scope="col">N°serie</th>
-                                    <th scope="col">Observation</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="stock : ${stockPage.content}">
-                                    <td th:text="${stock.stock.designation}"></td>
-                                    <td th:text="${stock.stock.type.libelle}"></td>
-                                    <td th:text="${stock.position.libelle}"></td>
-                                    <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
-                                    <td th:text="${stock.stock.nserie}"></td>
-                                    <td th:text="${stock.stock.observation}"></td>
-                                    <td> <span th:text="${stock.status.libelle}" class="badge bg-warning"></span></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <table class="table text-center">
+                            <thead class="text-center">
+                            <tr>
+                                <th scope="col">Article</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Position</th>
+                                <th scope="col">Date Sortie</th>
+                                <th scope="col">Date Entree</th>
+                                <th scope="col">N°serie</th>
+                                <th scope="col">Observation</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="stock : ${stockPage.content}">
+                                <td th:text="${stock.stock.designation}"></td>
+                                <td th:text="${stock.stock.type.libelle}"></td>
+                                <td th:text="${stock.position.libelle}"></td>
+                                <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
+                                <td>-</td>
+                                <td th:text="${stock.stock.nserie}"></td>
+                                <td th:text="${stock.stock.observation}"></td>
+                                <td><span th:text="${stock.status.libelle}" class="badge bg-warning"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
 
 
-                            <nav aria-label="Page navigation example">
+
+                        <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                                     <li class="page-item disabled" th:classappend="${stockPage.hasPrevious() ? '' : 'disabled'}">
                                         <a class="page-link" th:href="@{/mouvements/liste(size=${stockPage.size}, page=${stockPage.number - 1}, search=${searchTerm})}" tabindex="-1" aria-disabled="true">Précédent</a>
@@ -122,8 +124,6 @@
                                     </li>
                                 </ul>
                             </nav><!-- End Centered Pagination -->
-
-                        </div>
 
                     </div>
                 </div>

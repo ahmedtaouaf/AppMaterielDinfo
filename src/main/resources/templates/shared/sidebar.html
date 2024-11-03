@@ -1,3 +1,6 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org"
+      lang="en">
 <div th:fragment="sidebar">
 
     <aside id="sidebar" class="sidebar">
@@ -99,12 +102,12 @@
                 </a>
                 <ul id="components-na" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/responsable')} ? 'show'" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/responsable/new" th:classappend="${#request.requestURI == '/responsable/new'} ? 'active'">
+                        <a sec:authorize="hasRole('ADMIN')" href="/responsable/new" th:classappend="${#request.requestURI == '/responsable/new'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Nouveau Responsable</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/responsable/list" th:classappend="${#request.requestURI == '/responsable/list'} ? 'active'">
+                        <a  href="/responsable/list" th:classappend="${#request.requestURI == '/responsable/list'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Liste Des Responsables</span>
                         </a>
                     </li>
@@ -148,6 +151,25 @@
                     <li>
                         <a href="/mouvement/search" th:classappend="${#request.requestURI == '/mouvement/search'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Filtrer Par Date</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-lncs" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/mouvement/search')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-key-fill"></i><span>Licences</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-lncs" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/mouvement/search')} ? 'show'" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/mouvement/search" th:classappend="${#request.requestURI == '/mouvement/search'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Liste Des Licences</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mouvement/search" th:classappend="${#request.requestURI == '/mouvement/search'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Nouvelle Licence</span>
                         </a>
                     </li>
                 </ul>
