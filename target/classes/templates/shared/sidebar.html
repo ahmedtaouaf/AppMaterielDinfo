@@ -158,26 +158,22 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-lncs" data-bs-toggle="collapse"
-                   th:classappend="${#request.requestURI.startsWith('/mouvement/search')} ? ' ' : 'collapsed'" href="#">
+                   th:classappend="${#request.requestURI.startsWith('/licence/liste')} ? ' ' : 'collapsed'" href="#">
                     <i class="bi bi-key-fill"></i><span>Licences</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-lncs" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/mouvement/search')} ? 'show'" data-bs-parent="#sidebar-nav">
+                <ul id="components-lncs" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/licence/liste')} ? 'show'" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/mouvement/search" th:classappend="${#request.requestURI == '/mouvement/search'} ? 'active'">
+                        <a href="/licence/liste" th:classappend="${#request.requestURI == '/licence/liste'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Liste Des Licences</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/mouvement/search" th:classappend="${#request.requestURI == '/mouvement/search'} ? 'active'">
+                        <a href="/licence/new" th:classappend="${#request.requestURI == '/licence/new'} ? 'active'">
                             <i class="bi bi-circle"></i><span>Nouvelle Licence</span>
                         </a>
                     </li>
                 </ul>
             </li>
-
-
-
-
 
         </ul>
 

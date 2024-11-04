@@ -45,7 +45,9 @@ public class StockService {
             stock.setType(type);
             stock.setStatus(status);
             stockRepository.save(stock);
-        } else {
+        }
+
+        else {
 
             for (int i = 0; i < stockDto.getQuantity(); i++) {
                 Stock stock = new Stock();
@@ -74,7 +76,7 @@ public class StockService {
     public List<TypeSummaryDto> getTypeSummary() {
         List<Stock> stocks = stockRepository.findAll();
 
-        // Create a map to hold the summary information per Type
+
         Map<String, TypeSummaryDto> summaryMap = new HashMap<>();
 
         for (Stock stock : stocks) {
@@ -83,10 +85,10 @@ public class StockService {
             summaryMap.putIfAbsent(type, new TypeSummaryDto(type, 0L, 0L, 0L));
             TypeSummaryDto summary = summaryMap.get(type);
 
-            // Increment the total quantity for this type
+
             summary.setQuantity(summary.getQuantity() + 1);
 
-            // Increment the counts based on status
+
             if (stock.getStatus().getLibelle().equalsIgnoreCase("DISPONIBLE")) {
                 summary.setDisponibleCount(summary.getDisponibleCount() + 1);
             } else if (stock.getStatus().getLibelle().equalsIgnoreCase("INDISPONIBLE")) {
