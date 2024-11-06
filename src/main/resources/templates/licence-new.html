@@ -70,42 +70,43 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Nouvelle Licence</h5>
-                        <form th:action="@{/addlicence}" th:method="post">
+                        <form th:action="@{/licence/save}" th:object="${licence}" method="post">
+                            <input type="hidden" th:field="*{id}" />
                             <div class="row mb-3">
                                 <label  class="col-sm-2 col-form-label">Nom</label>
                                 <div class="col-sm-10">
-                                    <input type="text" th:field="*{licence.nom}" class="form-control" >
+                                    <input type="text" id="nom" th:field="*{nom}" class="form-control" >
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label  class="col-sm-2 col-form-label">Reference</label>
                                 <div class="col-sm-10">
-                                    <input type="text" th:field="*{licence.reference}" class="form-control" >
+                                    <input type="text" id="reference" th:field="*{reference}" class="form-control" >
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Prix D'achat</label>
                                 <div class="col-sm-10">
-                                    <input type="number" step="any" th:field="*{licence.prixachat}" class="form-control" >
+                                    <input type="number" id="prixachat" step="any" th:field="*{prixachat}" class="form-control" >
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Date D'achat</label>
                                 <div class="col-sm-10">
-                                    <input type="date" th:field="*{licence.dateachat}" class="form-control" >
+                                    <input type="date" id="dateachat" th:field="*{dateachat}" class="form-control" >
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Date D'expiration</label>
                                 <div class="col-sm-10">
-                                    <input type="date" th:field="*{licence.dateexpiration}" class="form-control" >
+                                    <input type="date" id="dateexpiration" th:field="*{dateexpiration}" class="form-control" >
                                 </div>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Enregistrer</button>
                                 <button type="reset" class="btn btn-secondary">Réinitialiser</button>
                             </div>
-                        </form><!-- End Horizontal Form -->
+                        </form>
                     </div>
                 </div>
 

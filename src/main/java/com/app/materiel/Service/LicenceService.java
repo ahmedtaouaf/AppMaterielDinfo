@@ -6,6 +6,7 @@ import com.app.materiel.Repository.SituationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -16,14 +17,18 @@ public class LicenceService {
     @Autowired
     private SituationRepository situationRepository;
 
-    public List<Licence> findLicence(){
-        return licenceRepository.findAll();
-    }
+        public List<Licence> findLicence(){
+            return licenceRepository.findAll();
+        }
 
-    public void addLicence(Licence licence){
-        Situation situation = situationRepository.findById(2L).orElseThrow();
-        licence.setSituation(situation);
+    public void saveLicence(Licence licence) {
         licenceRepository.save(licence);
     }
+
+    public Licence findById(Long id) {
+        return licenceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Licence not found with id " + id));
+    }
+
 
 }

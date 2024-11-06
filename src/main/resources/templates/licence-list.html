@@ -71,7 +71,7 @@
                                 <th scope="col">Prix D'achat</th>
                                 <th scope="col">Date D'expiration</th>
                                 <th scope="col">Situation</th>
-
+                                <th scope="col">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -79,20 +79,22 @@
                                 <td th:text="${licence.nom}"></td>
                                 <td th:text="${licence.reference}"></td>
                                 <td th:text="${licence.dateachat}"></td>
-                                <td th:text="${licence.prixachat+' DHS'}"></td>
+                                <td th:text="${licence.prixachat + ' DHS'}"></td>
                                 <td th:text="${licence.dateexpiration}"></td>
-                                <td th:if="${licence.situation.nom=='EN COURS'}">
-                                    <span th:text="${licence.situation.nom}" class="badge bg-success"></span>
+                                <td>
+                <span th:classappend="${licence.situation.nom == 'EXPIREE' ? 'badge bg-danger' :
+                                      (licence.situation.nom == 'PRESQUE' ? 'badge bg-warning' : 'badge bg-success')}"
+                      th:text="${licence.situation.nom}">
+                </span>
                                 </td>
-                                <td th:if="${licence.situation.nom=='EXPIREE'}">
-                                    <span th:text="${licence.situation.nom}" class="badge bg-danger"></span>
-                                </td>
-                                <td th:if="${licence.situation.nom=='PRESQUE'}">
-                                    <span th:text="${licence.situation.nom}" class="badge bg-warning"></span>
+                                <td>
+                                    <a th:href="@{/licence/edit/{id}(id=${licence.id})}" class="btn btn-primary btn-sm">Edit</a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+
+
 
                     </div>
                 </div>
