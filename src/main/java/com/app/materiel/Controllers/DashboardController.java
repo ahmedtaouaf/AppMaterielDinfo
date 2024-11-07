@@ -3,6 +3,7 @@ package com.app.materiel.Controllers;
 import com.app.materiel.Entity.Mouvement;
 import com.app.materiel.Repository.MouvementRepository;
 import com.app.materiel.Repository.StockRepository;
+import com.app.materiel.Service.LicenceService;
 import com.app.materiel.Service.MouvementService;
 import com.app.materiel.Service.StockService;
 import com.app.materiel.Service.TypeService;
@@ -30,6 +31,8 @@ public class DashboardController {
     private StockService stockService;
     @Autowired
     private TypeService typeService;
+    @Autowired
+    private LicenceService licenceService;
     @Autowired
     private MouvementRepository mouvementRepository;
 
@@ -86,6 +89,9 @@ public class DashboardController {
         model.addAttribute("totalStock", stockService.totalStock());
         model.addAttribute("totalType", typeService.totalType());
         model.addAttribute("totalMouvements", mouvementService.totalMvn());
+        model.addAttribute("totalLicences", licenceService.totalLicence());
+        model.addAttribute("totalExpiree", licenceService.totalExpiree());
+        model.addAttribute("totalPresque", licenceService.totalPresque());
         model.addAttribute("username", username);
 
         return "index";

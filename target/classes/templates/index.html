@@ -53,67 +53,50 @@
 
     <section class="section dashboard">
       <div class="row">
-
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
+            <!-- First Row of Cards (6 cards) -->
+            <!-- First Card -->
+            <div class="col-xxl-4 col-md-4">
               <div class="card info-card sales-card">
-
-
                 <div class="card-body">
                   <h5 class="card-title">Total Articles</h5>
-
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-box-seam-fill"></i>
                     </div>
                     <div class="ps-3">
                       <h6 th:text="${totalStock}"></h6>
-
-
                     </div>
                   </div>
                 </div>
-
               </div>
-            </div><!-- End Sales Card -->
+            </div>
 
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
+            <!-- Second Card -->
+            <div class="col-xxl-4 col-md-4">
               <div class="card info-card revenue-card">
-
-
                 <div class="card-body">
                   <h5 class="card-title">Type Materiel</h5>
-
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-router-fill"></i>
                     </div>
                     <div class="ps-3">
                       <h6 th:text="${totalType}"></h6>
-
-
                     </div>
                   </div>
                 </div>
-
               </div>
-            </div><!-- End Revenue Card -->
+            </div>
 
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
+            <!-- Third Card -->
+            <div class="col-xxl-4 col-md-4">
               <div class="card info-card customers-card">
-
-
-
                 <div class="card-body">
                   <h5 class="card-title">Total Mouvements</h5>
-
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-arrow-down-up"></i>
@@ -122,58 +105,77 @@
                       <h6 th:text="${totalMouvements}"></h6>
                     </div>
                   </div>
-
                 </div>
               </div>
+            </div>
 
-            </div><!-- End Customers Card -->
-
-            <!--<div class="col-xxl-3 col-md-6">
-              <div class="card info-card revenue-card">
-
-
+            <!-- Fourth Card -->
+            <!-- Total Licences Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card sales-card">
                 <div class="card-body">
-                  <h5 class="card-title">Type Materiel</h5>
-
+                  <h5 class="card-title">Total Licences</h5>
                   <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-router-fill"></i>
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-info-subtle">
+                      <i class="bi bi-key-fill text-info"></i>
                     </div>
                     <div class="ps-3">
-                      <h6 th:text="${totalType}"></h6>
-
-
+                      <h6 th:text="${totalLicences}"></h6>
                     </div>
                   </div>
                 </div>
-
               </div>
-            </div>&lt;!&ndash; End Revenue Card &ndash;&gt;-->
+            </div>
 
-            <!-- Reports -->
+            <!-- Licences Expirée Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card revenue-card">
+                <div class="card-body">
+                  <h5 class="card-title">Licences Expirée</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-danger-subtle">
+                      <i class="bi bi-x-octagon-fill text-danger"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 th:text="${totalExpiree}"></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Licence Presque Expirée Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card customers-card">
+                <div class="card-body">
+                  <h5 class="card-title">Licence Bient Expirée</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning-subtle">
+                      <i class="bi bi-exclamation-circle-fill text-warning"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 th:text="${totalPresque}"></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Stock Par Type Materiel Card -->
             <div class="col-12">
               <div class="card">
-
                 <div class="card-body">
                   <h5 class="card-title text-center">Stock Par Type Materiel</h5>
-
-                  <!-- Line Chart -->
                   <div id="pieChart" style="min-height: 400px;" class="echart"></div>
-
                   <script>
                     document.addEventListener("DOMContentLoaded", () => {
-                      // Fetch stock count by type
                       fetch('/stock/type-counts')
                               .then(response => response.json())
                               .then(data => {
                                 echarts.init(document.querySelector("#pieChart")).setOption({
-                                  tooltip: {
-                                    trigger: 'item'
-                                  },
-                                  legend: {
-                                    orient: 'vertical',
-                                    left: 'left'
-                                  },
+                                  tooltip: { trigger: 'item' },
+                                  legend: { orient: 'vertical', left: 'left' },
                                   series: [{
                                     name: 'Stock Type',
                                     type: 'pie',
@@ -192,92 +194,58 @@
                               .catch(error => console.error('Error fetching stock type counts:', error));
                     });
                   </script>
-                  <!-- End Line Chart -->
-
                 </div>
-
               </div>
-            </div><!-- End Reports -->
+            </div>
 
-            <!-- Recent Sales -->
+            <!-- Mouvements Par Jours (Bar Chart) -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
-
                 <div class="card-body">
                   <h5 class="card-title">Mouvements Par Jours</h5>
-
                   <div id="barChart" style="min-height: 400px;" class="echart"></div>
-
                   <script th:inline="javascript">
-                    /*[[*/
                     var days = /*[[${days}]]*/ [];
                     var mouvementCounts = /*[[${mouvementCounts}]]*/ [];
-                    /*]]*/
                   </script>
-
                   <script>
                     document.addEventListener("DOMContentLoaded", () => {
                       var barChart = echarts.init(document.querySelector("#barChart"));
-
                       var option = {
-                        xAxis: {
-                          type: 'category',
-                          data: days // Dynamic days from backend
-                        },
-                        yAxis: {
-                          type: 'value'
-                        },
+                        xAxis: { type: 'category', data: days },
+                        yAxis: { type: 'value' },
                         series: [{
-                          data: mouvementCounts, // Dynamic counts from backend
+                          data: mouvementCounts,
                           type: 'bar',
-                          itemStyle: {
-                            color: '#5470C6'  // Customize the bar color if needed
-                          }
+                          itemStyle: { color: '#5470C6' }
                         }]
                       };
-
                       barChart.setOption(option);
                     });
                   </script>
-
-
                 </div>
-
               </div>
-            </div><!-- End Recent Sales -->
-
-            <!-- Top Selling -->
-
+            </div>
 
           </div>
         </div><!-- End Left side columns -->
 
         <!-- Right side columns -->
         <div class="col-lg-4">
-
-          <!-- Recent Activity -->
+          <!-- Chronologie -->
           <div class="card">
-
             <div class="card-body">
               <h5 class="card-title">Chronologie</h5>
-
               <div class="activity">
                 <div th:each="mouvement : ${mouvements}" class="activity-item d-flex">
                   <div th:text="${#dates.format(mouvement.datee, 'dd/MM/yyyy HH:mm')}" class="activite-label"></div>
-                  <i class="bi bi-circle-fill activity-badge"
-                     th:classappend="${mouvement.status.libelle == 'DISPONIBLE'} ? 'text-success' : 'text-warning'">
-                  </i>
-                  <div class="activity-content" th:text="${mouvement.status.libelle == 'DISPONIBLE'
-        ? 'Mouvement Entree ' + mouvement.stock.designation + ' vers ' + mouvement.position.libelle
-        : 'Mouvement Sortie ' + mouvement.stock.designation + ' vers ' + mouvement.position.libelle}">
+                  <i class="bi bi-circle-fill activity-badge" th:classappend="${mouvement.status.libelle == 'DISPONIBLE'} ? 'text-success' : 'text-warning'"></i>
+                  <div class="activity-content" th:text="${mouvement.status.libelle == 'DISPONIBLE' ? 'Mouvement Entree ' + mouvement.stock.designation + ' vers ' + mouvement.position.libelle : 'Mouvement Sortie ' + mouvement.stock.designation + ' vers ' + mouvement.position.libelle}">
                   </div>
                 </div>
               </div>
-
             </div>
-          </div><!-- End Recent Activity -->
-
-          <!-- Budget Report -->
+          </div>
           <div class="card">
             <div class="card-body pb-0">
               <h5 class="card-title">Mouvements</h5>
@@ -324,21 +292,11 @@
               </script>
             </div>
           </div>
-
-
-
-
-
-          <!-- Website Traffic -->
-
-
-          <!-- News & Updates Traffic -->
-
-
+          <!-- Additional cards can go here as needed -->
         </div><!-- End Right side columns -->
-
       </div>
     </section>
+
 
   </main><!-- End #main -->
 

@@ -17,6 +17,16 @@ public class LicenceService {
     @Autowired
     private SituationRepository situationRepository;
 
+
+    @Autowired
+    public LicenceService(LicenceRepository licenceRepository) {
+        this.licenceRepository = licenceRepository;
+    }
+
+    public List<Licence> findExpiringLicenses() {
+        return licenceRepository.findExpiringLicenses();
+    }
+
         public List<Licence> findLicence(){
             return licenceRepository.findAll();
         }
@@ -28,6 +38,20 @@ public class LicenceService {
     public Licence findById(Long id) {
         return licenceRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Licence not found with id " + id));
+    }
+    public Integer totalLicence() {
+
+        return licenceRepository.totalLicences();
+    }
+
+    public Integer totalExpiree() {
+
+        return licenceRepository.totalExpiree();
+    }
+
+    public Integer totalPresque() {
+
+        return licenceRepository.totalPresque();
     }
 
 
