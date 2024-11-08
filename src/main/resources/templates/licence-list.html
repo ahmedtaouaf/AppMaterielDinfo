@@ -71,28 +71,50 @@
                                 <th scope="col">Prix D'achat</th>
                                 <th scope="col">Date D'expiration</th>
                                 <th scope="col">Situation</th>
+                                <th scope="col">Progression</th>
                                 <th scope="col">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="licence : ${licences}">
-                                <td th:text="${licence.nom}"></td>
-                                <td th:text="${licence.reference}"></td>
-                                <td th:text="${licence.dateachat}"></td>
-                                <td th:text="${licence.prixachat + ' DHS'}"></td>
-                                <td th:text="${licence.dateexpiration}"></td>
-                                <td>
-                <span th:classappend="${licence.situation.nom == 'EXPIREE' ? 'badge bg-danger' :
-                                      (licence.situation.nom == 'PRESQUE' ? 'badge bg-warning' : 'badge bg-success')}"
-                      th:text="${licence.situation.nom}">
-                </span>
+                                <td th:text="${licence.nom}" class="align-middle"></td>
+                                <td th:text="${licence.reference}" class="align-middle"></td>
+                                <td th:text="${licence.dateachat}" class="align-middle"></td>
+                                <td th:text="${licence.prixachat + ' DHS'}" class="align-middle"></td>
+                                <td th:text="${licence.dateexpiration}" class="align-middle"></td>
+                                <td class="align-middle">
+                                    <span th:classappend="${licence.situation.nom == 'EXPIREE' ? 'badge bg-danger' :
+                                                          (licence.situation.nom == 'PRESQUE' ? 'badge bg-warning' : 'badge bg-success')}"
+                                          th:text="${licence.situation.nom}">
+                                    </span>
                                 </td>
-                                <td>
-                                    <a th:href="@{/licence/edit/{id}(id=${licence.id})}" class="btn btn-primary btn-sm">Edit</a>
+
+                                <td class="align-middle">
+                                    <div class="progress" style="height: 20px;">
+                                        <div th:classappend="${licence.situation.nom == 'EXPIREE' ? 'progress-bar progress-bar-striped bg-danger progress-bar-animated' :
+                                         (licence.situation.nom == 'PRESQUE' ? 'progress-bar progress-bar-striped bg-warning progress-bar-animated' :
+                                         'progress-bar progress-bar-striped bg-success progress-bar-animated')}"
+                                             role="progressbar"
+                                             th:style="'width: ' + ${licence.progress} + '%'"
+                                             th:aria-valuenow="${licence.progress}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100">
+                                            <span th:text="${licence.progress + '%'}"></span> &lt;!&ndash; Show percentage text inside the bar &ndash;&gt;
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="align-middle">
+
+                                    <a th:href="@{/licence/edit/{id}(id=${licence.id})}" class="btn btn-warning">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+
+
 
 
 

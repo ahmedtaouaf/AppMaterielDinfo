@@ -2,11 +2,11 @@ package com.app.materiel.Controllers;
 
 import com.app.materiel.Entity.Licence;
 import com.app.materiel.Service.LicenceService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
@@ -24,6 +24,15 @@ public class GlobalAdviceController {
     @ModelAttribute("notifications")
     public List<Licence> addNotificationsToModel() {
         return licenceService.findExpiringLicenses();
+    }
+
+    @ModelAttribute("connecteduser")
+    public String getconnecteduser(){
+
+        Authentication authent = SecurityContextHolder.getContext().getAuthentication();
+        String username = authent.getName();
+
+        return username;
     }
 }
 

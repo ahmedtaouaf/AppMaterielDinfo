@@ -158,7 +158,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-lncs" data-bs-toggle="collapse"
-                   th:classappend="${#request.requestURI.startsWith('/licence/liste')} ? ' ' : 'collapsed'" href="#">
+                   th:classappend="${#request.requestURI.startsWith('/licence')} ? ' ' : 'collapsed'" href="#">
                     <i class="bi bi-key-fill"></i><span>Licences</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-lncs" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/licence/liste')} ? 'show'" data-bs-parent="#sidebar-nav">

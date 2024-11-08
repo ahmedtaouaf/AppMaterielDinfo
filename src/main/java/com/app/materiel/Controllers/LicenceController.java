@@ -33,16 +33,19 @@ public class LicenceController {
 
     @GetMapping("/licence/liste")
     public String pageListLicence(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
 
         List<Licence> licences = licenceService.findLicence();
         updateLicencesSituation(licences);
 
-        model.addAttribute("username", username);
+
+        for (Licence licence : licences) {
+            licence.calculateProgress();
+        }
+
         model.addAttribute("licences", licences);
         return "licence-list";
     }
+
 
     private void updateLicencesSituation(List<Licence> licences) {
         LocalDate now = LocalDate.now();

@@ -24,7 +24,7 @@
 
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number" th:text="${notifications.size()}"></span>
+                        <span class="badge bg-warning badge-number" th:text="${notifications.size()}"></span>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
@@ -41,7 +41,7 @@
                             <div>
                                 <h4 th:text="${notification.nom}">Licence Name</h4>
                                 <p th:text="'Reference: ' + ${notification.reference}">Reference</p>
-                                <!--<p th:text="${#temporals.format(notification.dateexpiration, 'dd MMM yyyy')}">Expiration Date</p>-->
+                                <p th:text="${notification.dateexpiration}">Expiration Date</p>
                             </div>
                         </li>
                     </ul>
