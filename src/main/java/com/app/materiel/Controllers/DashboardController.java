@@ -42,11 +42,8 @@ public class DashboardController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-
-        // Fetch the count of mouvements by type
         List<Object[]> mouvementData = mouvementRepository.countMouvementsByType();
 
-        // Prepare the labels and values for the radar chart
         List<String> labels = new ArrayList<>();
         List<Integer> values = new ArrayList<>();
 
@@ -55,30 +52,26 @@ public class DashboardController {
             values.add(((Long) row[1]).intValue());  // Count of mouvements
         }
 
-        // Create radar indicators in JSON-like format
         List<Map<String, Object>> radarIndicators = new ArrayList<>();
         for (String label : labels) {
             Map<String, Object> indicator = new HashMap<>();
             indicator.put("name", label);
-            indicator.put("max", 100);  // Adjust 'max' based on your data
+            indicator.put("max", 100);
             radarIndicators.add(indicator);
         }
 
-        // Add the data to the model
         model.addAttribute("radarIndicators", radarIndicators);
         model.addAttribute("values", values);
 
 
-        // Fetch mouvements per day from your repository
         List<Object[]> mouvementsPerDay = mouvementRepository.countMouvementByDay();
 
-        // Prepare data for chart
         List<String> days = new ArrayList<>();
         List<Long> counts = new ArrayList<>();
 
         for (Object[] row : mouvementsPerDay) {
-            days.add(row[0].toString()); // Day name (e.g., Mon, Tue, etc.)
-            counts.add((Long) row[1]);   // Count of mouvements on that day
+            days.add(row[0].toString());
+            counts.add((Long) row[1]);
         }
 
         model.addAttribute("days", days);

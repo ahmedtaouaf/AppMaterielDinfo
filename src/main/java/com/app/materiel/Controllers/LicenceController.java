@@ -33,18 +33,21 @@ public class LicenceController {
 
     @GetMapping("/licence/liste")
     public String pageListLicence(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
         List<Licence> licences = licenceService.findLicence();
         updateLicencesSituation(licences);
-
 
         for (Licence licence : licences) {
             licence.calculateProgress();
         }
 
+        model.addAttribute("username", username);
         model.addAttribute("licences", licences);
         return "licence-list";
     }
+
 
 
     private void updateLicencesSituation(List<Licence> licences) {
@@ -83,7 +86,7 @@ public class LicenceController {
     }
 
     @PostMapping("/licence/save")
-    public String saveLicence(@ModelAttribute("licence") Licence licence) {
+    public String saveLicence(@ModelAttribute("licence") Licence licence, RedirectAttributes redirectAttributes) {
 
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -104,9 +107,9 @@ public class LicenceController {
         }
         licence.setSituation(situation);
 
-
+        redirectAttributes.addFlashAttribute("successMessage", "Licence Est Très Bien Enregistrer !");
         licenceService.saveLicence(licence);
-        return "redirect:/licence/new";
+        return "redirect:/licence/liste";
     }
 
     @GetMapping("/licence/edit/{id}")
