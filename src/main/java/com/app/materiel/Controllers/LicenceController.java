@@ -33,8 +33,6 @@ public class LicenceController {
 
     @GetMapping("/licence/liste")
     public String pageListLicence(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
 
         List<Licence> licences = licenceService.findLicence();
         updateLicencesSituation(licences);
@@ -43,7 +41,6 @@ public class LicenceController {
             licence.calculateProgress();
         }
 
-        model.addAttribute("username", username);
         model.addAttribute("licences", licences);
         return "licence-list";
     }
@@ -77,9 +74,6 @@ public class LicenceController {
     @GetMapping("/licence/new")
     public String pageNewLicence(Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
         model.addAttribute("licence", new Licence());
 
         return "licence-new";
@@ -114,11 +108,8 @@ public class LicenceController {
 
     @GetMapping("/licence/edit/{id}")
     public String editLicence(@PathVariable Long id, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
 
         Licence licence = licenceService.findById(id);
-        model.addAttribute("username", username);
         model.addAttribute("licence", licence);
         return "licence-new";
     }

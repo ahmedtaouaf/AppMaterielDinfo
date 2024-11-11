@@ -59,9 +59,6 @@ public class StockController {
 
     @GetMapping("/article/new")
     public String showAddStockForm(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
 
         model.addAttribute("stock", new StockDto());
         model.addAttribute("types", typeService.findtypes());
@@ -88,9 +85,6 @@ public class StockController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
 
         Page<Stock> stockPage;
         if (typeId == null) {
@@ -112,9 +106,6 @@ public class StockController {
 
     @GetMapping("/etat-stock-global")
     public String getGlobalStockEtat(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
 
         List<TypeSummaryDto> typeSummary = stockService.getTypeSummary();
         model.addAttribute("typeSummary", typeSummary);
@@ -127,9 +118,6 @@ public class StockController {
             @RequestParam("status") String status,
             Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
 
         List<Stock> stockItems = stockService.findStocksByTypeAndStatus(type, status);
 
@@ -148,9 +136,6 @@ public class StockController {
                                  @RequestParam(value = "size", defaultValue = "10") int size,
                                  Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
 
         Stock stock = stockService.findStockById(stockId);
         Page<Mouvement> mouvementPage = mouvementService.findMovementsByStockOrderByDateDesc(stock, page, size);
@@ -207,7 +192,7 @@ public class StockController {
             row.createCell(0).setCellValue(stock.getDesignation());
             row.createCell(1).setCellValue(stock.getType().getLibelle());
             row.createCell(2).setCellValue(stock.getNserie());
-            row.createCell(3).setCellValue(stock.getDatee().toString()); // Adjust date format as needed
+            row.createCell(3).setCellValue(stock.getDatee().toString());
             row.createCell(4).setCellValue(stock.getStatus().getLibelle());
         }
 
@@ -238,9 +223,7 @@ public class StockController {
 
     @GetMapping("/stock/tree")
     public String showTree(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
+
 
         return "stock-tree";
     }

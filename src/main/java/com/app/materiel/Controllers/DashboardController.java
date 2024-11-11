@@ -1,5 +1,6 @@
 package com.app.materiel.Controllers;
 
+import com.app.materiel.Entity.Licence;
 import com.app.materiel.Entity.Mouvement;
 import com.app.materiel.Repository.MouvementRepository;
 import com.app.materiel.Repository.StockRepository;
@@ -15,10 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class DashboardController {
@@ -39,8 +39,7 @@ public class DashboardController {
     @GetMapping("/")
     public String dashboardpage(Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+
 
         List<Object[]> mouvementData = mouvementRepository.countMouvementsByType();
 
@@ -74,10 +73,11 @@ public class DashboardController {
             counts.add((Long) row[1]);
         }
 
+        List<Mouvement> lastSixMouvements = mouvementService.findLastSixMouvements();
+        List<Licence> licences = licenceService.findLicence();
+
         model.addAttribute("days", days);
         model.addAttribute("mouvementCounts", counts);
-
-        List<Mouvement> lastSixMouvements = mouvementService.findLastSixMouvements();
         model.addAttribute("mouvements", lastSixMouvements);
         model.addAttribute("totalStock", stockService.totalStock());
         model.addAttribute("totalType", typeService.totalType());
@@ -85,7 +85,8 @@ public class DashboardController {
         model.addAttribute("totalLicences", licenceService.totalLicence());
         model.addAttribute("totalExpiree", licenceService.totalExpiree());
         model.addAttribute("totalPresque", licenceService.totalPresque());
-        model.addAttribute("username", username);
+        model.addAttribute("licences", licences);
+
 
         return "index";
     }
@@ -104,6 +105,11 @@ public class DashboardController {
         }
 
         return data;
+    }
+
+    private String formatExpirationDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy");
+        return sdf.format(date);
     }
 
 

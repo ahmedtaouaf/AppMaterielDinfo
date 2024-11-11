@@ -39,8 +39,6 @@ public class MouvementController {
     @GetMapping("/mouvements/new")
     public String showMouvementForm(Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
 
         List<Status> allStatuses = statusRepository.findAll();
         List<Status> filteredStatuses = allStatuses.stream()
@@ -53,7 +51,6 @@ public class MouvementController {
 
         List<Responsable> responsables= responsableRepository.findAll();
 
-        model.addAttribute("username", username);
         model.addAttribute("statuses", filteredStatuses);
         model.addAttribute("types", types);
         model.addAttribute("responsables", responsables);
@@ -78,9 +75,6 @@ public class MouvementController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
 
         Page<Mouvement> stockPage = mouvementService.findAllmouvements(searchTerm, page);
 
@@ -92,9 +86,7 @@ public class MouvementController {
 
     @GetMapping("/mouvements/entree")
     public String showEntreeMouvementForm(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
+
 
         model.addAttribute("mouvement", new MouvementDto());
         model.addAttribute("stocks", stockRepository.findByStatusLibelle("Indisponible"));
@@ -114,9 +106,7 @@ public class MouvementController {
             @RequestParam(value = "search", required = false) String searchTerm,
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
+
         Page<Mouvement> stockPage = mouvementService.findAllmouvementsEntree(searchTerm, page);
 
         model.addAttribute("stockPage", stockPage);
@@ -134,9 +124,7 @@ public class MouvementController {
 
     @GetMapping("/mouvement/search")
     public String showSearchForm(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
+
         return "mouvement-search";
     }
 
@@ -145,9 +133,7 @@ public class MouvementController {
             @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
             @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
             Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
+
         List<Mouvement> mouvements = mouvementService.findMouvementsByDateRange(startDate, endDate);
         model.addAttribute("mouvements", mouvements);
         return "mouvement-search";

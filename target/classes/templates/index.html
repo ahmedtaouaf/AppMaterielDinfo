@@ -227,6 +227,96 @@
               </div>
             </div>
 
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                  <h5 class="card-title">Licences</h5>
+
+
+                  <div id="verticalBarChart" style="min-height: 400px;" ></div>
+                  <script th:inline="javascript">
+                    var licenceData = /*[[${licences}]]*/ [];
+
+                    console.log("Licence Data:", licenceData);
+
+                    try {
+                      if (licenceData && licenceData.length > 0) {
+                        // Sort licenses by expiration date
+                        licenceData.sort((a, b) => new Date(a.dateexpiration) - new Date(b.dateexpiration));
+
+                        // Map out sorted data for x-axis (license names) and y-axis (expiration dates formatted as "MMM-yyyy")
+                        var licenceNames = licenceData.map(item => item.nom);
+                        var expirationDates = licenceData.map(item => {
+                          let date = new Date(item.dateexpiration);
+                          let month = date.toLocaleString('default', { month: 'short' });
+                          let year = date.getFullYear();
+                          return `${month}-${year}`;  // Format as "MMM-yyyy"
+                        });
+
+                        // ECharts setup
+                        document.addEventListener("DOMContentLoaded", () => {
+                          echarts.init(document.querySelector("#verticalBarChart")).setOption({
+                            title: {
+                              text: 'Licences Expiration Dates'
+                            },
+                            tooltip: {
+                              trigger: 'axis',
+                              axisPointer: {
+                                type: 'shadow'
+                              },
+                              formatter: function (params) {
+                                return `${params[0].name}<br/>Expiration: ${expirationDates[params[0].dataIndex]}`;
+                              }
+                            },
+                            grid: {
+                              left: '3%',
+                              right: '4%',
+                              bottom: '3%',
+                              containLabel: true
+                            },
+                            xAxis: {
+                              type: 'category',
+                              data: licenceNames,  // Licence names on the x-axis
+                              name: 'Licence Name',
+                              axisLabel: {
+                                rotate: 45
+                              }
+                            },
+                            yAxis: {
+                              type: 'category',
+                              data: expirationDates,  // Expiration dates on the y-axis
+                              name: 'Expiration Date (MM-yyyy)'
+                            },
+                            series: [{
+                              name: 'Expiration Date',
+                              type: 'bar',
+                              data: expirationDates.map((_, idx) => idx + 1),  // Incremental values for bar heights
+                              itemStyle: {
+                                color: '#3c8dbc'
+                              },
+                              label: {
+                                show: true,
+                                position: 'insideRight',
+                                formatter: function (params) {
+                                  return expirationDates[params.dataIndex];  // Display date in the label
+                                }
+                              }
+                            }]
+                          });
+                        });
+                      } else {
+                        console.error("No licences data available to display in the chart.");
+                      }
+                    } catch (error) {
+                      console.error("Error rendering chart:", error);
+                    }
+                  </script>
+
+
+                </div>
+              </div>
+            </div>
+
           </div>
         </div><!-- End Left side columns -->
 

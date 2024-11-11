@@ -25,9 +25,7 @@ public class PositionController {
 
     @GetMapping("/position/list")
     public String pagelistresponsable(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("username", username);
+
 
         List<Position> positions = positionService.findPosition();
         model.addAttribute("positions", positions);
