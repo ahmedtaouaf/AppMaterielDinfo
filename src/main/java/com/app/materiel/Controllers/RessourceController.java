@@ -1,0 +1,17 @@
+package com.app.materiel.Controllers;
+
+import com.app.materiel.Entity.Responsable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class RessourceController {
+
+
+    @GetMapping("/ressources/lans")
+    public String pageLans(){
+
+        return "ressource-lan";
+    }
+}

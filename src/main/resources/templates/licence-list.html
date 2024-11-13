@@ -96,9 +96,9 @@
 
                                 <td class="align-middle">
                                     <div class="progress" style="height: 20px;">
-                                        <div th:classappend="${licence.situation.nom == 'EXPIREE' ? 'progress-bar progress-bar-striped bg-danger progress-bar-animated' :
-                                         (licence.situation.nom == 'PRESQUE' ? 'progress-bar progress-bar-striped bg-warning progress-bar-animated' :
-                                         'progress-bar progress-bar-striped bg-success progress-bar-animated')}"
+                                        <div th:classappend="${licence.situation.nom == 'EXPIREE' ? 'progress-bar progress-bar-striped bg-danger' :
+                                         (licence.situation.nom == 'PRESQUE' ? 'progress-bar progress-bar-striped bg-warning' :
+                                         'progress-bar progress-bar-striped bg-success')}"
                                              role="progressbar"
                                              th:style="'width: ' + ${licence.progress} + '%'"
                                              th:aria-valuenow="${licence.progress}"

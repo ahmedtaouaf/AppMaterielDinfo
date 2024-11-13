@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Détails du Serveur</title>
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<div th:replace="shared/header :: header"></div>
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Détails du Serveur: <span th:text="${serveur.nom}"></span></h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+        <li class="breadcrumb-item active">Serveur Détails</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Informations du Serveur</h5>
+        <ul>
+          <li>Adresse IP: <span th:text="${serveur.adresseip}"></span></li>
+          <li>CPU: <span th:text="${serveur.cpu}"></span></li>
+          <li>RAM: <span th:text="${serveur.ram}"></span></li>
+          <li>Stockage: <span th:text="${serveur.stockage}"></span></li>
+          <li>Hyperviseur: <span th:text="${serveur.hyperviseur}"></span></li>
+          <li>N°Serie: <span th:text="${serveur.nserie}"></span></li>
+        </ul>
+
+        <h5 class="card-title mt-4">Machines Virtuelles Associées</h5>
+        <div th:if="${#lists.isEmpty(virtualMachines)}">
+          <p>Aucune machine virtuelle associée.</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(virtualMachines)}">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Adresse IP</th>
+              <th>CPU</th>
+              <th>RAM</th>
+              <th>Stockage</th>
+              <th>OS</th>
+              <th>Catégorie</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="vm : ${virtualMachines}">
+              <td th:text="${vm.designation}"></td>
+              <td th:text="${vm.adresseip}"></td>
+              <td th:text="${vm.cpu}"></td>
+              <td th:text="${vm.ram}"></td>
+              <td th:text="${vm.stockage}"></td>
+              <td th:text="${vm.os}"></td>
+              <td th:text="${vm.categorie}"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<div th:replace="shared/footer :: footer"></div>
+<!-- End Footer -->
+
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

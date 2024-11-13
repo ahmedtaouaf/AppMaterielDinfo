@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Tree View</title>
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.min.js"></script>
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Tree View of Servers, Virtual Machines, and Software</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div id="tree-chart" style="width: 100%; height: 600px;"></div>
+    </section>
+</main>
+
+<!-- ECharts Initialization Script -->
+<script th:inline="javascript">
+    let chartDom = document.getElementById('tree-chart');
+    let myChart = echarts.init(chartDom);
+    let option;
+
+    // Tree Data from Server
+    let treeData = /*[[${treeData}]]*/ '[]';
+
+    option = {
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        series: [
+            {
+                type: 'tree',
+                data: JSON.parse(treeData),
+                top: '5%',
+                left: '7%',
+                bottom: '2%',
+                right: '20%',
+                symbolSize: 10,
+                label: {
+                    position: 'left',
+                    verticalAlign: 'middle',
+                    align: 'right',
+                    fontSize: 9
+                },
+                leaves: {
+                    label: {
+                        position: 'right',
+                        verticalAlign: 'middle',
+                        align: 'left'
+                    }
+                },
+                expandAndCollapse: true,
+                initialTreeDepth: 2,
+                animationDuration: 550,
+                animationDurationUpdate: 750
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+</script>
+
+</body>
+</html>
