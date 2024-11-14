@@ -28,4 +28,7 @@ public class ServeurService {
     public void saveServer(Serveur serveur) {
         serveurRepository.save(serveur);
     }
+    public List<Serveur> getServeursByResaux(String resaux) {
+        return serveurRepository.findByResaux(resaux);
+    }
 }

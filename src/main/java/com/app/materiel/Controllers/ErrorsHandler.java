@@ -1,3 +1,4 @@
+/*
 package com.app.materiel.Controllers;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -12,3 +13,4 @@ public class ErrorsHandler implements ErrorController {
         return "error_page";
     }
 }
+*/

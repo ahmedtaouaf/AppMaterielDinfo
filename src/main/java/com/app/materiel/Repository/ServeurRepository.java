@@ -9,4 +9,6 @@ import java.util.List;
 public interface ServeurRepository extends JpaRepository<Serveur, Long> {
 
     List<Serveur> findByResaux(String resaux);
+
+
 }
