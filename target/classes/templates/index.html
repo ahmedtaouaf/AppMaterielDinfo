@@ -233,7 +233,7 @@
                   <h5 class="card-title">Licences</h5>
 
 
-                  <div id="verticalBarChart" style="min-height: 400px;" ></div>
+                  <div id="verticalBarChart" style="min-height: 400px;"></div>
                   <script th:inline="javascript">
                     var licenceData = /*[[${licences}]]*/ [];
 
@@ -241,24 +241,34 @@
 
                     try {
                       if (licenceData && licenceData.length > 0) {
-                        // Sort licenses by expiration date
+
                         licenceData.sort((a, b) => new Date(a.dateexpiration) - new Date(b.dateexpiration));
 
-                        // Map out sorted data for x-axis (license names) and y-axis (expiration dates formatted as "MMM-yyyy")
+
                         var licenceNames = licenceData.map(item => item.nom);
                         var expirationDates = licenceData.map(item => {
                           let date = new Date(item.dateexpiration);
                           let month = date.toLocaleString('default', { month: 'short' });
                           let year = date.getFullYear();
-                          return `${month}-${year}`;  // Format as "MMM-yyyy"
+                          return `${month}-${year}`;
                         });
 
-                        // ECharts setup
+                        var colors = licenceData.map(item => {
+                          switch (item.situation.nom) {
+                            case 'EN COURS':
+                              return '#91cc75';
+                            case 'EXPIREE':
+                              return '#e76466';
+                            case 'PRESQUE':
+                              return '#fac858';
+                            default:
+                              return '#73c0de';
+                          }
+                        });
+
+
                         document.addEventListener("DOMContentLoaded", () => {
                           echarts.init(document.querySelector("#verticalBarChart")).setOption({
-                            title: {
-                              text: 'Licences Expiration Dates'
-                            },
                             tooltip: {
                               trigger: 'axis',
                               axisPointer: {
@@ -276,7 +286,7 @@
                             },
                             xAxis: {
                               type: 'category',
-                              data: licenceNames,  // Licence names on the x-axis
+                              data: licenceNames,
                               name: 'Licence Name',
                               axisLabel: {
                                 rotate: 45
@@ -284,21 +294,23 @@
                             },
                             yAxis: {
                               type: 'category',
-                              data: expirationDates,  // Expiration dates on the y-axis
+                              data: expirationDates,
                               name: 'Expiration Date (MM-yyyy)'
                             },
                             series: [{
                               name: 'Expiration Date',
                               type: 'bar',
-                              data: expirationDates.map((_, idx) => idx + 1),  // Incremental values for bar heights
+                              data: expirationDates.map((_, idx) => idx + 1),
                               itemStyle: {
-                                color: '#3c8dbc'
+                                color: function (params) {
+                                  return colors[params.dataIndex];
+                                }
                               },
                               label: {
                                 show: true,
-                                position: 'insideRight',
+                                position: 'inside',
                                 formatter: function (params) {
-                                  return expirationDates[params.dataIndex];  // Display date in the label
+                                  return expirationDates[params.dataIndex];
                                 }
                               }
                             }]
@@ -311,6 +323,7 @@
                       console.error("Error rendering chart:", error);
                     }
                   </script>
+
 
 
                 </div>

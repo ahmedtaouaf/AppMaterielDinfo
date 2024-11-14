@@ -24,4 +24,8 @@ public class ServeurService {
     public List<Serveur> getAllServers() {
         return serveurRepository.findAll();
     }
+
+    public void saveServer(Serveur serveur) {
+        serveurRepository.save(serveur);
+    }
 }

@@ -15,16 +15,24 @@
 <!-- ======= Header ======= -->
 <div th:replace="shared/header :: header"></div>
 
+<div th:replace="shared/sidebar :: sidebar"></div>
+
 <main id="main" class="main">
-  <div class="pagetitle">
-    <h1>Détails du Serveur: <span th:text="${serveur.nom}"></span></h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-        <li class="breadcrumb-item active">Serveur Détails</li>
-      </ol>
-    </nav>
-  </div><!-- End Page Title -->
+
+  <div class="pagetitle d-flex justify-content-between align-items-center">
+    <div>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Accueil</li>
+          <li class="breadcrumb-item active">Virtual Machines</li>
+        </ol>
+      </nav>
+    </div>
+
+    <a href="/virtualmachine/new" class="btn btn-primary" role="button">
+      <i class="bi bi-plus-circle"></i>
+    </a>
+  </div>
 
   <section class="section">
     <div class="card">
@@ -43,32 +51,31 @@
         <div th:if="${#lists.isEmpty(virtualMachines)}">
           <p>Aucune machine virtuelle associée.</p>
         </div>
+
         <div th:unless="${#lists.isEmpty(virtualMachines)}">
-          <table class="table">
-            <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Adresse IP</th>
-              <th>CPU</th>
-              <th>RAM</th>
-              <th>Stockage</th>
-              <th>OS</th>
-              <th>Catégorie</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="vm : ${virtualMachines}">
-              <td th:text="${vm.designation}"></td>
-              <td th:text="${vm.adresseip}"></td>
-              <td th:text="${vm.cpu}"></td>
-              <td th:text="${vm.ram}"></td>
-              <td th:text="${vm.stockage}"></td>
-              <td th:text="${vm.os}"></td>
-              <td th:text="${vm.categorie}"></td>
-            </tr>
-            </tbody>
-          </table>
+          <div class="row g-3"> <!-- Ensure the row class is here for proper grid alignment -->
+            <div th:each="vm : ${virtualMachines}" class="col-lg-6 col-md-12"> <!-- Use col-lg-6 for larger screens, col-md-12 for smaller screens -->
+              <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4 align-content-center">
+                    <img src="/assets/img/vms.png" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title" th:text="${vm.designation}"></h5>
+                      <p><i class="bi bi-house-door"></i> Vm IP : <span th:text="${vm.adresseip}"></span></p>
+                      <p><i class="bi bi-cpu"></i> CPU : <span th:text="${vm.cpu}"></span></p>
+                      <p><i class="bi bi-memory"></i> RAM : <span th:text="${vm.ram}"></span></p>
+                      <p><i class="bi bi-hdd"></i> Stockage : <span th:text="${vm.stockage}"></span></p>
+                      <p><i class="bi bi-window-desktop"></i> OS : <span th:text="${vm.os}"></span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </section>

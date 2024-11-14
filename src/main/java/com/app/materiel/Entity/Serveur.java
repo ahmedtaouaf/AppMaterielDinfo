@@ -3,7 +3,6 @@ package com.app.materiel.Entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -29,6 +28,4 @@ public class Serveur {
 
     private String resaux;
 
-    @OneToMany(mappedBy = "serveur", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<VirtualMachine> virtualMachines;
 }
