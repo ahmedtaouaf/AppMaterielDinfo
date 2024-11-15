@@ -29,7 +29,7 @@
       </nav>
     </div>
 
-    <a href="/virtualmachine/new" class="btn btn-primary" role="button">
+    <a href="/virtual-machines/add" class="btn btn-primary" role="button">
       <i class="bi bi-plus-circle"></i>
     </a>
   </div>
@@ -53,21 +53,36 @@
         </div>
 
         <div th:unless="${#lists.isEmpty(virtualMachines)}">
-          <div class="row g-3"> <!-- Ensure the row class is here for proper grid alignment -->
-            <div th:each="vm : ${virtualMachines}" class="col-lg-6 col-md-12"> <!-- Use col-lg-6 for larger screens, col-md-12 for smaller screens -->
+          <div class="row g-3">
+            <div th:each="vm : ${virtualMachines}" class="col-lg-6 col-md-12">
               <div class="card mb-3">
                 <div class="row g-0">
                   <div class="col-md-4 align-content-center">
                     <img src="/assets/img/vms.png" class="img-fluid rounded-start" alt="...">
                   </div>
                   <div class="col-md-8">
-                    <div class="card-body">
+                    <div class="card-body d-flex justify-content-between align-items-center">
                       <h5 class="card-title" th:text="${vm.designation}"></h5>
-                      <p><i class="bi bi-house-door"></i> Vm IP : <span th:text="${vm.adresseip}"></span></p>
-                      <p><i class="bi bi-cpu"></i> CPU : <span th:text="${vm.cpu}"></span></p>
-                      <p><i class="bi bi-memory"></i> RAM : <span th:text="${vm.ram}"></span></p>
-                      <p><i class="bi bi-hdd"></i> Stockage : <span th:text="${vm.stockage}"></span></p>
-                      <p><i class="bi bi-window-desktop"></i> OS : <span th:text="${vm.os}"></span></p>
+                      <!--<a href="#" class="btn btn-primary" role="button">
+                        <i class="bi bi-graph-up"></i>
+                      </a>-->
+                    </div>
+                    <p><i class="bi bi-house-door"></i> Vm IP : <span th:text="${vm.adresseip}"></span></p>
+                    <p><i class="bi bi-cpu"></i> CPU : <span th:text="${vm.cpu}"></span></p>
+                    <p><i class="bi bi-memory"></i> RAM : <span th:text="${vm.ram}"></span></p>
+                    <p><i class="bi bi-hdd"></i> Stockage : <span th:text="${vm.stockage}"></span></p>
+                    <p><i class="bi bi-window-desktop"></i> OS : <span th:text="${vm.os}"></span></p>
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                      <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          Actions
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <li><a class="dropdown-item" href="#">Surveiller</a></li>
+                          <li><a class="dropdown-item" href="#">Editer</a></li>
+                          <li><a class="dropdown-item" href="#">Supprimer</a></li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -75,6 +90,7 @@
             </div>
           </div>
         </div>
+
 
       </div>
     </div>

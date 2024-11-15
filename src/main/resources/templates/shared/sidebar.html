@@ -186,6 +186,16 @@
                             <i class="bi bi-circle"></i><span>Serveurs & VMs</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="/serveur/add" th:classappend="${#request.requestURI == '/ressources/lans'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Nouveau Serveur</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/virtual-machines/add" th:classappend="${#request.requestURI == '/ressources/lans'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Nouvelle VM</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

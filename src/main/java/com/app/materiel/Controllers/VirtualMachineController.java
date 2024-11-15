@@ -31,7 +31,7 @@ public class VirtualMachineController {
     @GetMapping("/serveurs/byResaux")
     @ResponseBody
     public List<Serveur> getServeursByResaux(@RequestParam("resaux") String resaux) {
-        return serveurService.getServeursByResaux(resaux); // Returns JSON
+        return serveurService.getServeursByResaux(resaux);
     }
 
     @PostMapping("/virtual-machines/add")

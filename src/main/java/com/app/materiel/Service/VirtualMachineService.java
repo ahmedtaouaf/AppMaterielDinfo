@@ -18,6 +18,11 @@ public class VirtualMachineService {
     @Autowired
     private LogicielRepository logicielRepository;
 
+    public VirtualMachine getVirtualMachineById(Long id) {
+        return virtualMachineRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Virtual Machine not found with id: " + id));
+    }
+
     public List<VirtualMachine> getVirtualMachinesByServeur(Serveur serveur) {
         return virtualMachineRepository.findByServeur(serveur);
     }
