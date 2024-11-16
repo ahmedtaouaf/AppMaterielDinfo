@@ -50,7 +50,8 @@ public class VirtualMachineController {
     }
 
     @PostMapping("/virtual-machines/edit")
-    public String updateVirtualMachineAttributes(@ModelAttribute VirtualMachine virtualMachine) {
+    public String updateVirtualMachineAttributes(@ModelAttribute VirtualMachine virtualMachine, RedirectAttributes redirectAttributes) {
+
         VirtualMachine existingVm = virtualMachineService.getVirtualMachineById(virtualMachine.getId());
 
         existingVm.setDesignation(virtualMachine.getDesignation());
@@ -63,14 +64,19 @@ public class VirtualMachineController {
         existingVm.setLogiciel(virtualMachine.getLogiciel());
 
         virtualMachineService.saveVirtualMachine(existingVm);
-        return "redirect:/serveurs/details/{id}";
+
+        Long serveurId = existingVm.getServeur().getId();
+
+        redirectAttributes.addFlashAttribute("editMessage", "Virtuelle Machine Modifier Avec Succés !");
+        return "redirect:/serveurs/details/" + serveurId;
     }
+
 
     @GetMapping("/virtual-machines/delete/{id}")
     public String deleteVirtualMachine(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         virtualMachineService.deleteVirtualMachineById(id);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Virtuelle Machine Supprimée Avec Succés !");
+        redirectAttributes.addFlashAttribute("deleteMessage", "Virtuelle Machine Supprimée Avec Succés !");
         return "redirect:/serveurs/details/{id}";
     }
 

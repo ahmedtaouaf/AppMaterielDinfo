@@ -43,23 +43,18 @@
 <div th:replace="shared/sidebar :: sidebar"></div>
 
 <main id="main" class="main">
-    <div class="pagetitle d-flex justify-content-between align-items-center">
-        <div>
-            <h1>Serveurs du Réseau: <span th:text="${resaux}"></span></h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Accueil</li>
-                    <li class="breadcrumb-item active" th:text="${resaux}"></li>
-                </ol>
-            </nav>
-        </div>
-
-        <a href="/serveur/add" class="btn btn-primary" role="button">
-            <i class="bi bi-database-add"></i>
-        </a>
-    </div>
+    <div class="pagetitle">
+        <h1>Serveurs</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Acceuil</li>
+                <li class="breadcrumb-item active" th:text="${'Liste Des Serveurs '+resaux}"></li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
     <section class="section">
+
         <div class="row">
             <div class="col-lg-4 col-md-6 mb-4" th:each="serveur : ${serveurs}">
                 <a th:href="@{/serveurs/details/{id}(id=${serveur.id})}">
