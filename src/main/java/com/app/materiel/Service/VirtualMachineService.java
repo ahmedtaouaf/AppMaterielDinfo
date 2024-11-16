@@ -34,4 +34,8 @@ public class VirtualMachineService {
     public void saveVirtualMachine(VirtualMachine virtualMachine) {
         virtualMachineRepository.save(virtualMachine);
     }
+
+    public void deleteVirtualMachineById(Long id) {
+        virtualMachineRepository.deleteById(id);
+    }
 }

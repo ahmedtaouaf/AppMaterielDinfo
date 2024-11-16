@@ -79,8 +79,8 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                           <li><a class="dropdown-item" href="#">Surveiller</a></li>
-                          <li><a class="dropdown-item" href="#">Editer</a></li>
-                          <li><a class="dropdown-item" href="#">Supprimer</a></li>
+                          <li><a class="dropdown-item" th:href="@{/virtual-machines/edit/{id}(id=${vm.id})}">Editer</a></li>
+                          <li><a class="dropdown-item" th:href="@{/virtual-machines/delete/{id}(id=${vm.id})}">Supprimer</a></li>
                         </ul>
                       </div>
                     </div>

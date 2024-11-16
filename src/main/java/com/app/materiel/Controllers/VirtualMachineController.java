@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -39,4 +40,38 @@ public class VirtualMachineController {
         virtualMachineService.saveVirtualMachine(virtualMachine);
         return "redirect:/virtual-machines/add";
     }
+
+    @GetMapping("/virtual-machines/edit/{id}")
+    public String showEditVirtualMachineForm(@PathVariable Long id, Model model) {
+        VirtualMachine virtualMachine = virtualMachineService.getVirtualMachineById(id);
+        model.addAttribute("virtualMachine", virtualMachine);
+        model.addAttribute("logiciels", virtualMachineService.getAllLogiciels());
+        return "vm-edit";
+    }
+
+    @PostMapping("/virtual-machines/edit")
+    public String updateVirtualMachineAttributes(@ModelAttribute VirtualMachine virtualMachine) {
+        VirtualMachine existingVm = virtualMachineService.getVirtualMachineById(virtualMachine.getId());
+
+        existingVm.setDesignation(virtualMachine.getDesignation());
+        existingVm.setAdresseip(virtualMachine.getAdresseip());
+        existingVm.setCpu(virtualMachine.getCpu());
+        existingVm.setRam(virtualMachine.getRam());
+        existingVm.setStockage(virtualMachine.getStockage());
+        existingVm.setOs(virtualMachine.getOs());
+        existingVm.setType(virtualMachine.getType());
+        existingVm.setLogiciel(virtualMachine.getLogiciel());
+
+        virtualMachineService.saveVirtualMachine(existingVm);
+        return "redirect:/serveurs/details/{id}";
+    }
+
+    @GetMapping("/virtual-machines/delete/{id}")
+    public String deleteVirtualMachine(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        virtualMachineService.deleteVirtualMachineById(id);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Virtuelle Machine Supprimée Avec Succés !");
+        return "redirect:/serveurs/details/{id}";
+    }
+
 }
