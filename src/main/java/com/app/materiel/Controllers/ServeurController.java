@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +60,43 @@ public class ServeurController {
     public String saveServer(@ModelAttribute("serveur") Serveur serveur) {
         serveurService.saveServer(serveur);
         return "redirect:/serveur/add";
+    }
+    @GetMapping("/server/edit/{id}")
+    public String showEditServerForm(@PathVariable Long id, Model model) {
+        Serveur serveur = serveurService.getServeurById(id);
+        model.addAttribute("serveur", serveur);
+        return "serveur-edit";
+    }
+
+    @PostMapping("/server/edit")
+    public String updateServerAttributes(@ModelAttribute Serveur serveur, RedirectAttributes redirectAttributes) {
+
+        Serveur existingServeur = serveurService.getServeurById(serveur.getId());
+
+        existingServeur.setNom(serveur.getNom());
+        existingServeur.setAdresseip(serveur.getAdresseip());
+        existingServeur.setCpu(serveur.getCpu());
+        existingServeur.setRam(serveur.getRam());
+        existingServeur.setHyperviseur(serveur.getHyperviseur());
+        existingServeur.setNserie(serveur.getNserie());
+        existingServeur.setResaux(serveur.getResaux());
+
+
+        serveurService.saveServer(existingServeur);
+
+        String serveurResau = existingServeur.getResaux();
+
+        redirectAttributes.addFlashAttribute("editMessage", "Serveur Modifier Avec Succés !");
+        return "redirect:/serveurs/"+serveurResau;
+    }
+
+    @GetMapping("/server/delete/{id}")
+    public String deleteServer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        serveurService.deleteServeurById(id);
+
+        redirectAttributes.addFlashAttribute("deleteMessage", "Serveur Supprimé Avec Succés !");
+        return "redirect:/serveurs/details/{id}";
     }
 
 

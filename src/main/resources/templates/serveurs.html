@@ -9,24 +9,24 @@
     <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <style>
-
         .card-server {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .card-server:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
+
+
         .server-info i {
             font-size: 1.2rem;
             color: #007bff;
         }
+
         .server-card-header {
             background-color: #f8f9fa;
         }
+
         .card-body {
             font-size: 0.9rem;
         }
+
         .server-name {
             font-size: 1.1rem;
             font-weight: bold;
@@ -54,13 +54,26 @@
     </div><!-- End Page Title -->
 
     <section class="section">
-
+        <div th:if="${editMessage}" class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+            <span th:text="${editMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div class="row">
             <div class="col-lg-4 col-md-6 mb-4" th:each="serveur : ${serveurs}">
                 <a th:href="@{/serveurs/details/{id}(id=${serveur.id})}">
                     <div class="card card-server shadow">
                         <div class="card-header server-card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title server-name text-center" th:text="${serveur.nom}"></h5>
+                            <!-- Three-dots dropdown -->
+                            <div class="dropdown">
+                                <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a class="dropdown-item" href="#">Surveiller</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/server/edit/{id}(id=${serveur.id})}">Editer</a></li>
+                                    <li><a class="dropdown-item" href="">Supprimer</a></li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="server-info mb-3">
@@ -87,6 +100,7 @@
 <!-- End Footer -->
 
 <!-- Vendor JS Files -->
+
 <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
