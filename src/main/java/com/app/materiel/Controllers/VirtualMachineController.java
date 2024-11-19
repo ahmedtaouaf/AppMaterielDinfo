@@ -36,9 +36,12 @@ public class VirtualMachineController {
     }
 
     @PostMapping("/virtual-machines/add")
-    public String saveVirtualMachine(@ModelAttribute VirtualMachine virtualMachine) {
+    public String saveVirtualMachine(@ModelAttribute VirtualMachine virtualMachine, RedirectAttributes redirectAttributes) {
+
+        Long vmSrv = virtualMachine.getServeur().getId();
         virtualMachineService.saveVirtualMachine(virtualMachine);
-        return "redirect:/virtual-machines/add";
+        redirectAttributes.addFlashAttribute("addMessage", "Virtuelle Machine Eregistrer Avec Succés !");
+        return "redirect:/serveurs/details/" + vmSrv;
     }
 
     @GetMapping("/virtual-machines/edit/{id}")

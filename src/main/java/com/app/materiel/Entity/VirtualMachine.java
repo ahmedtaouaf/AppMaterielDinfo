@@ -30,6 +30,8 @@ public class VirtualMachine {
 
     private String monitoringPath;
 
+    private Boolean status;
+
     @ManyToOne
     @JoinColumn(name = "logiciel_id", nullable = false)
     private Logiciel logiciel;

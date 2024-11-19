@@ -1,7 +1,9 @@
 package com.app.materiel.Controllers;
 
 import com.app.materiel.Entity.Serveur;
+import com.app.materiel.Entity.Stock;
 import com.app.materiel.Entity.VirtualMachine;
+import com.app.materiel.Repository.VirtualMachineRepository;
 import com.app.materiel.Service.ServeurService;
 import com.app.materiel.Service.VirtualMachineService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,6 +30,8 @@ public class ServeurController {
 
     @Autowired
     private VirtualMachineService virtualMachineService;
+    @Autowired
+    private VirtualMachineRepository virtualMachineRepository;
 
 
     @GetMapping("/serveurs/{resaux}")
@@ -93,10 +97,16 @@ public class ServeurController {
     @GetMapping("/server/delete/{id}")
     public String deleteServer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
+        Serveur serveur = serveurService.getServerById(id);
+
+        virtualMachineRepository.deleteByServeurId(serveur.getId());
+
+        String serveurResau = serveur.getResaux();
+
         serveurService.deleteServeurById(id);
 
         redirectAttributes.addFlashAttribute("deleteMessage", "Serveur Supprimé Avec Succés !");
-        return "redirect:/serveurs/details/{id}";
+        return "redirect:/serveurs/"+serveurResau;
     }
 
 

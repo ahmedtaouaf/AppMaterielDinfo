@@ -71,7 +71,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li><a class="dropdown-item" href="#">Surveiller</a></li>
                                     <li><a class="dropdown-item" th:href="@{/server/edit/{id}(id=${serveur.id})}">Editer</a></li>
-                                    <li><a class="dropdown-item" href="">Supprimer</a></li>
+                                    <li><a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal" data-vm-id="${serveur.id}" data-vm-designation="${serveur.nom}">Supprimer</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -85,7 +85,27 @@
                                 <p><i class="bi bi-key"></i> N°Serie: <span th:text="${serveur.nserie}"></span></p>
                             </div>
                         </div>
-
+                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Supprimer Serveur</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Êtes-vous sûr de vouloir supprimer le serveur <strong th:text="${serveur.nom}"></strong>?</p>
+                                        <p class="alert alert-danger">Toutes les machines virtuelles liées au serveur seront supprimées</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form th:action="@{/server/delete/{id}(id=${serveur.id})}" method="get">
+                                            <input type="hidden" id="deleteServeurId" name="id" />
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </a>
             </div>
