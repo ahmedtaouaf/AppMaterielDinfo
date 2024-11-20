@@ -131,7 +131,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-ett" data-bs-toggle="collapse"
                    th:classappend="${#request.requestURI.startsWith('/stock/tree')} ? ' ' : 'collapsed'" href="#">
-                    <i class="bi bi-diagram-3-fill"></i><span>Schéma Stock</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-hdd-rack-fill"></i><span>Schéma Stock</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-ett" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/stock/tree')} ? 'show'" data-bs-parent="#sidebar-nav">
                     <li>
@@ -198,6 +198,22 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-sch" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/schema')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-diagram-3-fill"></i><span>Schèmas Résaux</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-sch" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/schema/liste')} ? 'show'" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/schema/liste" th:classappend="${#request.requestURI == '/schema/liste'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Schémas</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
 
         </ul>
 
