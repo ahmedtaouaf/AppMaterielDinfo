@@ -1,5 +1,6 @@
 package com.app.materiel.Config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -7,10 +8,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Value("${handler.file}")
+    String svgHandlerPath;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
+
+
         registry.addResourceHandler("/svgs/**")
-                .addResourceLocations("file:C:/svgs/");
+                .addResourceLocations(svgHandlerPath);
     }
 }
