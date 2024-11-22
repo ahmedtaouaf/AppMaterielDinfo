@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>IP Address List</title>
+</head>
+<body>
+<h1>IP Address List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>IP Address</th>
+        <th>MAC</th>
+        <th>Responsible</th>
+        <th>Service</th>
+        <th>Material</th>
+        <th>Organe</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ip : ${addresses}">
+        <td th:text="${ip.adressip}"></td>
+        <td th:text="${ip.mac}"></td>
+        <td th:text="${ip.responsable}"></td>
+        <td th:text="${ip.service}"></td>
+        <td th:text="${ip.materiel}"></td>
+        <td th:text="${ip.organe.name}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

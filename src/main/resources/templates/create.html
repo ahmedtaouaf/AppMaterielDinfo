@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create IP Address</title>
+</head>
+<body>
+<h1>Create New IP Address</h1>
+<form th:action="@{/create}" th:object="${adressip}" method="post">
+    <div th:if="${Adressexist}" role="alert">
+        <span th:text="${Adressexist}"></span>
+    </div>
+    <div>
+        <label for="adressip">IP Address:</label>
+        <input type="text" id="adressip" th:field="*{adressip}" required>
+        <div th:if="${#fields.hasErrors('adressip')}" th:errors="*{adressip}"></div>
+    </div>
+    <div>
+        <label for="mac">MAC Address:</label>
+        <input type="text" id="mac" th:field="*{mac}">
+    </div>
+    <div>
+        <label for="responsable">Responsible:</label>
+        <input type="text" id="responsable" th:field="*{responsable}">
+    </div>
+    <div>
+        <label for="service">Service:</label>
+        <input type="text" id="service" th:field="*{service}">
+    </div>
+    <div>
+        <label for="materiel">Material:</label>
+        <input type="text" id="materiel" th:field="*{materiel}">
+    </div>
+    <div>
+        <label for="temporaire">Temporary:</label>
+        <input type="checkbox" id="temporaire" th:field="*{temporaire}">
+    </div>
+    <div>
+        <label for="organe">Organe:</label>
+        <select id="organe" th:field="*{organe}" required>
+            <option th:each="organe : ${organes}"
+                    th:value="${organe.id}"
+                    th:text="${organe.nom}">Select an organe</option>
+        </select>
+    </div>
+    <div>
+        <label for="resaux">Resaux:</label>
+        <select id="resaux" th:field="*{resaux}" required>
+            <option th:each="resaux : ${resaux}"
+                    th:value="${resaux.nom}"
+                    th:text="${resaux.nom}">Select a resaux</option>
+        </select>
+    </div>
+    <div>
+        <label for="division">Division:</label>
+        <select id="division" th:field="*{division}" required>
+            <option th:each="division : ${divisions}"
+                    th:value="${division.designation}"
+                    th:text="${division.designation}">Select a division</option>
+        </select>
+    </div>
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>
