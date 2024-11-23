@@ -42,21 +42,35 @@ public class AdressipController {
     @PostMapping("/create")
     public String createAdressip(@ModelAttribute("adressip") @Validated Adressip adressip,
                                  BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+
+        if (!isValidIPAddress(adressip.getAdressip())) {
+            result.rejectValue("adressip", "error.adressip", "Invalid IP address format.");
+        }
+
+
         if (adressipService.existsByAdressip(adressip.getAdressip())) {
             result.rejectValue("adressip", "error.adressip", "This IP address is already taken.");
-            redirectAttributes.addAttribute("Adressexist","This IP address is already taken.");
         }
 
         if (result.hasErrors()) {
             model.addAttribute("organes", organeService.findAll());
             model.addAttribute("resaux", resauxService.findAll());
             model.addAttribute("divisions", divisionService.findAll());
-            return "/create";
+            return "create";
         }
 
         adressipService.save(adressip);
+        redirectAttributes.addFlashAttribute("success", "IP address created successfully.");
         return "redirect:/adressage/create";
     }
+
+
+    private boolean isValidIPAddress(String ipAddress) {
+        String ipPattern =
+                "^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$";
+        return ipAddress != null && ipAddress.matches(ipPattern);
+    }
+
     @GetMapping("/list")
     public String listIPAddresses(Model model) {
         model.addAttribute("addresses", adressipService.findall());
