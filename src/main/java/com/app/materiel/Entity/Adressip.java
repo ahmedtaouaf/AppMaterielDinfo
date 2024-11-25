@@ -15,7 +15,7 @@ public class Adressip {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String adressip;
+    private String ip;
     private String mac;
     private String responsable;
     private String service;

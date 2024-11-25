@@ -212,6 +212,25 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-adr" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/adressage')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-globe2"></i><span>Adressage</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-adr" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/adressage/create')} ? 'show'" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/adressage/create" th:classappend="${#request.requestURI == '/adressage/create'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Nouvelle Adresse</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/adressage/liste" th:classappend="${#request.requestURI == '/adressage/liste'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Liste Des Adresses</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
 
 
 

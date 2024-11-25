@@ -1,10 +1,13 @@
 package com.app.materiel.Controllers;
 
 import com.app.materiel.Entity.Adressip;
+import com.app.materiel.Entity.Organe;
+import com.app.materiel.Entity.Stock;
 import com.app.materiel.Service.AdressipService;
 import com.app.materiel.Service.DivisionService;
 import com.app.materiel.Service.OrganeService;
 import com.app.materiel.Service.ResauxService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -36,34 +40,28 @@ public class AdressipController {
         model.addAttribute("organes", organeService.findAll());
         model.addAttribute("resaux", resauxService.findAll());
         model.addAttribute("divisions", divisionService.findAll());
-        return "create";
+        return "adresse-new";
     }
 
     @PostMapping("/create")
-    public String createAdressip(@ModelAttribute("adressip") @Validated Adressip adressip,
-                                 BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String createAdressip(@ModelAttribute("adressip") Adressip adressip,
+                                 @RequestParam("organe") Long organeId,
+                                 RedirectAttributes redirectAttributes) {
 
-        if (!isValidIPAddress(adressip.getAdressip())) {
-            result.rejectValue("adressip", "error.adressip", "Invalid IP address format.");
+        if (adressipService.existsByAdressip(adressip.getIp())) {
+            redirectAttributes.addFlashAttribute("Adresseipexist", "Adresse IP existe déja");
+
+            return "redirect:/adressage/create";
         }
 
-
-        if (adressipService.existsByAdressip(adressip.getAdressip())) {
-            result.rejectValue("adressip", "error.adressip", "This IP address is already taken.");
-        }
-
-        if (result.hasErrors()) {
-            model.addAttribute("organes", organeService.findAll());
-            model.addAttribute("resaux", resauxService.findAll());
-            model.addAttribute("divisions", divisionService.findAll());
-            return "create";
-        }
+        Organe organe = organeService.findById(organeId);
+        adressip.setOrgane(organe);
 
         adressipService.save(adressip);
-        redirectAttributes.addFlashAttribute("success", "IP address created successfully.");
+        redirectAttributes.addFlashAttribute("Adresseipadd", "Adresse IP créée avec succès.");
+
         return "redirect:/adressage/create";
     }
-
 
     private boolean isValidIPAddress(String ipAddress) {
         String ipPattern =
@@ -71,10 +69,16 @@ public class AdressipController {
         return ipAddress != null && ipAddress.matches(ipPattern);
     }
 
-    @GetMapping("/list")
-    public String listIPAddresses(Model model) {
-        model.addAttribute("addresses", adressipService.findall());
-        return "list";
+    @GetMapping("/adressage/liste")
+    public String listIPAddresses(Model model,
+                                  @RequestParam(value = "search", required = false) String searchTerm,
+                                  @RequestParam(value = "page", defaultValue = "0") int page) {
+        Page<Adressip> adressipsPage;
+        adressipsPage = adressipService.findAllAdresses(searchTerm, page);
+
+        model.addAttribute("adressPage", adressipsPage);
+        model.addAttribute("searchTerm", searchTerm);
+        return "adresse-list";
     }
 }
 
