@@ -16,6 +16,7 @@ public class Adressip {
 
     @Column(nullable = false, unique = true)
     private String ip;
+    private String designation;
     private String mac;
     private String responsable;
     private String service;

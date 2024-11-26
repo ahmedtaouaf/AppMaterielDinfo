@@ -128,6 +128,31 @@
                                 </div>
                             </div>
                         </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <!-- Previous Page Link -->
+                                <li class="page-item" th:classappend="${adressPage.hasPrevious()} ? '' : 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/adressage/liste(size=${adressPage.size}, page=${adressPage.number - 1}, search=${searchTerm})}"
+                                       tabindex="-1" aria-disabled="true">Précédent</a>
+                                </li>
+
+                                <!-- Page Number Links -->
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, adressPage.totalPages - 1)}"
+                                    th:classappend="${i == adressPage.number} ? 'active'">
+                                    <a class="page-link"
+                                       th:href="@{/adressage/liste(size=${adressPage.size}, page=${i}, search=${searchTerm})}"
+                                       th:text="${i + 1}"></a>
+                                </li>
+
+                                <!-- Next Page Link -->
+                                <li class="page-item" th:classappend="${adressPage.hasNext()} ? '' : 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/adressage/liste(size=${adressPage.size}, page=${adressPage.number + 1}, search=${searchTerm})}">
+                                        Suivant</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
 
