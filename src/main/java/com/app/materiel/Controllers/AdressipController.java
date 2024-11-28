@@ -2,7 +2,6 @@ package com.app.materiel.Controllers;
 
 import com.app.materiel.Entity.Adressip;
 import com.app.materiel.Entity.Organe;
-import com.app.materiel.Entity.Stock;
 import com.app.materiel.Service.AdressipService;
 import com.app.materiel.Service.DivisionService;
 import com.app.materiel.Service.OrganeService;
@@ -10,8 +9,6 @@ import com.app.materiel.Service.ResauxService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +44,11 @@ public class AdressipController {
     public String createAdressip(@ModelAttribute("adressip") Adressip adressip,
                                  @RequestParam("organe") Long organeId,
                                  RedirectAttributes redirectAttributes) {
+
+        if (!isValidIPAddress(adressip.getIp())) {
+            redirectAttributes.addFlashAttribute("Adresseipformat", "Format d'adresse ip incorrecte");
+            return "redirect:/adressage/create";
+        }
 
         if (adressipService.existsByAdressip(adressip.getIp())) {
             redirectAttributes.addFlashAttribute("Adresseipexist", "Adresse IP existe déja");
