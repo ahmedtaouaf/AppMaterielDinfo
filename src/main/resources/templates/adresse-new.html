@@ -76,7 +76,14 @@
                         <h5 class="card-title">Nouvelle Adresse</h5>
                         <form th:action="@{/create}" th:object="${adressip}" method="post" class="row g-3 mt-4">
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="designation" th:field="*{designation}"
+                                           title="Veuillez saisir une designation." class="form-control" placeholder="Désignation" required>
+                                    <label for="designation">Désignation</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" id="adressip" th:field="*{ip}"
                                            title="Veuillez saisir une adresse IP valide." class="form-control" placeholder="Adresse IP" required>

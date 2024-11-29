@@ -54,6 +54,11 @@
     </div><!-- End Page Title -->
 
     <section class="section">
+        <div th:if="${deleteMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+            <span th:text="${deleteMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -94,9 +99,27 @@
                                     <div class="dropdown">
                                         <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <li><a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#detailsModal" data-vm-id="${adress.id}" data-vm-designation="${adress.designation}">Détails</a></li>
-                                            <li><a class="dropdown-item" href="">Editer</a></li>
-                                            <li><a class="dropdown-item" >Supprimer</a></li>
+                                            <li>
+                                                <a href="#"
+                                                   class="dropdown-item details-btn"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#detailsModal"
+                                                   th:attr="data-designation=${adress.designation},
+                data-ip=${adress.ip},
+                data-responsable=${adress.responsable},
+                data-materiel=${adress.materiel},
+                data-service=${adress.service},
+                data-division=${adress.division},
+                data-mac=${adress.mac}">
+                                                    Détails
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#deleteModal-' + ${adress.id}">
+                                                    Supprimer
+                                                </a>
+
+                                            </li>
                                         </ul>
                                     </div>
                                 </td>
@@ -109,17 +132,48 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row mb-3">
-                                                    <label class="col-sm-2 col-form-label">MAC</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" disabled>
+                                                    <label class="col-sm-4 col-form-label">Désignation</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="modal-designation" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3">
-                                                    <label class="col-sm-2 col-form-label">Text</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control">
+                                                    <label class="col-sm-4 col-form-label">Adresse IP</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="modal-ip" disabled>
                                                     </div>
                                                 </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-4 col-form-label">Responsable</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="modal-responsable" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-4 col-form-label">Materiel</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="modal-materiel" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-4 col-form-label">Service</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="modal-Service" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-4 col-form-label">Division</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="modal-division" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-4 col-form-label">MAC</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="modal-mac" disabled>
+                                                    </div>
+                                                </div>
+                                                <!-- Add more fields as needed -->
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -127,34 +181,35 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </tr>
 
 
                             </tbody>
-                        </table>
-
-                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Modifier Article</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="editStockForm" method="post">
-                                            <input type="hidden" id="stockId" name="id" />
-
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                                <button type="submit" class="btn btn-warning">Confirmer</button>
+                            <div th:each="adress : ${adressPage.content}">
+                                <div th:id="'deleteModal-' + ${adress.id}" class="modal fade" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirmation de Suppression</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                        </form>
-
+                                            <div class="modal-body">
+                                                <p>Êtes-vous sûr de vouloir supprimer l'adresse IP: <strong th:text="${adress.designation}"></strong> ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form th:action="@{/delete/{id}(id=${adress.id})}" method="post">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </table>
+
+
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <!-- Previous Page Link -->
@@ -194,6 +249,32 @@
 <!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.details-btn').forEach(button => {
+            button.addEventListener('click', function () {
+
+                const designation = this.getAttribute('data-designation');
+                const ip = this.getAttribute('data-ip');
+                const responsable = this.getAttribute('data-responsable');
+                const materiel = this.getAttribute('data-materiel');
+                const service = this.getAttribute('data-service');
+                const division = this.getAttribute('data-division');
+                const mac = this.getAttribute('data-mac');
+
+
+                document.getElementById('modal-designation').value = designation;
+                document.getElementById('modal-ip').value = ip;
+                document.getElementById('modal-responsable').value = responsable;
+                document.getElementById('modal-materiel').value = materiel;
+                document.getElementById('modal-service').value = service;
+                document.getElementById('modal-division').value = division;
+                document.getElementById('modal-mac').value = mac;
+            });
+        });
+    });
+</script>
+
 
 <!-- Vendor JS Files -->
 <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>

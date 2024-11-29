@@ -39,6 +39,30 @@ public class AdressipService {
         }
         return adressipRepository.findAllBySearchTerm(searchTerm, pageable);
     }
+    public void deleteAdressipById(Long id) {
+        if (!adressipRepository.existsById(id)) {
+            throw new RuntimeException("Adresse avec ID " + id + " introuvable.");
+        }
+        adressipRepository.deleteById(id);
+    }
+
+
+    public Page<Adressip> filterAdresses(String resaux, Long organe, Pageable pageable) {
+        return adressipRepository.findByResauxNomAndOrganeId(resaux, organe, pageable);
+    }
+
+    public Page<Adressip> filterAdressesByResaux(String resaux, Pageable pageable) {
+        return adressipRepository.findByResauxNom(resaux, pageable);
+    }
+
+    public Page<Adressip> filterAdressesByOrgane(Long organeId, Pageable pageable) {
+        return adressipRepository.findByOrganeId(organeId, pageable);
+    }
+
+    public Page<Adressip> getAllAdresses(Pageable pageable) {
+        return adressipRepository.findAll(pageable);
+    }
+
 
 
 }
