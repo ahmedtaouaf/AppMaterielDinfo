@@ -35,7 +35,7 @@ public class AdressipService {
     public Page<Adressip> findAllAdresses(String searchTerm, int page) {
         Pageable pageable = PageRequest.of(page, 25);
         if (searchTerm == null || searchTerm.isEmpty()) {
-            return adressipRepository.findAll(pageable);
+            return adressipRepository.findAllByResaux(pageable);
         }
         return adressipRepository.findAllBySearchTerm(searchTerm, pageable);
     }

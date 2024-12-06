@@ -74,7 +74,7 @@ public class AdressipController {
         return ipAddress != null && ipAddress.matches(ipPattern);
     }
 
-    @GetMapping("/adressage/liste")
+    @GetMapping("/adressage/liste/internet")
     public String listIPAddresses(Model model,
                                   @RequestParam(value = "search", required = false) String searchTerm,
                                   @RequestParam(value = "page", defaultValue = "0") int page) {

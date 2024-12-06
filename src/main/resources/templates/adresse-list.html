@@ -66,7 +66,7 @@
                         <h5 class="card-title">Liste Des Adresses</h5>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <form th:action="@{/adressage/liste}" method="get" class="d-flex justify-content-end align-items-center">
+                                <form th:action="@{/adressage/liste/internet}" method="get" class="d-flex justify-content-end align-items-center">
 
                                     <input type="text" th:name="search" th:value="${searchTerm}" placeholder="Recherche par IP, MAC, Service, Organe..."
                                            class="form-control me-2" style="width: 200px;">
@@ -105,12 +105,12 @@
                                                    data-bs-toggle="modal"
                                                    data-bs-target="#detailsModal"
                                                    th:attr="data-designation=${adress.designation},
-                data-ip=${adress.ip},
-                data-responsable=${adress.responsable},
-                data-materiel=${adress.materiel},
-                data-service=${adress.service},
-                data-division=${adress.division},
-                data-mac=${adress.mac}">
+                                                            data-ip=${adress.ip},
+                                                            data-responsable=${adress.responsable},
+                                                            data-materiel=${adress.materiel},
+                                                            data-service=${adress.service},
+                                                            data-division=${adress.division.designation},
+                                                            data-mac=${adress.mac}">
                                                     Détails
                                                 </a>
                                             </li>
@@ -158,7 +158,7 @@
                                                 <div class="row mb-3">
                                                     <label class="col-sm-4 col-form-label">Service</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="modal-Service" disabled>
+                                                        <input type="text" class="form-control" id="modal-service" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3">
@@ -173,7 +173,6 @@
                                                         <input type="text" class="form-control" id="modal-mac" disabled>
                                                     </div>
                                                 </div>
-                                                <!-- Add more fields as needed -->
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -215,7 +214,7 @@
                                 <!-- Previous Page Link -->
                                 <li class="page-item" th:classappend="${adressPage.hasPrevious()} ? '' : 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste(size=${adressPage.size}, page=${adressPage.number - 1}, search=${searchTerm})}"
+                                       th:href="@{/adressage/liste/internet(size=${adressPage.size}, page=${adressPage.number - 1}, search=${searchTerm})}"
                                        tabindex="-1" aria-disabled="true">Précédent</a>
                                 </li>
 
@@ -223,14 +222,14 @@
                                 <li class="page-item" th:each="i : ${#numbers.sequence(0, adressPage.totalPages - 1)}"
                                     th:classappend="${i == adressPage.number} ? 'active'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste(size=${adressPage.size}, page=${i}, search=${searchTerm})}"
+                                       th:href="@{/adressage/liste/internet(size=${adressPage.size}, page=${i}, search=${searchTerm})}"
                                        th:text="${i + 1}"></a>
                                 </li>
 
                                 <!-- Next Page Link -->
                                 <li class="page-item" th:classappend="${adressPage.hasNext()} ? '' : 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste(size=${adressPage.size}, page=${adressPage.number + 1}, search=${searchTerm})}">
+                                       th:href="@{/adressage/liste/internet(size=${adressPage.size}, page=${adressPage.number + 1}, search=${searchTerm})}">
                                         Suivant</a>
                                 </li>
                             </ul>
