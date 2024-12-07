@@ -66,12 +66,19 @@
                         <h5 class="card-title">Liste Des Adresses</h5>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <form th:action="@{/adressage/liste/internet}" method="get" class="d-flex justify-content-end align-items-center">
-
+                                <form th:action="@{/adressage/liste/{resaux}(resaux=${resaux})}" method="get" class="d-flex justify-content-end align-items-center">
                                     <input type="text" th:name="search" th:value="${searchTerm}" placeholder="Recherche par IP, MAC, Service, Organe..."
                                            class="form-control me-2" style="width: 200px;">
+
+                                    <select th:name="organe" class="form-select me-2" style="width: 200px;">
+                                        <option value="" th:text="'Tous organes'" th:selected="${selectedOrgane == null}"></option>
+                                        <option th:each="organe : ${organes}" th:value="${organe.id}" th:text="${organe.nom}"
+                                                th:selected="${selectedOrgane != null and selectedOrgane == organe.id}"></option>
+                                    </select>
+
                                     <button type="submit" class="btn btn-primary">Filtrer</button>
                                 </form>
+
                             </div>
                         </div>
                         <table class="table text-center">
@@ -211,29 +218,25 @@
 
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
-                                <!-- Previous Page Link -->
                                 <li class="page-item" th:classappend="${adressPage.hasPrevious()} ? '' : 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste/internet(size=${adressPage.size}, page=${adressPage.number - 1}, search=${searchTerm})}"
+                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, size=${adressPage.size}, page=${adressPage.number - 1}, search=${searchTerm})}"
                                        tabindex="-1" aria-disabled="true">Précédent</a>
                                 </li>
-
-                                <!-- Page Number Links -->
                                 <li class="page-item" th:each="i : ${#numbers.sequence(0, adressPage.totalPages - 1)}"
                                     th:classappend="${i == adressPage.number} ? 'active'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste/internet(size=${adressPage.size}, page=${i}, search=${searchTerm})}"
+                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, size=${adressPage.size}, page=${i}, search=${searchTerm})}"
                                        th:text="${i + 1}"></a>
                                 </li>
-
-                                <!-- Next Page Link -->
                                 <li class="page-item" th:classappend="${adressPage.hasNext()} ? '' : 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste/internet(size=${adressPage.size}, page=${adressPage.number + 1}, search=${searchTerm})}">
+                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, size=${adressPage.size}, page=${adressPage.number + 1}, search=${searchTerm})}">
                                         Suivant</a>
                                 </li>
                             </ul>
                         </nav>
+
                     </div>
                 </div>
 

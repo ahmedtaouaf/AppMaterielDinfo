@@ -15,8 +15,6 @@ import java.util.List;
 public interface AdressipRepository extends JpaRepository<Adressip, Long> {
     boolean existsByIp(String adressip);
 
-    @Query("SELECT a FROM Adressip a WHERE a.resaux.nom= 'INTERNET' AND (:searchTerm IS NULL OR :searchTerm = '' OR a.ip LIKE %:searchTerm% OR a.service LIKE %:searchTerm% OR a.organe.nom LIKE %:searchTerm% OR a.division.Designation LIKE %:searchTerm% )")
-    Page<Adressip> findAllBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 
     Page<Adressip> findByResauxNomAndOrganeId(String resaux, Long organeId, Pageable pageable);
 
@@ -24,8 +22,32 @@ public interface AdressipRepository extends JpaRepository<Adressip, Long> {
 
     Page<Adressip> findByOrganeId(Long organeId, Pageable pageable);
 
-    @Query("SELECT a FROM Adressip a WHERE a.resaux.nom= 'INTERNET'")
-    Page<Adressip> findAllByResaux(Pageable pageable);
+    @Query("SELECT a FROM Adressip a WHERE a.resaux.nom = :resaux")
+    Page<Adressip> findAllByResaux(@Param("resaux") String resaux, Pageable pageable);
+
+    @Query("SELECT a FROM Adressip a WHERE a.resaux.nom = :resaux AND " +
+            "(:searchTerm IS NULL OR :searchTerm = '' OR " +
+            "a.ip LIKE %:searchTerm% OR a.service LIKE %:searchTerm% OR " +
+            "a.organe.nom LIKE %:searchTerm% OR a.division.Designation LIKE %:searchTerm%)")
+    Page<Adressip> findAllByResauxAndSearchTerm(@Param("resaux") String resaux,
+                                                @Param("searchTerm") String searchTerm,
+                                                Pageable pageable);
+
+    @Query("SELECT a FROM Adressip a WHERE a.resaux.nom = :resaux AND a.organe.id = :organeId")
+    Page<Adressip> findAllByResauxAndOrgane(@Param("resaux") String resaux,
+                                            @Param("organeId") Long organeId,
+                                            Pageable pageable);
+
+    @Query("SELECT a FROM Adressip a WHERE a.resaux.nom = :resaux AND " +
+            "(:searchTerm IS NULL OR :searchTerm = '' OR " +
+            "a.ip LIKE %:searchTerm% OR a.service LIKE %:searchTerm% OR " +
+            "a.organe.nom LIKE %:searchTerm% OR a.division.Designation LIKE %:searchTerm%) " +
+            "AND (:organeId IS NULL OR a.organe.id = :organeId)")
+    Page<Adressip> findAllByResauxAndSearchTermAndOrgane(@Param("resaux") String resaux,
+                                                         @Param("searchTerm") String searchTerm,
+                                                         @Param("organeId") Long organeId,
+                                                         Pageable pageable);
+
 
 
 }

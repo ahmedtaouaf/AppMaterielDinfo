@@ -32,13 +32,27 @@ public class AdressipService {
         return adressipRepository.findAll();
     }
 
-    public Page<Adressip> findAllAdresses(String searchTerm, int page) {
+    public Page<Adressip> findAdressesByResaux(String resaux, String searchTerm, int page) {
         Pageable pageable = PageRequest.of(page, 25);
         if (searchTerm == null || searchTerm.isEmpty()) {
-            return adressipRepository.findAllByResaux(pageable);
+            return adressipRepository.findAllByResaux(resaux, pageable);
         }
-        return adressipRepository.findAllBySearchTerm(searchTerm, pageable);
+        return adressipRepository.findAllByResauxAndSearchTerm(resaux, searchTerm, pageable);
     }
+
+    public Page<Adressip> findAdressesByResauxAndOrgane(String resaux, String searchTerm, Long organeId, int page) {
+        Pageable pageable = PageRequest.of(page, 25);
+        if ((searchTerm == null || searchTerm.isEmpty()) && organeId == null) {
+            return adressipRepository.findAllByResaux(resaux, pageable);
+        } else if (organeId == null) {
+            return adressipRepository.findAllByResauxAndSearchTerm(resaux, searchTerm, pageable);
+        } else if (searchTerm == null || searchTerm.isEmpty()) {
+            return adressipRepository.findAllByResauxAndOrgane(resaux, organeId, pageable);
+        }
+        return adressipRepository.findAllByResauxAndSearchTermAndOrgane(resaux, searchTerm, organeId, pageable);
+    }
+
+
     public void deleteAdressipById(Long id) {
         if (!adressipRepository.existsById(id)) {
             throw new RuntimeException("Adresse avec ID " + id + " introuvable.");

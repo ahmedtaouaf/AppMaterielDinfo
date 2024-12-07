@@ -74,17 +74,26 @@ public class AdressipController {
         return ipAddress != null && ipAddress.matches(ipPattern);
     }
 
-    @GetMapping("/adressage/liste/internet")
-    public String listIPAddresses(Model model,
-                                  @RequestParam(value = "search", required = false) String searchTerm,
-                                  @RequestParam(value = "page", defaultValue = "0") int page) {
-        Page<Adressip> adressipsPage;
-        adressipsPage = adressipService.findAllAdresses(searchTerm, page);
+    @GetMapping("/adressage/liste/{resaux}")
+    public String listIPAddressesByResaux(
+            @PathVariable("resaux") String resaux,
+            Model model,
+            @RequestParam(value = "search", required = false) String searchTerm,
+            @RequestParam(value = "organe", required = false) Long organeId,
+            @RequestParam(value = "page", defaultValue = "0") int page) {
+
+        Page<Adressip> adressipsPage = adressipService.findAdressesByResauxAndOrgane(resaux, searchTerm, organeId, page);
+        List<Organe> organes = organeService.findAll(); // Assuming you have an OrganeService to fetch organes
 
         model.addAttribute("adressPage", adressipsPage);
         model.addAttribute("searchTerm", searchTerm);
+        model.addAttribute("resaux", resaux);
+        model.addAttribute("organes", organes);
+        model.addAttribute("selectedOrgane", organeId); // For maintaining selection
         return "adresse-list";
     }
+
+
 
     @PostMapping("/delete/{id}")
     public String deleteAdressip(@PathVariable Long id, RedirectAttributes redirectAttributes) {
@@ -106,7 +115,6 @@ public class AdressipController {
         return "adressip-filter";
     }
 
-    // This method will handle AJAX requests for filtering with pagination
     @GetMapping("/filter-adresses")
     @ResponseBody
     public Page<Adressip> filterAdresses(@RequestParam(value = "resaux", required = false) String resaux,
