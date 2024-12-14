@@ -220,7 +220,7 @@
                 <ul id="components-adr" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/adressage/create')} ? 'show'" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/adressage/create" th:classappend="${#request.requestURI == '/adressage/create'} ? 'active'">
-                            <i class="bi bi-circle"></i><span>Nouvelle Adresse</span>
+                            <i class="bi bi-circle"></i><span>Attribuer Adresse</span>
                         </a>
                     </li>
                     <li>
@@ -228,8 +228,12 @@
                             <i class="bi bi-circle"></i><span>Adresses Internet</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="/adressage/liste/intranet" th:classappend="${#request.requestURI == '/adressage/liste/intranet'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Adresses Intranet</span>
+                        </a>
+                    </li>
                 </ul>
-
             </li>
 
 

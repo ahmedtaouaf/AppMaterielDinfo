@@ -59,6 +59,11 @@
             <span th:text="${deleteMessage}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+        <div th:if="${editMessage}" class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+            <span th:text="${editMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -78,7 +83,6 @@
 
                                     <button type="submit" class="btn btn-primary">Filtrer</button>
                                 </form>
-
                             </div>
                         </div>
                         <table class="table text-center">
@@ -95,13 +99,13 @@
                             </thead>
                             <tbody>
                             <tr th:each="adress : ${adressPage.content}">
-                                <td th:text="${adress.designation}"></td>
-                                <td th:text="${adress.ip}"></td>
-                                <td th:text="${adress.responsable}"></td>
-                                <td th:if="${adress.temporaire == true}" th:text="Oui"></td>
-                                <td th:if="${adress.temporaire == false}" th:text="Non"></td>
-                                <td th:text="${adress.organe.nom}"></td>
-                                <td th:text="${adress.resaux.nom}"></td>
+                                <td th:text="${adress?.designation}"></td>
+                                <td th:text="${adress?.ip}"></td>
+                                <td th:text="${adress?.responsable}"></td>
+                                <td th:if="${adress?.temporaire == true}" th:text="Oui"></td>
+                                <td th:if="${adress?.temporaire == false}" th:text="Non"></td>
+                                <td th:text="${adress?.organe.nom}"></td>
+                                <td th:text="${adress?.resaux.nom}"></td>
                                 <td>
                                     <div class="dropdown">
                                         <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
@@ -111,21 +115,25 @@
                                                    class="dropdown-item details-btn"
                                                    data-bs-toggle="modal"
                                                    data-bs-target="#detailsModal"
-                                                   th:attr="data-designation=${adress.designation},
-                                                            data-ip=${adress.ip},
-                                                            data-responsable=${adress.responsable},
-                                                            data-materiel=${adress.materiel},
-                                                            data-service=${adress.service},
-                                                            data-division=${adress.division.designation},
-                                                            data-mac=${adress.mac}">
+                                                   th:attr="data-designation=${adress?.designation},
+                                                            data-ip=${adress?.ip},
+                                                            data-responsable=${adress?.responsable},
+                                                            data-materiel=${adress?.materiel},
+                                                            data-service=${adress?.service},
+                                                            data-division=${adress?.division?.designation},
+                                                            data-mac=${adress?.mac}">
                                                     Détails
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{/adressip/edit/{id}(id=${adress.id})}" class="dropdown-item">
+                                                    Modifier
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#deleteModal-' + ${adress.id}">
                                                     Supprimer
                                                 </a>
-
                                             </li>
                                         </ul>
                                     </div>
@@ -220,22 +228,23 @@
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${adressPage.hasPrevious()} ? '' : 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, size=${adressPage.size}, page=${adressPage.number - 1}, search=${searchTerm})}"
+                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, page=${adressPage.number - 1}, search=${searchTerm}, organe=${selectedOrgane})}"
                                        tabindex="-1" aria-disabled="true">Précédent</a>
                                 </li>
                                 <li class="page-item" th:each="i : ${#numbers.sequence(0, adressPage.totalPages - 1)}"
                                     th:classappend="${i == adressPage.number} ? 'active'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, size=${adressPage.size}, page=${i}, search=${searchTerm})}"
+                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, page=${i}, search=${searchTerm}, organe=${selectedOrgane})}"
                                        th:text="${i + 1}"></a>
                                 </li>
                                 <li class="page-item" th:classappend="${adressPage.hasNext()} ? '' : 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, size=${adressPage.size}, page=${adressPage.number + 1}, search=${searchTerm})}">
+                                       th:href="@{/adressage/liste/{resaux}(resaux=${resaux}, page=${adressPage.number + 1}, search=${searchTerm}, organe=${selectedOrgane})}">
                                         Suivant</a>
                                 </li>
                             </ul>
                         </nav>
+
 
                     </div>
                 </div>

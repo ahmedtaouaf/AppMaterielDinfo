@@ -1,9 +1,6 @@
 package com.app.materiel.Controllers;
 
-import com.app.materiel.Entity.Adressip;
-import com.app.materiel.Entity.Organe;
-import com.app.materiel.Entity.Resaux;
-import com.app.materiel.Entity.Stock;
+import com.app.materiel.Entity.*;
 import com.app.materiel.Repository.AdressipRepository;
 import com.app.materiel.Service.AdressipService;
 import com.app.materiel.Service.DivisionService;
@@ -83,15 +80,16 @@ public class AdressipController {
             @RequestParam(value = "page", defaultValue = "0") int page) {
 
         Page<Adressip> adressipsPage = adressipService.findAdressesByResauxAndOrgane(resaux, searchTerm, organeId, page);
-        List<Organe> organes = organeService.findAll(); // Assuming you have an OrganeService to fetch organes
+        List<Organe> organes = organeService.findAll();
 
         model.addAttribute("adressPage", adressipsPage);
         model.addAttribute("searchTerm", searchTerm);
         model.addAttribute("resaux", resaux);
         model.addAttribute("organes", organes);
-        model.addAttribute("selectedOrgane", organeId); // For maintaining selection
+        model.addAttribute("selectedOrgane", organeId);
         return "adresse-list";
     }
+
 
 
 
@@ -104,35 +102,40 @@ public class AdressipController {
         return "redirect:/adressage/liste";
     }
 
-    @GetMapping("/adressip-filter")
-    public String getAdressipFilterPage(Model model) {
-        List<Resaux> resauxList = resauxService.findAll();
-        List<Organe> organeList = organeService.findAll();
+    @GetMapping("/adressip/edit/{id}")
+    public String showEditAdressIpForm(@PathVariable Long id, Model model) {
+        Adressip adressip = adressipService.getAdressIpById(id);
 
-        model.addAttribute("resauxList", resauxList);
-        model.addAttribute("organeList", organeList);
-
-        return "adressip-filter";
+        model.addAttribute("adressip", adressip);
+        model.addAttribute("organes", organeService.findAll());
+        model.addAttribute("divisions", divisionService.findAll());
+        model.addAttribute("resaux", resauxService.findAll());
+        return "adressip-edit";
     }
 
-    @GetMapping("/filter-adresses")
-    @ResponseBody
-    public Page<Adressip> filterAdresses(@RequestParam(value = "resaux", required = false) String resaux,
-                                         @RequestParam(value = "organe", required = false) Long organe,
-                                         @RequestParam(value = "page", defaultValue = "0") int page,
-                                         @RequestParam(value = "size", defaultValue = "5") int size) {
+    @PostMapping("/adressip/edit")
+    public String updateAdressIpAttributes(@ModelAttribute Adressip adressip, RedirectAttributes redirectAttributes) {
 
-        // Filter the Adressips based on selected filters and paginate the result
-        if (resaux != null && !resaux.isEmpty() && organe != null) {
-            return adressipService.filterAdresses(resaux, organe, PageRequest.of(page, size));
-        } else if (resaux != null && !resaux.isEmpty()) {
-            return adressipService.filterAdressesByResaux(resaux, PageRequest.of(page, size));
-        } else if (organe != null) {
-            return adressipService.filterAdressesByOrgane(organe, PageRequest.of(page, size));
-        } else {
-            return adressipService.getAllAdresses(PageRequest.of(page, size));
-        }
+        Adressip existingadressip = adressipService.getAdressIpById(adressip.getId());
+
+        existingadressip.setIp(adressip.getIp());
+        existingadressip.setDesignation(adressip.getDesignation());
+        existingadressip.setMac(adressip.getMac());
+        existingadressip.setResponsable(adressip.getResponsable());
+        existingadressip.setService(adressip.getService());
+        existingadressip.setMateriel(adressip.getMateriel());
+        existingadressip.setTemporaire(adressip.getTemporaire());
+        existingadressip.setDivision(adressip.getDivision());
+        existingadressip.setResaux(adressip.getResaux());
+        existingadressip.setOrgane(adressip.getOrgane());
+        adressipService.save(existingadressip);
+
+        String resau = existingadressip.getResaux().getNom();
+
+        redirectAttributes.addFlashAttribute("editMessage", "Adresse IP Modifier Avec Succés !");
+        return "redirect:/adressage/liste/" + resau;
     }
+
 
 }
 

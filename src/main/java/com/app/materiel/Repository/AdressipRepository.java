@@ -16,12 +16,6 @@ public interface AdressipRepository extends JpaRepository<Adressip, Long> {
     boolean existsByIp(String adressip);
 
 
-    Page<Adressip> findByResauxNomAndOrganeId(String resaux, Long organeId, Pageable pageable);
-
-    Page<Adressip> findByResauxNom(String resaux, Pageable pageable);
-
-    Page<Adressip> findByOrganeId(Long organeId, Pageable pageable);
-
     @Query("SELECT a FROM Adressip a WHERE a.resaux.nom = :resaux")
     Page<Adressip> findAllByResaux(@Param("resaux") String resaux, Pageable pageable);
 
