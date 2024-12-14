@@ -43,6 +43,14 @@ public interface AdressipRepository extends JpaRepository<Adressip, Long> {
                                                          Pageable pageable);
 
 
+    @Query("SELECT a FROM Adressip a " +
+            "JOIN FETCH a.resaux r " +
+            "JOIN FETCH a.division d " +
+            "WHERE a.organe.nom = :organeName")
+    List<Adressip> findByOrgane(String organeName);
+
+
+
 
 }
 
