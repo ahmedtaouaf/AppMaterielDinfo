@@ -60,12 +60,11 @@
                         <div id="tree" style="width: 100%; height: 700px;"></div>
                         <script src="/assets/vendor/echarts/echarts.min.js"></script>
                         <script>
-                            // Initialize the chart
+
                             var chartDom = document.getElementById('tree');
                             var myChart = echarts.init(chartDom);
                             var option;
 
-                            // Fetch data from the backend
                             fetch('/api/organe-tree?organeName=INSP TRANS')
                                 .then(response => response.json())
                                 .then(data => {
@@ -112,15 +111,10 @@
                                         ]
                                     };
 
-                                    // Render the chart
                                     myChart.setOption(option);
                                 })
                                 .catch(error => console.error('Error fetching organe tree data:', error));
                         </script>
-
-
-
-
 
                     </div>
                 </div>
