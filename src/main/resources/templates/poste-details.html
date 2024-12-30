@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Poste Details</title>
+</head>
+<body>
+<h1>Poste Details</h1>
+<div>
+    <h2>Poste Information</h2>
+    <p><strong>Name:</strong> <span th:text="${poste.nom}"></span></p>
+    <p><strong>IP Address:</strong> <span th:text="${poste.adresseip}"></span></p>
+    <p><strong>MAC Address:</strong> <span th:text="${poste.mac}"></span></p>
+    <p><strong>Type:</strong> <span th:text="${poste.typevsat}"></span></p>
+    <p><strong>Latitude:</strong> <span th:text="${poste.latitude}"></span></p>
+    <p><strong>Longitude:</strong> <span th:text="${poste.longitude}"></span></p>
+</div>
+
+<div>
+    <h2>Articles</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Libelle</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${articles}">
+            <td th:text="${article.id}"></td>
+            <td th:text="${article.libelle}"></td>
+            <td th:text="${article.status ? 'Active' : 'Inactive'}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

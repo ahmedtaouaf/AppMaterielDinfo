@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Satellite Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <style>
+        #map { height: 600px; width: 100%; }
+    </style>
+</head>
+<body>
+<h1>Satellite System Map</h1>
+<div id="map"></div>
+
+<script th:inline="javascript">
+    // Pass unites data from Thymeleaf to JavaScript
+    const unites = /*[[${unites}]]*/ [];
+</script>
+
+<script>
+    // Initialize the map
+    const map = L.map('map').setView([33, -3], 6);
+
+    // Base Layers
+    const streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap contributors',
+    });
+
+    const satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 20,
+    });
+
+    // Add default layer
+    streetMap.addTo(map);
+
+    // Layer control
+    L.control.layers({
+        'Street Map': streetMap,
+        'Satellite Map': satelliteMap,
+    }).addTo(map);
+
+
+    // Custom icons
+    const uniteIcon = L.icon({
+        iconUrl: '/assets/img/unite.png', // Replace with your own URL
+        iconSize: [38, 38], // Adjust size
+        iconAnchor: [22, 38], // Anchor point
+    });
+
+    // Custom icons for Poste status
+    const posteUpIcon = L.icon({
+        iconUrl: '/assets/img/posteup.png', // Path to posteup.png
+        iconSize: [25, 25],
+        iconAnchor: [12, 25],
+    });
+
+    const posteDownIcon = L.icon({
+        iconUrl: '/assets/img/postedown.png', // Path to postedown.png
+        iconSize: [25, 25],
+        iconAnchor: [12, 25],
+    });
+
+    // Track active markers
+    const activePostes = {};
+
+    // Add UniteResp markers
+    unites.forEach((unite) => {
+        const marker = L.marker([unite.latitude, unite.longitude], { icon: uniteIcon })
+            .addTo(map)
+            .bindPopup(`<b>${unite.nom}</b><br>Afficher les postes`)
+            .on('click', () => togglePostes(unite));
+    });
+
+    function togglePostes(unite) {
+        const uniteId = unite.id;
+
+        if (activePostes[uniteId]) {
+            activePostes[uniteId].forEach((marker) => map.removeLayer(marker));
+            delete activePostes[uniteId];
+        } else {
+            fetch(`/map/postes/${uniteId}`)
+                .then((response) => response.json())
+                .then((postes) => {
+                    const markers = postes.map((poste) => {
+                        const icon = poste.active ? posteUpIcon : posteDownIcon;
+                        const marker = L.marker([poste.latitude, poste.longitude], { icon })
+                            .addTo(map)
+                            .bindPopup(
+                                `<b>${poste.nom}</b><br>IP: ${poste.adresseip}<br>MAC: ${poste.mac}<br>
+                            <a href="/map/poste/${poste.id}" target="_blank">Afficher les détails</a>`,
+                            );
+                        return marker;
+                    });
+                    activePostes[uniteId] = markers;
+                });
+        }
+    }
+
+
+</script>
+</body>
+</html>

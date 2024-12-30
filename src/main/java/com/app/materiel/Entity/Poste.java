@@ -1,5 +1,6 @@
 package com.app.materiel.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -37,7 +38,11 @@ public class Poste {
     private UniteResp uniteResp;
 
     @OneToMany(mappedBy = "poste", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ArticleVsat> articles = new ArrayList<>();
+
+    @Transient
+    private boolean active; // Dynamic field, not persisted
 
 }
 

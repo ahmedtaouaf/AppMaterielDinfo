@@ -1,5 +1,6 @@
 package com.app.materiel.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class ArticleVsat {
 
     @ManyToOne
     @JoinColumn(name = "poste_id", nullable = false)
+    @JsonBackReference
     private Poste poste;
 }
 
