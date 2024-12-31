@@ -24,11 +24,11 @@ public class PosteService {
                 .filter(poste -> poste.getUniteResp().getId().equals(uniteRespId))
                 .toList();
 
-        // Determine if each Poste is up or down
+
         postes.forEach(poste -> {
             boolean isActive = poste.getArticles()
                     .stream()
-                    .allMatch(ArticleVsat::getStatus); // All articles must be true
+                    .allMatch(ArticleVsat::getStatus);
             poste.setActive(isActive);
         });
 

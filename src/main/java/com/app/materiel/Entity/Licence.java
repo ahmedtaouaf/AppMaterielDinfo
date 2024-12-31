@@ -24,8 +24,9 @@ public class Licence {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateexpiration;
 
-    @Column(unique = true)
     private String reference;
+
+    private String exercice;
 
     private double prixachat;
 

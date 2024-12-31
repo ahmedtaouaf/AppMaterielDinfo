@@ -71,9 +71,10 @@
                             <thead>
                             <tr>
                                 <th scope="col">Nom</th>
-                                <th scope="col">Reference</th>
+                                <th scope="col">Prestataire</th>
+                                <th scope="col">Exercice</th>
                                 <th scope="col">Date D'achat</th>
-                                <th scope="col">Prix D'achat</th>
+                                <th scope="col">Prix(DHS)</th>
                                 <th scope="col">Date D'expiration</th>
                                 <th scope="col">Situation</th>
                                 <th scope="col">Progression</th>
@@ -84,9 +85,10 @@
                             <tr th:each="licence : ${licences}">
                                 <td th:text="${licence.nom}" class="align-middle"></td>
                                 <td th:text="${licence.reference}" class="align-middle"></td>
-                                <td th:text="${licence.dateachat}" class="align-middle"></td>
-                                <td th:text="${licence.prixachat + ' DHS'}" class="align-middle"></td>
-                                <td th:text="${licence.dateexpiration}" class="align-middle"></td>
+                                <td th:text="${licence.exercice}" class="align-middle"></td>
+                                <td th:text="${#dates.format(licence.dateachat, 'dd-MM-yyyy')}" class="align-middle"></td>
+                                <td th:text="${licence.prixachat}" class="align-middle"></td>
+                                <td th:text="${#dates.format(licence.dateexpiration, 'dd-MM-yyyy')}" class="align-middle"></td>
                                 <td class="align-middle">
                                     <span th:classappend="${licence.situation.nom == 'EXPIREE' ? 'badge bg-danger' :
                                                           (licence.situation.nom == 'PRESQUE' ? 'badge bg-warning' : 'badge bg-success')}"

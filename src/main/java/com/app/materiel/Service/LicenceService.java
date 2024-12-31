@@ -28,7 +28,7 @@ public class LicenceService {
     }
 
         public List<Licence> findLicence(){
-            return licenceRepository.findAll();
+            return licenceRepository.findlicencesbyexperatingdate();
         }
 
     public void saveLicence(Licence licence) {

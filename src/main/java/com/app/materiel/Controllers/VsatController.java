@@ -24,7 +24,7 @@ public class VsatController {
         this.posteService = posteService;
     }
 
-    @GetMapping
+    @GetMapping("/vsat")
     public String showMap(Model model) {
         List<UniteResp> unites = uniteRespService.getAllUniteResp();
         model.addAttribute("unites", unites);
@@ -39,10 +39,10 @@ public class VsatController {
 
     @GetMapping("/poste/{posteId}")
     public String showPosteDetails(@PathVariable Long posteId, Model model) {
-        Poste poste = posteService.getPosteById(posteId); // Fetch Poste by ID
+        Poste poste = posteService.getPosteById(posteId);
         model.addAttribute("poste", poste);
         model.addAttribute("articles", poste.getArticles());
-        return "poste-details"; // Thymeleaf template for Poste details
+        return "poste-details";
     }
 
 }

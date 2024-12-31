@@ -12,6 +12,9 @@ public interface LicenceRepository extends JpaRepository<Licence, Long> {
     @Query("SELECT l FROM Licence l WHERE l.situation.nom IN ('EXPIREE', 'PRESQUE') ORDER BY l.dateexpiration ASC")
     List<Licence> findExpiringLicenses();
 
+    @Query("SELECT l FROM Licence l ORDER BY l.dateexpiration ASC")
+    List<Licence> findlicencesbyexperatingdate();
+
     @Query("select count (l) from Licence l")
     int totalLicences();
 
