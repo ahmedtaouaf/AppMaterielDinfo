@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Détails du poste Vsat - Application Materiel</title>
+    <title>Détails du poste Viasat - Application Materiel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -42,11 +42,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Schéma Adressage Insp. Trans</h1>
+        <h1>Détails Poste ViaSat</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Acceuil</a></li>
-                <li class="breadcrumb-item active">Schéma Adressage Insp. Trans</li>
+                <li class="breadcrumb-item active">Détails Poste ViaSat</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -56,34 +56,70 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <p><strong>Name:</strong> <span th:text="${poste.nom}"></span></p>
-                        <p><strong>IP Address:</strong> <span th:text="${poste.adresseip}"></span></p>
-                        <p><strong>MAC Address:</strong> <span th:text="${poste.mac}"></span></p>
-                        <p><strong>Type:</strong> <span th:text="${poste.typevsat}"></span></p>
-                        <p><strong>Latitude:</strong> <span th:text="${poste.latitude}"></span></p>
-                        <p><strong>Longitude:</strong> <span th:text="${poste.longitude}"></span></p>
+                        <div class="container mt-5">
 
+                        </div>
+                        <div class="row">
 
+                            <div class="col-md-6">
+                                <p class="text-center"><strong>Nom:</strong> <span th:text="${poste.nom}"></span></p>
+                                <p class="text-center"><strong>IP Address:</strong> <span th:text="${poste.adresseip}"></span></p>
+                                <p class="text-center"><strong>MAC Address:</strong> <span th:text="${poste.mac}"></span></p>
+                                <p class="text-center"><strong>Type:</strong> <span th:text="${poste.typevsat}"></span></p>
+                            </div>
+
+                            <!-- Right Side -->
+                            <div class="col-md-6">
+                                <p class="text-center"><strong>Activation Key:</strong> <span th:text="${poste.activatingkey}"></span></p>
+                                <p class="text-center"><strong>Date Activation:</strong> <span th:text="${poste.dateactivation}"></span></p>
+                                <p class="text-center"><strong>Latitude:</strong> <span th:text="${poste.latitude}"></span></p>
+                                <p class="text-center"><strong>Longitude:</strong> <span th:text="${poste.longitude}"></span></p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div>
-                        <h2>Articles</h2>
-                        <table border="1">
+                    <div class="card-body pb-0">
+                    <h5 class="card-title">Kit Viasat <span>| Articles</span></h5>
+
+                        <table class="table table-borderless">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Libelle</th>
-                                <th>Status</th>
+                                <th scope="col">Aperçu</th>
+                                <th scope="col">Article</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="article : ${articles}">
-                                <td th:text="${article.id}"></td>
-                                <td th:text="${article.libelle}"></td>
-                                <td th:text="${article.status ? 'Active' : 'Inactive'}"></td>
+                                <th scope="row">
+                                        <img th:if="${article.typeArticleVsat.name() == 'LNB'}"
+                                             src="/assets/img/lnb.jpg"
+                                             alt="LNB"
+                                             style="max-height: 50px; width: auto; object-fit: cover;">
+
+                                        <img th:if="${article.typeArticleVsat.name() == 'Parabole'}"
+                                             src="/assets/img/parabole.jpg"
+                                             alt="Parabole"
+                                             style="max-height: 50px; width: auto; object-fit: cover;">
+
+                                    <img th:if="${article.typeArticleVsat.name() == 'MODEM_TOOWAY'}"
+                                         src="/assets/img/modemtooway.jpg"
+                                         alt="Parabole"
+                                         style="max-height: 50px; width: auto; object-fit: cover;">
+
+                                    <img th:if="${article.typeArticleVsat.name() == 'TPLINK'}"
+                                         src="/assets/img/tplink.jpg"
+                                         alt="Parabole"
+                                         style="max-height: 50px; width: auto; object-fit: cover;">
+                                </th>
+                                <td class="text-primary fw-bold align-middle" th:text="${article.typeArticleVsat}"></td>
+                                <td class="align-middle" th:text="${article.status ? 'Active' : 'En Panne'}"></td>
+                                <td class="align-middle"><a href="#" class="card-link">Signaler</a></td>
                             </tr>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
