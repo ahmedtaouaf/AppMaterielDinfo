@@ -114,8 +114,27 @@
                                          style="max-height: 50px; width: auto; object-fit: cover;">
                                 </th>
                                 <td class="text-primary fw-bold align-middle" th:text="${article.typeArticleVsat}"></td>
-                                <td class="align-middle" th:text="${article.status ? 'Active' : 'En Panne'}"></td>
-                                <td class="align-middle"><a href="#" class="card-link">Signaler</a></td>
+                                <td class="align-middle">
+                                    <img th:if="${article.status == true}"
+                                         src="/assets/img/true.svg"
+                                         alt="Active"
+                                         style="max-height: 25px; width: auto; object-fit: cover;">
+
+                                    <img th:if="${article.status == false}"
+                                         src="/assets/img/false.svg"
+                                         alt="Active"
+                                         style="max-height: 25px; width: auto; object-fit: cover;">
+                                </td>
+                                <!--<td class="align-middle" th:text="${article.status ? 'Active' : 'En Panne'}"></td>-->
+                                <td class="align-middle">
+                                    <div class="dropdown">
+                                        <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a class="dropdown-item" th:href="@{/map/article/{articleId}/signal(articleId=${article.id})}">Panne / Réparé</a></li>
+                                            <li><a class="dropdown-item" >Historiques</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

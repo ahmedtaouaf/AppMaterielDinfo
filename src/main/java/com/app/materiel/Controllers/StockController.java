@@ -262,10 +262,12 @@ public class StockController {
     }
 
     @PostMapping("/stock/update")
-    public String updateStock(@RequestParam Long id, @RequestParam String designation, @RequestParam("typeId") Long typeId, RedirectAttributes redirectAttributes) {
+    public String updateStock(@RequestParam Long id, @RequestParam String designation, @RequestParam String nserie, @RequestParam String observation, @RequestParam("typeId") Long typeId, RedirectAttributes redirectAttributes) {
 
         Stock stock = stockRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid stock ID"));
         stock.setDesignation(designation);
+        stock.setNserie(nserie);
+        stock.setObservation(observation);
         Type selectedType = typeRepository.findById(typeId).orElseThrow(() -> new IllegalArgumentException("Invalid type ID"));
         stock.setType(selectedType);
 

@@ -87,6 +87,7 @@
                                 <th scope="col">Article</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Position</th>
+                                <th scope="col">Responsable</th>
                                 <th scope="col">Date Sortie</th>
                                 <th scope="col">Date Entree</th>
                                 <th scope="col">N°serie</th>
@@ -99,6 +100,7 @@
                                 <td th:text="${stock.stock.designation}"></td>
                                 <td th:text="${stock.stock.type.libelle}"></td>
                                 <td th:text="${stock.position.libelle}"></td>
+                                <td th:text="${stock.responsable.nom}"></td>
                                 <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
                                 <td>-</td>
                                 <td th:text="${stock.stock.nserie}"></td>

@@ -92,19 +92,14 @@
                                 </form>
                             </div>
                         </div>
-
-
-
-
-
-
                         <table class="table text-center">
                             <thead class="text-center">
                             <tr>
                                 <th scope="col">Designation</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">N°Serie</th>
-                                <th scope="col">Date</th>
+                                <th scope="col">Date Entrée Stock</th>
+                                <th scope="col">Affectation</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -115,6 +110,7 @@
                                 <td th:text="${stock.type.libelle}"></td>
                                 <td th:text="${stock.nserie}"></td>
                                 <td th:text="${#dates.format(stock.datee, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${stock.observation}"></td>
                                 <td th:if="${stock.status.libelle=='DISPONIBLE'}">
                                     <span th:text="${stock.status.libelle}" class="badge bg-success"></span>
                                 </td>
@@ -165,17 +161,12 @@
 
                                             <div class="mb-3">
                                                 <label for="nserie" class="form-label">N°Serie</label>
-                                                <input type="text" class="form-control" id="nserie" name="nserie" disabled>
+                                                <input type="text" class="form-control" id="nserie" name="nserie">
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="datee" class="form-label">Date</label>
-                                                <input type="text" class="form-control" id="datee" name="datee" disabled>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="status" class="form-label">Status</label>
-                                                <input type="text" class="form-control" id="status" name="status" disabled>
+                                                <label for="observation" class="form-label">Observation</label>
+                                                <input type="text" class="form-control" id="observation" name="observation">
                                             </div>
 
                                             <div class="modal-footer">
@@ -279,11 +270,14 @@
             const button = event.relatedTarget;
             const stockId = button.getAttribute('data-id');
             const designation = button.getAttribute('data-designation');
+            const nserie = button.getAttribute('data-nserie');
+            const observation = button.getAttribute('data-observation');
             const typeId = button.getAttribute('data-type');
 
-            // Set values in the modal
             document.getElementById('stockId').value = stockId;
             document.getElementById('designation').value = designation;
+            document.getElementById('nserie').value = nserie;
+            document.getElementById('observation').value = observation;
             document.getElementById('type').value = typeId;
         });
     });

@@ -75,6 +75,7 @@
                                     <th scope="col">Date Entree</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Position</th>
+                                    <th scope="col">Responsable</th>
                                     <th scope="col">Observation</th>
                                 </tr>
                                 </thead>
@@ -84,6 +85,7 @@
                                     <td th:text="${#dates.format(mouvement.dateentree, 'dd/MM/yyyy')}"></td>
                                     <td th:text="${mouvement.status.libelle}"></td>
                                     <td th:text="${mouvement.position.libelle}"></td>
+                                    <td th:text="${mouvement.responsable.nom}"></td>
                                     <td th:text="${mouvement.observation}"></td>
                                 </tr>
                                 </tbody>

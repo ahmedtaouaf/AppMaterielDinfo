@@ -27,10 +27,6 @@ public class HistoriquePanne {
     @JoinColumn(name = "articlevsat_id", nullable = false)
     private ArticleVsat articleVsat;
 
-
-
-
-
 }
 
 
