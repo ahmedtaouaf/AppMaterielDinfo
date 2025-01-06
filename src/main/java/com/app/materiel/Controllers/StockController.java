@@ -70,8 +70,6 @@ public class StockController {
     public String addStock(@ModelAttribute("stock") StockDto stockDto, RedirectAttributes redirectAttributes) {
 
         stockService.saveStock(stockDto);
-
-
         redirectAttributes.addFlashAttribute("successMessage", "Article ajouté au stock avec succès !");
 
         return "redirect:/article/new";
@@ -88,7 +86,6 @@ public class StockController {
 
         Page<Stock> stockPage;
         if (typeId == null) {
-
             stockPage = stockService.findAllStocks(searchTerm, page);
         } else {
             stockPage = stockService.findStocksByType(typeId, searchTerm, page);
@@ -118,7 +115,6 @@ public class StockController {
             @RequestParam("status") String status,
             Model model) {
 
-
         List<Stock> stockItems = stockService.findStocksByTypeAndStatus(type, status);
 
         model.addAttribute("stockItems", stockItems);
@@ -127,7 +123,6 @@ public class StockController {
 
         return "stock-items-list";
     }
-
 
 
     @GetMapping("/article/{id}/mouvements")
@@ -222,7 +217,7 @@ public class StockController {
     }
 
     @GetMapping("/stock/tree")
-    public String showTree(Model model) {
+    public String showTree() {
 
 
         return "stock-tree";

@@ -104,9 +104,6 @@ public class MouvementService {
         stockRepository.save(stock);
     }
 
-    public List<Mouvement> findMovementsByStockOrderByDateDesc(Stock stock) {
-        return mouvementRepository.findByStockOrderByDateeDescDateentreeDesc(stock);
-    }
     public Page<Mouvement> findMovementsByStockOrderByDateDesc(Stock stock, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return mouvementRepository.findByStockOrderByDateeDescDateentreeDesc(stock, pageable);

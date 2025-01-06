@@ -131,7 +131,7 @@
                                         <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <li><a class="dropdown-item" th:href="@{/map/article/{articleId}/signal(articleId=${article.id})}">Panne / Réparé</a></li>
-                                            <li><a class="dropdown-item" >Historiques</a></li>
+                                            <li><a class="dropdown-item" th:href="@{/map/article/{articleId}/history(articleId=${article.id})}">Historiques</a></li>
                                         </ul>
                                     </div>
                                 </td>

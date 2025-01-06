@@ -241,6 +241,20 @@
                 </ul>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-vsat" data-bs-toggle="collapse"
+                   th:classappend="${#request.requestURI.startsWith('/map')} ? ' ' : 'collapsed'" href="#">
+                    <i class="bi bi-broadcast"></i><span>Système Satellitaire</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-vsat" class="nav-content collapse" th:classappend="${#request.requestURI.startsWith('/map/')} ? 'show'" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/map/vsat" th:classappend="${#request.requestURI == '/map/vsat'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Map Viasat</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
 
 
         </ul>

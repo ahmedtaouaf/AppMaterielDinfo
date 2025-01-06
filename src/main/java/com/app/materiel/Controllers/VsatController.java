@@ -1,10 +1,9 @@
 package com.app.materiel.Controllers;
 
-import com.app.materiel.Entity.ArticleVsat;
-import com.app.materiel.Entity.HistoriqueEtat;
-import com.app.materiel.Entity.Poste;
-import com.app.materiel.Entity.UniteResp;
+import com.app.materiel.Entity.*;
+import com.app.materiel.Repository.HistoriquePanneRepository;
 import com.app.materiel.Service.ArticleVsatService;
+import com.app.materiel.Service.HistoriquePanneService;
 import com.app.materiel.Service.PosteService;
 import com.app.materiel.Service.UniteRespService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,14 @@ public class VsatController {
     private final UniteRespService uniteRespService;
     private final PosteService posteService;
     private final ArticleVsatService articleVsatService;
+    private final HistoriquePanneService historiquePanneService;
 
     @Autowired
-    public VsatController(UniteRespService uniteRespService, PosteService posteService, ArticleVsatService articleVsatService) {
+    public VsatController(UniteRespService uniteRespService, PosteService posteService, ArticleVsatService articleVsatService, HistoriquePanneService historiquePanneService) {
         this.uniteRespService = uniteRespService;
         this.posteService = posteService;
         this.articleVsatService = articleVsatService;
+        this.historiquePanneService = historiquePanneService;
     }
 
     @GetMapping("/vsat")
@@ -72,5 +73,20 @@ public class VsatController {
 
         return "redirect:/map/poste/" + posteId;
     }
+
+    @GetMapping("/article/{articleId}/history")
+    public String showArticleHistory(@PathVariable Long articleId, Model model) {
+
+        ArticleVsat article = articleVsatService.getArticleById(articleId);
+
+        List<HistoriquePanne> history = historiquePanneService.getHistoryByArticleId(articleId);
+
+        model.addAttribute("article", article);
+        model.addAttribute("history", history);
+
+        return "article-history";
+    }
+
+
 
 }

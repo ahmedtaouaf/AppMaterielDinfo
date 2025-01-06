@@ -30,7 +30,6 @@ public class ArticleVsatService {
     public void updateArticleStatus(Long articleId, HistoriqueEtat historiqueEtat, String cause, String observation) {
         ArticleVsat article = getArticleById(articleId);
 
-
         HistoriquePanne historiquePanne = new HistoriquePanne();
         historiquePanne.setArticleVsat(article);
         historiquePanne.setDatepanne(LocalDateTime.now());
@@ -38,12 +37,12 @@ public class ArticleVsatService {
         historiquePanne.setCause(cause);
         historiquePanne.setObservation(observation);
 
-        // Save history
         historiquePanneRepository.save(historiquePanne);
 
-        // Update Article status based on the state
-        article.setStatus(historiqueEtat == HistoriqueEtat.repare);
+        article.setStatus(historiqueEtat == HistoriqueEtat.REPARE);
         articleVsatRepository.save(article);
     }
+
+
 }
 

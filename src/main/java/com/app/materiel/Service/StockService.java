@@ -32,12 +32,11 @@ public class StockService {
 
         Type type = typeRepository.findById(stockDto.getTypeId()).orElseThrow();
 
-
-        Status status = statusRepository.findById(1L).orElseThrow();
+        Status status = statusRepository.findByLibelle("DISPONIBLE");
 
         if (stockDto.isWithSerialNumber()) {
-
             Stock stock = new Stock();
+
             stock.setDesignation(stockDto.getDesignation());
             stock.setNserie(stockDto.getNserie());
             stock.setObservation(stockDto.getObservation());

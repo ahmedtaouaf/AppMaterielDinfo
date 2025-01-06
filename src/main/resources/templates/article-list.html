@@ -117,18 +117,17 @@
                                 <td th:if="${stock.status.libelle=='INDISPONIBLE'}">
                                     <span th:text="${stock.status.libelle}" class="badge bg-danger"></span>
                                 </td>
-                                <td>
-                                    <a th:href="@{/article/{id}/mouvements(id=${stock.id})}" class="btn btn-primary">
-                                        <i class="bi bi-arrow-left-right"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
-                                            th:attr="data-id=${stock.id}, data-designation=${stock.designation}, data-type=${stock.type.id}">
-                                        <i class="bi bi-pencil-fill"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                            th:attr="data-id=${stock.id}, data-designation=${stock.designation}">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
+                                <td class="align-middle">
+                                    <div class="dropdown">
+                                        <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a class="dropdown-item" th:href="@{/article/{id}/mouvements(id=${stock.id})}">Mouvements</a></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editModal"
+                                                   th:attr="data-id=${stock.id}, data-designation=${stock.designation}, data-type=${stock.type.id}">Modifier</a></li>
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                   th:attr="data-id=${stock.id}, data-designation=${stock.designation}">Supprimer</a></li>
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -159,16 +158,6 @@
                                                 </select>
                                             </div>
 
-                                            <div class="mb-3">
-                                                <label for="nserie" class="form-label">N°Serie</label>
-                                                <input type="text" class="form-control" id="nserie" name="nserie">
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="observation" class="form-label">Observation</label>
-                                                <input type="text" class="form-control" id="observation" name="observation">
-                                            </div>
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                                 <button type="submit" class="btn btn-warning">Confirmer</button>
@@ -180,7 +169,6 @@
                             </div>
                         </div>
 
-                        <!-- Delete Modal -->
                         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -202,9 +190,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
 
 
                         <nav aria-label="Page navigation example">
@@ -232,9 +217,6 @@
                                 </li>
                             </ul>
                         </nav>
-
-
-
 
                     </div>
                 </div>
@@ -270,14 +252,10 @@
             const button = event.relatedTarget;
             const stockId = button.getAttribute('data-id');
             const designation = button.getAttribute('data-designation');
-            const nserie = button.getAttribute('data-nserie');
-            const observation = button.getAttribute('data-observation');
             const typeId = button.getAttribute('data-type');
 
             document.getElementById('stockId').value = stockId;
             document.getElementById('designation').value = designation;
-            document.getElementById('nserie').value = nserie;
-            document.getElementById('observation').value = observation;
             document.getElementById('type').value = typeId;
         });
     });
@@ -290,7 +268,6 @@
             const stockId = button.getAttribute('data-id');
             const designation = button.getAttribute('data-designation');
 
-            // Set the stock ID and designation in the modal
             document.getElementById('deleteStockId').value = stockId;
             document.getElementById('deleteDesignation').textContent = designation;
         });
