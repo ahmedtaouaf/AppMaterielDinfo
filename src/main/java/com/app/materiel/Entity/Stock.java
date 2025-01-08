@@ -15,7 +15,8 @@ public class Stock {
 
     private String designation;
     private String nserie;
-    private String observation;
+    private String observation; //AFFECTATION in Front
+    private String caracteristiques;
     private Date datee;
 
     @ManyToOne

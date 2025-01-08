@@ -116,8 +116,15 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3" style="display:none;">
+                                <label for="caracteristiques" class="col-sm-2 col-form-label">Caractéristiques :</label>
+                                <div class="col-sm-10">
+                                    <textarea th:field="*{caracteristiques}" class="form-control" style="height: 100px;"></textarea>
+                                </div>
+                            </div>
+
                             <div class="row mb-3">
-                                <label for="Observation" class="col-sm-2 col-form-label">Observation:</label>
+                                <label for="observation" class="col-sm-2 col-form-label">Observation :</label>
                                 <div class="col-sm-10">
                                     <textarea th:field="*{observation}" class="form-control" style="height: 100px"></textarea>
                                 </div>
@@ -179,6 +186,7 @@
         $('.js-example-basic-single').select2();
     });
 </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const nserieField = document.getElementById("nserie");
@@ -206,7 +214,6 @@
         });
     });
 </script>
-
 </body>
 
 </html>

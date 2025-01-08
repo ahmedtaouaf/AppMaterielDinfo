@@ -126,6 +126,12 @@
                                                    th:attr="data-id=${stock.id}, data-designation=${stock.designation}, data-type=${stock.type.id}">Modifier</a></li>
                                             <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal"
                                                    th:attr="data-id=${stock.id}, data-designation=${stock.designation}">Supprimer</a></li>
+                                            <li th:if="${stock.type.libelle == 'PC BUREAU' or stock.type.libelle == 'PC PORTABLE'}">
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#viewModal"
+                                                   th:attr="data-id=${stock.id}, data-caracteristiques=${stock.caracteristiques}">
+                                                    Caracteristiques
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </td>
@@ -191,6 +197,30 @@
                             </div>
                         </div>
 
+                        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="viewModalLabel">Modifier Article</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                            <input type="hidden" id="stockId" name="id" />
+
+                                            <div class="mb-3">
+                                                <label for="caracteristiques" class="form-label">Designation</label>
+                                                <textarea type="text" class="form-control" id="caracteristiques" name="caracteristiques" disabled> </textarea>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
@@ -245,6 +275,19 @@
 
 <!-- Template Main JS File -->
 <script src="/assets/js/main.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editModal = document.getElementById('viewModal');
+        editModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const stockId = button.getAttribute('data-id');
+            const caracteristiques = button.getAttribute('data-caracteristiques');
+
+            document.getElementById('stockId').value = stockId;
+            document.getElementById('caracteristiques').value = caracteristiques;
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const editModal = document.getElementById('editModal');

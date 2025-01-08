@@ -43,6 +43,7 @@ public class StockService {
             stock.setDatee(new Date());
             stock.setType(type);
             stock.setStatus(status);
+            stock.setCaracteristiques(stockDto.getCaracteristiques());
             stockRepository.save(stock);
         }
 
@@ -53,6 +54,7 @@ public class StockService {
                 stock.setDesignation(stockDto.getDesignation());
                 stock.setNserie("Sans");
                 stock.setObservation(stockDto.getObservation());
+                stock.setCaracteristiques(stockDto.getCaracteristiques());
                 stock.setDatee(new Date());
                 stock.setType(type);
                 stock.setStatus(status);

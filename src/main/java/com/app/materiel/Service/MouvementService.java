@@ -32,6 +32,7 @@ public class MouvementService {
     private ResponsableRepository responsableRepository;
 
     public void saveMouvement(MouvementDto mouvementDto) {
+
         Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
         Status status = statusRepository.findById(mouvementDto.getStatusId()).orElseThrow();
         Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();

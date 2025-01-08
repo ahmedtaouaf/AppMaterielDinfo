@@ -43,8 +43,7 @@ public class MouvementController {
         List<Status> allStatuses = statusRepository.findAll();
         List<Status> filteredStatuses = allStatuses.stream()
                 .filter(status -> !status.getLibelle().equals("DISPONIBLE") &&
-                        !status.getLibelle().equals("INDISPONIBLE") &&
-                        !status.getLibelle().equals("ENTREE AU STOCK"))
+                        !status.getLibelle().equals("INDISPONIBLE"))
                 .collect(Collectors.toList());
 
         List<Type> types = typeRepository.findAll();
@@ -74,7 +73,6 @@ public class MouvementController {
             @RequestParam(value = "search", required = false) String searchTerm,
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
-
 
         Page<Mouvement> stockPage = mouvementService.findAllmouvements(searchTerm, page);
 

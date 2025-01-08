@@ -7,6 +7,7 @@ public class StockDto {
     private String designation;
     private String nserie;
     private String observation;
+    private String caracteristiques;
     private Long typeId;
     private boolean withSerialNumber;
     private int quantity;
