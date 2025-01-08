@@ -28,4 +28,6 @@ public class Serveur {
 
     private String resaux;
 
+    private String password;
+
 }

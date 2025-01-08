@@ -30,6 +30,11 @@
                             <i class="bi bi-circle"></i><span>Liste Articles</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="/article/liste" th:classappend="${#request.requestURI == '/article/enpanne'} ? 'active'">
+                            <i class="bi bi-circle"></i><span>Liste Articles En Panne</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

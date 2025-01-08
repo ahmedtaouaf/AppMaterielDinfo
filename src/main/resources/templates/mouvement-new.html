@@ -168,6 +168,42 @@
 
 <!-- Template Main JS File -->
 <script src="/assets/js/main.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusSelect = $('#status'); // Use jQuery to work with Select2
+        const responsableField = document.getElementById('responsable').closest('.row');
+        const positionField = document.getElementById('position').closest('.row');
+
+        // Function to toggle visibility
+        function toggleFields(selectedStatusText) {
+            if (selectedStatusText === "EN PANNE") {
+                responsableField.style.display = 'none'; // Hide the Responsable field
+                positionField.style.display = 'none';    // Hide the Position field
+            } else {
+                responsableField.style.display = '';     // Show the Responsable field
+                positionField.style.display = '';        // Show the Position field
+            }
+        }
+
+        // Initialize Select2 for the status dropdown
+        statusSelect.select2();
+
+        // Attach Select2 change event listener
+        statusSelect.on('change', function () {
+            const selectedStatusText = $(this).find("option:selected").text(); // Get the selected option text
+            toggleFields(selectedStatusText);
+        });
+
+        // Initial toggle on page load
+        const initialStatusText = statusSelect.find("option:selected").text(); // Get the initially selected text
+        toggleFields(initialStatusText);
+    });
+
+
+</script>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const stockSelect = $('#stock'); // Use jQuery to work with Select2

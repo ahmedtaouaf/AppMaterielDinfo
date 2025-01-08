@@ -83,8 +83,36 @@
                                 <p><i class="bi bi-hdd"></i> Stockage: <span th:text="${serveur.stockage}"></span></p>
                                 <p><i class="bi bi-database"></i> Hyperviseur: <span th:text="${serveur.hyperviseur}"></span></p>
                                 <p><i class="bi bi-key"></i> N°Serie: <span th:text="${serveur.nserie}"></span></p>
+                                <p>
+                                    <i class="bi bi-lock"></i> Mot De Passe:
+                                    <i class="bi bi-eye"
+                                       th:attr="data-bs-target=|#passwordModal-${serveur.id}|"
+                                       data-bs-toggle="modal"></i>
+                                </p>
                             </div>
                         </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" th:attr="id=|passwordModal-${serveur.id}|" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="passwordModalLabel">Mot De Passe</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Mot De Passe</label>
+                                            <input type="text" class="form-control" th:value="${serveur.password}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">

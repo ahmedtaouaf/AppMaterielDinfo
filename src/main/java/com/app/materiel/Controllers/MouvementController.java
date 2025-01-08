@@ -82,6 +82,18 @@ public class MouvementController {
         return "mouvements-list";
     }
 
+        @GetMapping("/article/enpanne")
+    public String listStocksPanne(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            Model model) {
+
+        Page<Mouvement> stockPage = mouvementService.findPanneArticles(page);
+
+        model.addAttribute("stockPage", stockPage);
+
+        return "article-panne";
+    }
+
     @GetMapping("/mouvements/entree")
     public String showEntreeMouvementForm(Model model) {
 

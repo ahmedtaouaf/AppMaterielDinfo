@@ -19,8 +19,11 @@ public interface MouvementRepository extends JpaRepository<Mouvement, Long> {
     @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.stock.type.libelle LIKE %:searchTerm% OR m.stock.designation LIKE %:searchTerm% OR m.stock.nserie LIKE %:searchTerm%) AND m.status.libelle NOT IN ('DISPONIBLE', 'INDISPONIBLE') and m.dateentree is null ORDER BY m.datee DESC")
     Page<Mouvement> findAllBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle NOT IN ('DISPONIBLE', 'INDISPONIBLE') and m.dateentree is null ORDER BY m.datee DESC")
+    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle = 'MISSION' and m.dateentree is null ORDER BY m.datee DESC")
     Page<Mouvement> findAllmvns(Pageable pageable);
+
+    @Query("SELECT m FROM Mouvement m WHERE m.status.libelle = 'EN PANNE' and m.dateentree is null ORDER BY m.datee DESC")
+    Page<Mouvement> findAllPanne(Pageable pageable);
 
     @Query("SELECT m FROM Mouvement m WHERE (:searchTerm IS NULL OR :searchTerm = '' OR m.position.libelle LIKE %:searchTerm% OR m.status.libelle LIKE %:searchTerm%) AND m.status.libelle = 'ENTREE AU STOCK' ORDER BY m.datee DESC")
     Page<Mouvement> findAllBySearchTermEntree(@Param("searchTerm") String searchTerm, Pageable pageable);

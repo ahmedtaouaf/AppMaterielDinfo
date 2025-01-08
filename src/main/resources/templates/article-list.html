@@ -129,7 +129,7 @@
                                             <li th:if="${stock.type.libelle == 'PC BUREAU' or stock.type.libelle == 'PC PORTABLE'}">
                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#viewModal"
                                                    th:attr="data-id=${stock.id}, data-caracteristiques=${stock.caracteristiques}">
-                                                    Caracteristiques
+                                                    Caractéristiques
                                                 </a>
                                             </li>
                                         </ul>
@@ -201,14 +201,14 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="viewModalLabel">Modifier Article</h5>
+                                        <h5 class="modal-title" id="viewModalLabel">Caractéristiques d'Article</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                             <input type="hidden" id="stockId" name="id" />
 
                                             <div class="mb-3">
-                                                <label for="caracteristiques" class="form-label">Designation</label>
+                                                <label for="caracteristiques" class="form-label">Caractéristiques</label>
                                                 <textarea type="text" class="form-control" id="caracteristiques" name="caracteristiques" disabled> </textarea>
                                             </div>
 

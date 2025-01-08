@@ -32,14 +32,16 @@ public class MouvementService {
     private ResponsableRepository responsableRepository;
 
     public void saveMouvement(MouvementDto mouvementDto) {
-
         Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
         Status status = statusRepository.findById(mouvementDto.getStatusId()).orElseThrow();
-        Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();
-        Responsable responsable = responsableRepository.findById(mouvementDto.getResponsableId()).orElseThrow();
+
+        // Default values for "EN PANNE"
+        Responsable defaultResponsable = responsableRepository.findByNom("RAFIKI")
+                .orElseThrow(() -> new RuntimeException("Responsable 'RAFIKI' not found"));
+        Position defaultPosition = positionRepository.findByLibelle("PANNE DINFO")
+                .orElseThrow(() -> new RuntimeException("Position 'PANNE DINFO' not found"));
 
         Mouvement mouvement = new Mouvement();
-
 
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -51,13 +53,24 @@ public class MouvementService {
         mouvement.setObservation(mouvementDto.getObservation());
         mouvement.setStock(stock);
         mouvement.setStatus(status);
-        mouvement.setPosition(position);
-        mouvement.setResponsable(responsable);
+
+        // Assign default values if status is "EN PANNE"
+        if ("EN PANNE".equalsIgnoreCase(status.getLibelle())) {
+            mouvement.setPosition(defaultPosition);
+            mouvement.setResponsable(defaultResponsable);
+        } else {
+            Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();
+            Responsable responsable = responsableRepository.findById(mouvementDto.getResponsableId()).orElseThrow();
+            mouvement.setPosition(position);
+            mouvement.setResponsable(responsable);
+        }
+
         mouvementRepository.save(mouvement);
 
         stock.setStatus(statusRepository.findByLibelle("INDISPONIBLE"));
         stockRepository.save(stock);
     }
+
 
     public Page<Mouvement> findAllmouvements(String searchTerm, int page) {
         Pageable pageable = PageRequest.of(page, 25);
@@ -65,6 +78,11 @@ public class MouvementService {
             return mouvementRepository.findAllmvns(pageable);
         }
         return mouvementRepository.findAllBySearchTerm(searchTerm, pageable);
+    }
+
+    public Page<Mouvement> findPanneArticles( int page) {
+        Pageable pageable = PageRequest.of(page, 25);
+            return mouvementRepository.findAllPanne(pageable);
     }
 
 
