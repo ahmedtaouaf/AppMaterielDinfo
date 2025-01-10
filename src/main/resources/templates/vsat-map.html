@@ -70,7 +70,7 @@
 
                             const map = L.map('map').setView([33, -3], 6);
 
-                           /* const streetMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            /*const streetMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                 maxZoom: 18,
                                 attribution: '© OpenStreetMap contributors',
                             });
@@ -81,8 +81,9 @@
                             });*/
 
 
-                            const localTileLayer = L.tileLayer('http://localhost:8080/{z}/{x}/{y}.png', {
-                                maxZoom: 18,
+                            const localTileLayer = L.tileLayer('http://193.0.0.247:15500/{z}/{x}/{y}.png', {
+                                maxZoom: 17,
+                                minZoom: 5,
                                 attribution: 'Local Map Tiles',
                             });
 

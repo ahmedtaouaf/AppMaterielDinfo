@@ -40,6 +40,8 @@ public class MouvementService {
                 .orElseThrow(() -> new RuntimeException("Responsable 'RAFIKI' not found"));
         Position defaultPosition = positionRepository.findByLibelle("PANNE DINFO")
                 .orElseThrow(() -> new RuntimeException("Position 'PANNE DINFO' not found"));
+        System.out.println(defaultPosition);
+        System.out.println(defaultResponsable);
 
         Mouvement mouvement = new Mouvement();
 
@@ -54,7 +56,6 @@ public class MouvementService {
         mouvement.setStock(stock);
         mouvement.setStatus(status);
 
-        // Assign default values if status is "EN PANNE"
         if ("EN PANNE".equalsIgnoreCase(status.getLibelle())) {
             mouvement.setPosition(defaultPosition);
             mouvement.setResponsable(defaultResponsable);

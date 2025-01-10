@@ -70,6 +70,16 @@
                         <div class="d-flex justify-content-center align-items-center">
                             <form th:action="@{/addMouvement}" th:object="${mouvement}" method="post" style="width: 100%; max-width: 600px;">
                                 <!-- Type Selection -->
+
+                                <div class="row mb-3">
+                                    <label for="status" class="col-sm-3 col-form-label text-end">Status</label>
+                                    <div class="col-sm-9">
+                                        <select id="status" th:field="*{statusId}" class="js-example-basic-single form-control" aria-label="Default select example" required>
+                                            <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.libelle}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="row mb-3">
                                     <label for="type" class="col-sm-3 col-form-label text-end">Type</label>
                                     <div class="col-sm-9">
@@ -99,15 +109,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Status Selection -->
-                                <div class="row mb-3">
-                                    <label for="status" class="col-sm-3 col-form-label text-end">Status</label>
-                                    <div class="col-sm-9">
-                                        <select id="status" th:field="*{statusId}" class="js-example-basic-single form-control" aria-label="Default select example" required>
-                                            <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.libelle}"></option>
-                                        </select>
-                                    </div>
-                                </div>
 
                                 <div class="row mb-3">
                                     <label for="responsable" class="col-sm-3 col-form-label text-end">Responsable</label>
