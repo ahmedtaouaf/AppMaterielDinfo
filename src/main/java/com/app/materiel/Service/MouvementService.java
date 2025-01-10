@@ -35,13 +35,10 @@ public class MouvementService {
         Stock stock = stockRepository.findById(mouvementDto.getStockId()).orElseThrow();
         Status status = statusRepository.findById(mouvementDto.getStatusId()).orElseThrow();
 
-        // Default values for "EN PANNE"
         Responsable defaultResponsable = responsableRepository.findByNom("RAFIKI")
                 .orElseThrow(() -> new RuntimeException("Responsable 'RAFIKI' not found"));
         Position defaultPosition = positionRepository.findByLibelle("PANNE DINFO")
                 .orElseThrow(() -> new RuntimeException("Position 'PANNE DINFO' not found"));
-        System.out.println(defaultPosition);
-        System.out.println(defaultResponsable);
 
         Mouvement mouvement = new Mouvement();
 
@@ -59,7 +56,13 @@ public class MouvementService {
         if ("EN PANNE".equalsIgnoreCase(status.getLibelle())) {
             mouvement.setPosition(defaultPosition);
             mouvement.setResponsable(defaultResponsable);
-        } else {
+        }
+        else if ("TITRE DE PRET".equalsIgnoreCase(status.getLibelle())) {
+            Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();
+            mouvement.setPosition(position);
+            mouvement.setResponsable(defaultResponsable);
+        }
+        else {
             Position position = positionRepository.findById(mouvementDto.getPositionId()).orElseThrow();
             Responsable responsable = responsableRepository.findById(mouvementDto.getResponsableId()).orElseThrow();
             mouvement.setPosition(position);
