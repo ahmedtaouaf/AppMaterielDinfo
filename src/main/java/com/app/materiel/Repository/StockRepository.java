@@ -40,7 +40,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     boolean existsByNserie(String nserie);
 
     Page<Stock> findByTypeIdAndDesignationContainingIgnoreCase(Long typeId, String designation, Pageable pageable);
-    Page<Stock> findByDesignationContainingIgnoreCase(String designation, Pageable pageable);
 
 
 

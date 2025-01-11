@@ -39,4 +39,9 @@ public class PosteService {
         return posteRepository.findById(posteId)
                 .orElseThrow(() -> new RuntimeException("Poste not found with ID: " + posteId));
     }
+
+    public Integer totalPoste() {
+
+        return posteRepository.totalPoste();
+    }
 }

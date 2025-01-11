@@ -4,10 +4,7 @@ import com.app.materiel.Entity.Licence;
 import com.app.materiel.Entity.Mouvement;
 import com.app.materiel.Repository.MouvementRepository;
 import com.app.materiel.Repository.StockRepository;
-import com.app.materiel.Service.LicenceService;
-import com.app.materiel.Service.MouvementService;
-import com.app.materiel.Service.StockService;
-import com.app.materiel.Service.TypeService;
+import com.app.materiel.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +30,8 @@ public class DashboardController {
     private TypeService typeService;
     @Autowired
     private LicenceService licenceService;
+    @Autowired
+    private PosteService posteService;
     @Autowired
     private MouvementRepository mouvementRepository;
 
@@ -80,6 +79,7 @@ public class DashboardController {
         model.addAttribute("mouvementCounts", counts);
         model.addAttribute("mouvements", lastSixMouvements);
         model.addAttribute("totalStock", stockService.totalStock());
+        model.addAttribute("totalPoste", posteService.totalPoste());
         model.addAttribute("totalType", typeService.totalType());
         model.addAttribute("totalMouvements", mouvementService.totalMvn());
         model.addAttribute("totalLicences", licenceService.totalLicence());
