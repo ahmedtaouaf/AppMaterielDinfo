@@ -5,6 +5,7 @@ import com.app.materiel.Entity.Poste;
 import com.app.materiel.Repository.PosteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,6 +36,12 @@ public class PosteService {
         return postes;
     }
 
+    @Transactional(readOnly = true)
+    public boolean isPosteUp(Poste poste) {
+        return poste.getArticles().stream()
+                .allMatch(article -> Boolean.TRUE.equals(article.getStatus()));
+    }
+
     public Poste getPosteById(Long posteId) {
         return posteRepository.findById(posteId)
                 .orElseThrow(() -> new RuntimeException("Poste not found with ID: " + posteId));
@@ -43,5 +50,15 @@ public class PosteService {
     public Integer totalPoste() {
 
         return posteRepository.totalPoste();
+    }
+
+    public Integer totalKu() {
+
+        return posteRepository.totalKu();
+    }
+
+    public Integer totalKa() {
+
+        return posteRepository.totalKa();
     }
 }

@@ -422,7 +422,7 @@
               <div class="col-xxl-4 col-md-6">
                 <div class="card info-card sales-card">
                   <div class="card-body">
-                    <h5 class="card-title">Total Articles</h5>
+                    <h5 class="card-title">Total Postes</h5>
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-broadcast-pin"></i>
@@ -439,13 +439,13 @@
               <div class="col-xxl-4 col-md-6">
                 <div class="card info-card revenue-card">
                   <div class="card-body">
-                    <h5 class="card-title">Type Materiel</h5>
+                    <h5 class="card-title">Poste KU</h5>
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-router-fill"></i>
                       </div>
                       <div class="ps-3">
-                        <h6 th:text="${totalType}"></h6>
+                        <h6 th:text="${totalKu}"></h6>
                       </div>
                     </div>
                   </div>
@@ -457,20 +457,165 @@
 
                 <div class="card info-card customers-card">
                   <div class="card-body">
-                    <h5 class="card-title">Total Mouvements</h5>
+                    <h5 class="card-title">Poste KA</h5>
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-arrow-down-up"></i>
                       </div>
                       <div class="ps-3">
-                        <h6 th:text="${totalMouvements}"></h6>
+                        <h6 th:text="${totalKa}"></h6>
                       </div>
                     </div>
                   </div>
                 </div>
 
               </div><!-- End Customers Card -->
-            </div>
+
+                <div class="col-xxl-6 col-md-6">
+                  <div id="posteon" style="min-height: 400px;" class="echart"></div>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      fetch('/status-count')
+                              .then(response => response.json())
+                              .then(data => {
+                                const option = {
+                                  tooltip: {
+                                    formatter: '{a} <br/>{b} : {c}'
+                                  },
+                                  series: [
+                                    {
+                                      name: 'Poste Status',
+                                      type: 'gauge',
+                                      color: '#2eca6a',
+                                      progress: {
+                                        show: true
+                                      },
+                                      detail: {
+                                        valueAnimation: true,
+                                        formatter: '{value}'
+                                      },
+                                      data: [
+                                        {
+                                          value: data.up,
+                                          name: 'UP Postes'
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                };
+                                echarts.init(document.querySelector("#posteon")).setOption(option);
+                              })
+                              .catch(error => console.error('Error fetching poste status:', error));
+                    });
+                  </script>
+                </div>
+
+                <div class="col-xxl-6 col-md-6">
+                  <div id="posteoff" style="min-height: 400px;" class="echart"></div>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      fetch('/status-count')
+                              .then(response => response.json())
+                              .then(data => {
+                                const option = {
+                                  tooltip: {
+                                    formatter: '{a} <br/>{b} : {c}'
+                                  },
+                                  series: [
+                                    {
+                                      name: 'Poste Status',
+                                      type: 'gauge',
+                                      color: '#dc3545',
+                                      progress: {
+                                        show: true
+                                      },
+                                      detail: {
+                                        valueAnimation: true,
+                                        formatter: '{value}'
+                                      },
+                                      data: [
+                                        {
+                                          value: data.down,
+                                          name: ''
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                };
+                                echarts.init(document.querySelector("#posteoff")).setOption(option);
+                              })
+                              .catch(error => console.error('Error fetching poste status:', error));
+                    });
+                  </script>
+                </div>
+
+
+
+                <div id="radarChart" style="min-height: 400px;" class="echart"></div>
+
+                <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                    fetch('/most-down')
+                            .then(response => {
+                              if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                              }
+                              return response.json();
+                            })
+                            .then(data => {
+                              if (!Array.isArray(data) || data.length === 0) {
+                                throw new Error('No data available for the chart');
+                              }
+
+                              const datasetSource = [
+                                ['score', 'amount', 'product'],
+                              ];
+                              data.forEach(item => {
+                                datasetSource.push([item[1], item[1], item[0]]);
+                              });
+
+                              const option = {
+                                dataset: {
+                                  source: datasetSource
+                                },
+                                grid: { containLabel: true },
+                                xAxis: { name: 'amount' },
+                                yAxis: { type: 'category' },
+                                visualMap: {
+                                  orient: 'horizontal',
+                                  left: 'center',
+                                  min: Math.min(...data.map(item => item[1])),
+                                  max: Math.max(...data.map(item => item[1])),
+                                  dimension: 0,
+                                  inRange: {
+                                    color: ['#65B581', '#FFCE34', '#FD665F']
+                                  }
+                                },
+                                series: [
+                                  {
+                                    type: 'bar',
+                                    encode: {
+                                      x: 'amount',
+                                      y: 'product'
+                                    }
+                                  }
+                                ]
+                              };
+
+                              // Render the Bar Chart
+                              echarts.init(document.querySelector("#radarChart")).setOption(option);
+                            })
+                            .catch(error => {
+                              console.error('Error fetching chart data:', error);
+                              document.querySelector("#barChart").innerHTML = `
+                    <p style="color: red;">Failed to load chart data. Please try again later.</p>
+                `;
+                            });
+                  });
+                </script>
+
+
+              </div>
             </section>
           </div>
 

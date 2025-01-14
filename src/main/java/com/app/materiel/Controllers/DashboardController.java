@@ -2,20 +2,19 @@ package com.app.materiel.Controllers;
 
 import com.app.materiel.Entity.Licence;
 import com.app.materiel.Entity.Mouvement;
+import com.app.materiel.Entity.Poste;
 import com.app.materiel.Repository.MouvementRepository;
+import com.app.materiel.Repository.PosteRepository;
 import com.app.materiel.Repository.StockRepository;
 import com.app.materiel.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class DashboardController {
@@ -31,14 +30,16 @@ public class DashboardController {
     @Autowired
     private LicenceService licenceService;
     @Autowired
+    private ArticleVsatService articleVsatService;
+    @Autowired
     private PosteService posteService;
     @Autowired
     private MouvementRepository mouvementRepository;
+    @Autowired
+    private PosteRepository posteRepository;
 
     @GetMapping("/")
     public String dashboardpage(Model model){
-
-
 
         List<Object[]> mouvementData = mouvementRepository.countMouvementsByType();
 
@@ -46,8 +47,8 @@ public class DashboardController {
         List<Integer> values = new ArrayList<>();
 
         for (Object[] row : mouvementData) {
-            labels.add((String) row[0]);        // Type name
-            values.add(((Long) row[1]).intValue());  // Count of mouvements
+            labels.add((String) row[0]);
+            values.add(((Long) row[1]).intValue());
         }
 
         List<Map<String, Object>> radarIndicators = new ArrayList<>();
@@ -75,18 +76,20 @@ public class DashboardController {
         List<Mouvement> lastSixMouvements = mouvementService.findLastSixMouvements();
         List<Licence> licences = licenceService.findLicence();
 
+
         model.addAttribute("days", days);
         model.addAttribute("mouvementCounts", counts);
         model.addAttribute("mouvements", lastSixMouvements);
         model.addAttribute("totalStock", stockService.totalStock());
         model.addAttribute("totalPoste", posteService.totalPoste());
+        model.addAttribute("totalKu", posteService.totalKu());
+        model.addAttribute("totalKa", posteService.totalKa());
         model.addAttribute("totalType", typeService.totalType());
         model.addAttribute("totalMouvements", mouvementService.totalMvn());
         model.addAttribute("totalLicences", licenceService.totalLicence());
         model.addAttribute("totalExpiree", licenceService.totalExpiree());
         model.addAttribute("totalPresque", licenceService.totalPresque());
         model.addAttribute("licences", licences);
-
 
         return "index";
     }
@@ -107,11 +110,21 @@ public class DashboardController {
         return data;
     }
 
-    private String formatExpirationDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy");
-        return sdf.format(date);
+    @GetMapping("/most-down")
+    @ResponseBody
+    public List<Object[]> getMostDownArticles() {
+        return articleVsatService.getArticlesWithStatusCounts();
     }
 
+    @GetMapping("/status-count")
+    public ResponseEntity<Map<String, Long>> getPosteStatusCount() {
+        Long upCount = posteRepository.countUpPostes();
+        Long downCount = posteRepository.countDownPostes();
 
+        Map<String, Long> response = new HashMap<>();
+        response.put("up", upCount);
+        response.put("down", downCount);
 
+        return ResponseEntity.ok(response);
+    }
 }
